@@ -1,3 +1,5 @@
+create database if not exists career_office;
+
 create table if not exists roles (
   id varchar(15) primary key ,
   title varchar(45) not null
