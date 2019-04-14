@@ -7,7 +7,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
+
+import com.careeroffice.model.User;
+import com.careeroffice.service.AuthService;
+import com.careeroffice.service.LoginService;
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
 
@@ -36,7 +41,15 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        System.out.println( "ENTRY POINT!!!!" );
+        HttpSession session = request.getSession();
+        AuthService auth = new AuthService(session);
+
+        if (auth.isLoggedIn()) {
+            User user = (User) session.getAttribute("user");
+            response.sendRedirect(user.getRoleId());
+        } else {
+            request.getRequestDispatcher("WEB-INF/views/login.jsp").forward(request, response);
+        }
 
     }
 
@@ -46,6 +59,22 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        LoginService login = new LoginService(ds);
+        HttpSession session = request.getSession();
+
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        User user = login.auth(username);
+
+        if (user != null && encryptor.checkPassword(password, user.getPassword())) {
+            session.setAttribute("loggedIn", true);
+            session.setAttribute("user", user);
+
+            response.sendRedirect(user.getRoleId());
+        } else {
+            response.sendRedirect("login");
+        }
 
     }
 }

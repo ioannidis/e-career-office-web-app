@@ -6,7 +6,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Java Part Two Login</title>
+	<title>Career Office Login</title>
 	<c:import url="/WEB-INF/views/styles.jsp"></c:import>
 </head>
 <body class="bg-dark">
@@ -22,7 +22,7 @@
 					<div class="form-group">
 						<label for="password">Password</label>
 						<input id="password" class="form-control" type="password" name="password" placeholder="Password" />
-					<div class="form-group">
+					</div>
 					<br/>
 					<input  type="submit" class="btn btn-primary btn-block" value="Log in">
 				</form>

@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="CareerOfficeApp" target="1.5" />
+      <module name="CareerOfficeApp" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>

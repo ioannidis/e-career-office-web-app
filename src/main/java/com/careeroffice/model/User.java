@@ -60,10 +60,9 @@ public class User {
      * @param phoneNumber The phone number of the user.
      * @param email The email of the user.
      * @param roleId The role of the user.
-     * @param department The department in which the user belongs to.
      */
     public User(String username, String password, String name, String surname, long phoneNumber,
-            String email, String roleId, String department) {
+            String email, String roleId) {
         this.username = username;
         this.password = password;
         this.name = name;
