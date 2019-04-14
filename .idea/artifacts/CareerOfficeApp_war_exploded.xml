@@ -1,10 +1,10 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="CarrerOfficeApp:war exploded">
-    <output-path>$PROJECT_DIR$/out/artifacts/CarrerOfficeApp_war_exploded</output-path>
+  <artifact type="exploded-war" name="CareerOfficeApp:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/CareerOfficeApp_war_exploded</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="CarrerOfficeApp" />
+          <element id="module-output" name="CareerOfficeApp" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: org.jasypt:jasypt:1.9.2" />
@@ -13,7 +13,7 @@
           <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:3.6.1" />
         </element>
       </element>
-      <element id="javaee-facet-resources" facet="CarrerOfficeApp/web/Web" />
+      <element id="javaee-facet-resources" facet="CareerOfficeApp/web/Web" />
     </root>
   </artifact>
 </component>
