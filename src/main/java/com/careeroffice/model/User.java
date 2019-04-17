@@ -40,16 +40,6 @@ public class User {
      */
     private String roleId;
 
-//    /**
-//     * The department id of this user.
-//     */
-//    private String departmentId;
-//
-//    /**
-//     * The total number of user objects created during the runtime of this application.
-//     */
-//    private static int usersCounter = 0;
-
     /**
      * Creates a new User.
      * 
@@ -70,7 +60,6 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.roleId = roleId;
-//        this.departmentId = department;
     }
 
     /**
@@ -198,33 +187,6 @@ public class User {
     public void setRoleId(String roleId) {
         this.roleId = roleId;
     }
-
-//    /**
-//     * Get the total number of user objects created during the runtime of this application.
-//     *
-//     * @return The total number of user objects created during the runtime of this application.
-//     */
-//    public static int getUsersCounter() {
-//        return usersCounter;
-//    }
-//
-//    /**
-//     * Get the department in which the user belongs to.
-//     *
-//     * @return The department in which the user belongs to.
-//     */
-//    public String getDepartmentId() {
-//        return departmentId;
-//    }
-//
-//    /**
-//     * Set the department in which the user belongs to.
-//     *
-//     * @param departmentId The new department.
-//     */
-//    public void setDepartmentId(String departmentId) {
-//        this.departmentId = departmentId;
-//    }
 
     /**
      * Returns the full name of the user.

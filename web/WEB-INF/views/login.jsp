@@ -26,6 +26,9 @@
 					<br/>
 					<input  type="submit" class="btn btn-primary btn-block" value="Log in">
 				</form>
+				<div class="text-center">
+					<a class="d-block small mt-3" href="/CareerOfficeApp/registration">Create an Account</a>
+				</div>
       		</div>
     	</div>
   </div>
