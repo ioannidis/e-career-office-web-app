@@ -33,13 +33,6 @@ create table if not exists user_department
     foreign key (department_id) references departments (id)
 );
 
-create table if not exists student_status
-(
-    username varchar(45) primary key,
-    status   enum ('undergraduate', 'graduate'),
-    foreign key (username) references users (username)
-);
-
 create table if not exists companies
 (
     id           int primary key,
