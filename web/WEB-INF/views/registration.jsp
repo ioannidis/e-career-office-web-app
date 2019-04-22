@@ -37,7 +37,7 @@
 					</div>
 					<div class="form-group">
 						<label for="phone">Phone</label>
-						<input id="phone" class="form-control" type="tel" name="phone" placeholder="Phone" />
+						<input id="phone" class="form-control" type="text" pattern="\d*" maxlength="10" name="phone" placeholder="Phone" />
 					</div>
 					<div class="form-group">
 						<label for="phone">Role</label>
@@ -62,6 +62,21 @@
 					<a class="d-block small mt-3" href="/CareerOfficeApp/login">Back to login</a>
 				</div>
       		</div>
+			<%-- Error logging--%>
+			<div>
+				<c:if test="${usernameError != null}">
+					<div class="alert alert-danger" role="alert">
+						<c:out value="${usernameError}" />
+					</div>
+					<c:remove var="usernameError" scope="session" />
+				</c:if>
+				<c:if test="${emailError != null}">
+					<div class="alert alert-danger" role="alert">
+						<c:out value="${emailError}" />
+					</div>
+					<c:remove var="emailError" scope="session" />
+				</c:if>
+			</div>
     	</div>
   </div>
 

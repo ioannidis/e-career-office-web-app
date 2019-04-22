@@ -31,6 +31,8 @@ public class RegistrationServlet extends HttpServlet {
 
     private StrongPasswordEncryptor encryptor = new StrongPasswordEncryptor();
 
+    private RegistrationService registrationService= new RegistrationService(ds);
+
     /**
      * Handles all GET requests.
      */
@@ -53,6 +55,24 @@ public class RegistrationServlet extends HttpServlet {
         String email        = request.getParameter("email");
         String phone        = request.getParameter("phone");
         String role         = request.getParameter("role");
+
+        boolean hasError = false;
+        if (registrationService.findUserBy(username, "username")) {
+            hasError = true;
+            request.setAttribute("usernameError", "Username exists!");
+        }
+
+        if (registrationService.findUserBy(email, "email")) {
+            hasError = true;
+            request.setAttribute("emailError", "Email exists!");
+        }
+
+        if (hasError) {
+            request.getRequestDispatcher("WEB-INF/views/registration.jsp").forward(request, response);
+            return;
+        }
+
+        System.out.println( "Error " + hasError );
 
         registrationService.createUser( username, encryptor.encryptPassword( password ), firstName, lastName, phone, email, role );
 

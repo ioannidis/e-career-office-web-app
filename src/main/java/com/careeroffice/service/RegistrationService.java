@@ -1,7 +1,5 @@
 package com.careeroffice.service;
 
-import com.careeroffice.model.User;
-
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,8 +25,6 @@ public class RegistrationService {
     public void createUser(String username, String password, String firstName, String lastName, String phone, String email, String role) {
         Connection con = null;
         PreparedStatement stmt = null;
-
-        System.out.println( username + " "+ password+ " "+ firstName+ " "+ lastName+ " "+ email+ " "+ phone+ " "+ role );
 
         String str = "insert into users(username, password, first_name, last_name, phone_number, email, role_id) values (?, ?, ?, ?, ?, ?, ?)";
 
@@ -57,4 +53,40 @@ public class RegistrationService {
             }
         }
     }
+
+    public boolean findUserBy(String value, String field) {
+
+        Connection con = null;
+        ResultSet rs = null;
+        PreparedStatement stmt = null;
+
+        String str = "SELECT * FROM users WHERE " + field + " =?";
+
+        try {
+            con = ds.getConnection();
+
+            stmt = con.prepareStatement(str);
+            stmt.setString(1, value);
+
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return true;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                stmt.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return false;
+    }
+
 }
