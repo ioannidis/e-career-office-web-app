@@ -1,6 +1,8 @@
 package com.careeroffice.servlet;
 
 import com.careeroffice.service.RegistrationService;
+import com.careeroffice.service.factory.ServiceEnum;
+import com.careeroffice.service.factory.ServiceFactory;
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
 import javax.annotation.Resource;
@@ -46,7 +48,7 @@ public class RegistrationServlet extends HttpServlet {
      */
     @Override
     protected void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
-        RegistrationService registrationService = new RegistrationService(ds);
+        RegistrationService registrationService = (RegistrationService) ServiceFactory.getService(ServiceEnum.RegistrationService, ds);
 
         String username     = request.getParameter("username");
         String password     = request.getParameter("password");
@@ -71,8 +73,6 @@ public class RegistrationServlet extends HttpServlet {
             request.getRequestDispatcher("WEB-INF/views/registration.jsp").forward(request, response);
             return;
         }
-
-        System.out.println( "Error " + hasError );
 
         registrationService.createUser( username, encryptor.encryptPassword( password ), firstName, lastName, phone, email, role );
 

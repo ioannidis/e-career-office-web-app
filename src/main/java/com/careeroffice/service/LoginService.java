@@ -4,13 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import javax.sql.DataSource;
 import com.careeroffice.model.User;
 
 /**
  * Handles login validity and attempts.
  */
-public class LoginService {
+public class LoginService implements IPersistenceService<User> {
 
     /**
      * An instance of the database connection.
@@ -72,5 +73,35 @@ public class LoginService {
         }
 
         return null;
+    }
+
+    @Override
+    public User findOne() {
+        return null;
+    }
+
+    @Override
+    public List<User> findAll() {
+        return null;
+    }
+
+    @Override
+    public boolean save() {
+        return false;
+    }
+
+    @Override
+    public boolean update() {
+        return false;
+    }
+
+    @Override
+    public boolean delete() {
+        return false;
+    }
+
+    @Override
+    public int count() {
+        return 0;
     }
 }

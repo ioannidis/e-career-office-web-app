@@ -7,11 +7,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Handles login validity and attempts.
  */
-public class UserService {
+public class UserService implements IPersistenceService<User> {
 
     /**
      * An instance of the database connection.
@@ -111,14 +112,6 @@ public class UserService {
         return false;
     }
 
-    public boolean delete() {
-        return true;
-    }
-
-    public boolean update() {
-        return true;
-    }
-
     public int count() {
         Connection con = null;
         ResultSet rs = null;
@@ -154,4 +147,28 @@ public class UserService {
         return 0;
     }
 
+    @Override
+    public boolean delete() {
+        return true;
+    }
+
+    @Override
+    public User findOne() {
+        return null;
+    }
+
+    @Override
+    public boolean save() {
+        return false;
+    }
+
+    @Override
+    public boolean update() {
+        return true;
+    }
+
+    @Override
+    public List<User> findAll() {
+        return null;
+    }
 }

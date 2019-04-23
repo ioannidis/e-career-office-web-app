@@ -13,6 +13,8 @@ import javax.sql.DataSource;
 import com.careeroffice.model.User;
 import com.careeroffice.service.AuthService;
 import com.careeroffice.service.LoginService;
+import com.careeroffice.service.factory.ServiceEnum;
+import com.careeroffice.service.factory.ServiceFactory;
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
 
@@ -59,7 +61,7 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        LoginService login = new LoginService(ds);
+        LoginService login = (LoginService) ServiceFactory.getService(ServiceEnum.LoginService, ds);
         HttpSession session = request.getSession();
 
         String username = request.getParameter("username");

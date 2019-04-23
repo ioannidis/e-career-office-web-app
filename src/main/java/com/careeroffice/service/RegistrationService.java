@@ -1,12 +1,15 @@
 package com.careeroffice.service;
 
+import com.careeroffice.model.User;
+
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
-public class RegistrationService {
+public class RegistrationService implements IPersistenceService<User> {
 
     /**
      * An instance of the database connection.
@@ -89,4 +92,33 @@ public class RegistrationService {
         return false;
     }
 
+    @Override
+    public User findOne() {
+        return null;
+    }
+
+    @Override
+    public boolean save() {
+        return false;
+    }
+
+    @Override
+    public boolean update() {
+        return false;
+    }
+
+    @Override
+    public boolean delete() {
+        return false;
+    }
+
+    @Override
+    public int count() {
+        return 0;
+    }
+
+    @Override
+    public List<User> findAll() {
+        return null;
+    }
 }
