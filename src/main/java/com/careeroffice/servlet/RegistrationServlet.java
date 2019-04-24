@@ -5,13 +5,11 @@ import com.careeroffice.service.factory.ServiceEnum;
 import com.careeroffice.service.factory.ServiceFactory;
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
-import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
 import java.io.IOException;
 
 /**
@@ -24,12 +22,6 @@ public class RegistrationServlet extends HttpServlet {
      * Java related serial version UID.
      */
     private static final long serialVersionUID = 1L;
-
-//    /**
-//     * An instance of the database connection.
-//     */
-//    @Resource(name = "jdbc/career_office")
-//    private DataSource ds;
 
     private StrongPasswordEncryptor encryptor = new StrongPasswordEncryptor();
 
@@ -57,12 +49,12 @@ public class RegistrationServlet extends HttpServlet {
         String role         = request.getParameter("role");
 
         boolean hasError = false;
-        if (registrationService.findUserBy(username, "username")) {
+        if (registrationService.searchUserBy(username, "username")) {
             hasError = true;
             request.setAttribute("usernameError", "Username exists!");
         }
 
-        if (registrationService.findUserBy(email, "email")) {
+        if (registrationService.searchUserBy(email, "email")) {
             hasError = true;
             request.setAttribute("emailError", "Email exists!");
         }

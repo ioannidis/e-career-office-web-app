@@ -15,12 +15,6 @@ public class SuperAdminServlet {
      */
     private static final long serialVersionUID = 1L;
 
-//    /**
-//     * An instance of the database connection.
-//     */
-//    @Resource(name = "jdbc/career_office")
-//    private DataSource ds;
-
     /**
      * Handles all GET requests.
      */

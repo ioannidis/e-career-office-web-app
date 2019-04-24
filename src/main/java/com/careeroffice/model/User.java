@@ -28,7 +28,7 @@ public class User {
     /**
      * The phone_number of this user.
      */
-    private long phoneNumber;
+    private String phoneNumber;
 
     /**
      * The email of this user.
@@ -51,7 +51,7 @@ public class User {
      * @param email The email of the user.
      * @param roleId The role of the user.
      */
-    public User(String username, String password, String name, String surname, long phoneNumber,
+    public User(String username, String password, String name, String surname, String phoneNumber,
             String email, String roleId) {
         this.username = username;
         this.password = password;
@@ -139,7 +139,7 @@ public class User {
      *
      * @return The last name of this user.
      */
-    public long getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
@@ -148,7 +148,7 @@ public class User {
      *
      * @param phoneNumber The new last name.
      */
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
