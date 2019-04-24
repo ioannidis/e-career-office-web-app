@@ -2,6 +2,7 @@ package com.careeroffice.service;
 
 import javax.servlet.http.HttpSession;
 
+import com.careeroffice.database.DatabaseConnection;
 import com.careeroffice.model.User;
 
 /**

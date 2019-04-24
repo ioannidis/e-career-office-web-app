@@ -61,7 +61,7 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        LoginService login = (LoginService) ServiceFactory.getService(ServiceEnum.LoginService, ds);
+        LoginService login = (LoginService) ServiceFactory.getService(ServiceEnum.LoginService);
         HttpSession session = request.getSession();
 
         String username = request.getParameter("username");

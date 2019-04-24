@@ -1,5 +1,6 @@
 package com.careeroffice.service;
 
+import com.careeroffice.database.DatabaseConnection;
 import com.careeroffice.model.User;
 
 import javax.sql.DataSource;
@@ -14,19 +15,19 @@ import java.util.List;
  */
 public class UserService implements IPersistenceService<User> {
 
-    /**
-     * An instance of the database connection.
-     */
-    private DataSource ds;
-
-    /**
-     * Initializes login service.
-     *
-     * @param ds The data source instance.
-     */
-    public UserService( DataSource ds) {
-        this.ds = ds;
-    }
+//    /**
+//     * An instance of the database connection.
+//     */
+//    private DataSource ds;
+//
+//    /**
+//     * Initializes login service.
+//     *
+//     * @param ds The data source instance.
+//     */
+//    public UserService( DataSource ds) {
+//        this.ds = ds;
+//    }
 
     /**
      * Authenticates a user with the provided username.
@@ -43,7 +44,7 @@ public class UserService implements IPersistenceService<User> {
         String str = "SELECT * FROM users WHERE username=?";
 
         try {
-            con = ds.getConnection();
+            con = DatabaseConnection.getConnection();
 
             stmt = con.prepareStatement(str);
             stmt.setString(1, username);
@@ -83,7 +84,7 @@ public class UserService implements IPersistenceService<User> {
         String str = "insert into users(username, password, first_name, last_name, phone_number, email, role_id) values (?, ?, ?, ?, ?, ?, ?)";
 
         try {
-            con = ds.getConnection();
+            con = DatabaseConnection.getConnection();
 
             stmt = con.prepareStatement(str);
             stmt.setString(1, username);
@@ -121,7 +122,7 @@ public class UserService implements IPersistenceService<User> {
         int total = 0;
 
         try {
-            con = ds.getConnection();
+            con = DatabaseConnection.getConnection();
 
             stmt = con.prepareStatement(str);
 

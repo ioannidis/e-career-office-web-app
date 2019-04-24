@@ -25,15 +25,13 @@ public class RegistrationServlet extends HttpServlet {
      */
     private static final long serialVersionUID = 1L;
 
-    /**
-     * An instance of the database connection.
-     */
-    @Resource(name = "jdbc/career_office")
-    private DataSource ds;
+//    /**
+//     * An instance of the database connection.
+//     */
+//    @Resource(name = "jdbc/career_office")
+//    private DataSource ds;
 
     private StrongPasswordEncryptor encryptor = new StrongPasswordEncryptor();
-
-    private RegistrationService registrationService= new RegistrationService(ds);
 
     /**
      * Handles all GET requests.
@@ -48,7 +46,7 @@ public class RegistrationServlet extends HttpServlet {
      */
     @Override
     protected void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
-        RegistrationService registrationService = (RegistrationService) ServiceFactory.getService(ServiceEnum.RegistrationService, ds);
+        RegistrationService registrationService = (RegistrationService) ServiceFactory.getService(ServiceEnum.RegistrationService);
 
         String username     = request.getParameter("username");
         String password     = request.getParameter("password");

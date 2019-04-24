@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import javax.sql.DataSource;
+
+import com.careeroffice.database.DatabaseConnection;
 import com.careeroffice.model.User;
 
 /**
@@ -16,16 +18,17 @@ public class LoginService implements IPersistenceService<User> {
     /**
      * An instance of the database connection.
      */
-    private DataSource ds;
+//    private DataSource ds;
 
     /**
      * Initializes login service.
      *
      * @param ds The data source instance.
      */
-    public LoginService(DataSource ds) {
-        this.ds = ds;
-    }
+//    public LoginService(DataSource ds) {
+//        this.ds = ds;
+//    }
+    public LoginService() {}
 
     /**
      * Authenticates a user with the provided username.
@@ -42,7 +45,7 @@ public class LoginService implements IPersistenceService<User> {
         String str = "SELECT * FROM users WHERE username=?";
 
         try {
-            con = ds.getConnection();
+            con = DatabaseConnection.getConnection();
 
             stmt = con.prepareStatement(str);
             stmt.setString(1, username);
