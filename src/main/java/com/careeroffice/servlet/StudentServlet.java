@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.IOException;
 
-@WebServlet({"/StudentServlet", "/student", "p_student", "u_student"})
+@WebServlet({"/StudentServlet", "/student", "/p_student", "/u_student"})
 public class StudentServlet {
     /**
      * Java related serial version UID.
