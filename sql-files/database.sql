@@ -35,7 +35,7 @@ create table if not exists user_department
 
 create table if not exists companies
 (
-    id           int primary key,
+    id           varchar(45) primary key,
     title        varchar(45)        not null,
     address      varchar(45),
     phone_number varchar(10) unique not null,
