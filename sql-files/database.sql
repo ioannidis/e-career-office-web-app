@@ -9,7 +9,7 @@ create table if not exists roles
 create table if not exists users
 (
     username     varchar(45) primary key,
-    password     varchar(60),
+    password     varchar(70),
     first_name   varchar(45),
     last_name    varchar(45),
     phone_number varchar(10),
