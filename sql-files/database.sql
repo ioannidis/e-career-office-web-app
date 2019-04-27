@@ -46,7 +46,7 @@ create table if not exists companies
 create table if not exists user_company
 (
     username   varchar(45) primary key,
-    company_id int not null,
+    company_id varchar(45) not null,
     foreign key (username) references users (username),
     foreign key (company_id) references companies (id)
 );
@@ -70,7 +70,7 @@ create table if not exists classifieds
     id          int primary key,
     title       varchar(45) not null,
     content     blob        not null,
-    company_id  int         not null,
+    company_id  varchar(45) not null,
     category_id int         not null,
     foreign key (company_id) references companies (id),
     foreign key (category_id) references categories (id)
