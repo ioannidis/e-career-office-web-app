@@ -26,8 +26,10 @@ public class DatabaseConnection {
             e.printStackTrace();
         }
         try {
-            connection = DriverManager
-                    .getConnection("jdbc:mysql://localhost:3306/career_office?serverTimezone=Europe/Athens","root", "password");
+            connection = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/career_office?serverTimezone=Europe/Athens&useSSL=false",
+                    "root",
+                    "password");
         } catch ( SQLException e ) {
             e.printStackTrace();
         }
