@@ -27,7 +27,7 @@ public class DatabaseConnection {
         }
         try {
             connection = DriverManager
-                    .getConnection("jdbc:mysql://localhost:3306/career_office","root", "123456");
+                    .getConnection("jdbc:mysql://localhost:3306/career_office?serverTimezone=Europe/Athens","root", "password");
         } catch ( SQLException e ) {
             e.printStackTrace();
         }
