@@ -7,12 +7,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserDao implements CrudDao<User, String> {
 
     @Override
-    public User findOne( String id ) {
+    public User findOne(String id) {
         Connection con = null;
         ResultSet rs = null;
         PreparedStatement stmt = null;
@@ -38,7 +39,7 @@ public class UserDao implements CrudDao<User, String> {
                         rs.getString("role_id"));
             }
 
-        } catch ( SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             try {
@@ -55,6 +56,43 @@ public class UserDao implements CrudDao<User, String> {
 
     @Override
     public List<User> findAll() {
+        Connection con = null;
+        ResultSet rs = null;
+        PreparedStatement stmt = null;
+
+        String str = "SELECT * FROM users";
+
+        try {
+            con = DatabaseConnection.getConnection();
+            stmt = con.prepareStatement(str);
+            rs = stmt.executeQuery();
+
+            List<User> users = new ArrayList<>();
+
+            while (rs.next()) {
+                users.add(new User(
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("first_name"),
+                        rs.getString("last_name"),
+                        rs.getString("phone_number"),
+                        rs.getString("email"),
+                        rs.getString("role_id")));
+            }
+
+            return users;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                stmt.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
         return null;
     }
 
@@ -81,7 +119,7 @@ public class UserDao implements CrudDao<User, String> {
 
             return true;
 
-        } catch ( SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             try {

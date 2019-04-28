@@ -6,24 +6,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet({"/StudentServlet", "/student", "/p_student", "/u_student"})
-public class StudentServlet {
-    /**
-     * Java related serial version UID.
-     */
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * Handles all GET requests.
-     */
+@WebServlet({"/superadmin/createuser"})
+public class SuperAdminCreateUserServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
     }
 
-    /**
-     * Handles all POST requests.
-     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 

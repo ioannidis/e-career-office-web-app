@@ -30,7 +30,7 @@ public class AuthService {
      * @return Whether the user is logged in.
      */
     public boolean isLoggedIn() {
-        return (session.getAttribute("loggedIn") != null) ? true : false;
+        return session.getAttribute("loggedIn") != null;
     }
 
     /**
