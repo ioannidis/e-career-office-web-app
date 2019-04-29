@@ -1,9 +1,10 @@
 package com.careeroffice.dao;
 
-import com.careeroffice.database.DatabaseConnection;
+import com.careeroffice.database.Callback;
+import com.careeroffice.database.ParameterCallback;
+import com.careeroffice.database.Queries;
 import com.careeroffice.model.Role;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,71 +14,44 @@ import java.util.List;
 public class RoleDao implements CrudDao<Role, String> {
     @Override
     public Role findOne(String id) {
-        Connection con = null;
-        ResultSet rs = null;
-        PreparedStatement stmt = null;
 
-        String str = "SELECT * FROM roles WHERE id=?";
-
-        try {
-            con = DatabaseConnection.getConnection();
-
-            stmt = con.prepareStatement(str);
-            stmt.setString(1, id);
-
-            rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                return new Role(rs.getString("id"), rs.getString("title"));
+        return (Role) Queries.execute("SELECT * FROM roles WHERE id=?", new ParameterCallback() {
+            @Override
+            public void setParameters(PreparedStatement statement) throws SQLException {
+                statement.setString(1, id);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                rs.close();
-                stmt.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
 
-        return null;
+            @Override
+            public Object fetch(ResultSet resultSet) throws SQLException {
+                if (resultSet.next()) {
+                    return new Role(
+                            resultSet.getString("id"),
+                            resultSet.getString("title"));
+                } else {
+                    return null;
+                }
+            }
+        });
     }
 
     @Override
     public List<Role> findAll() {
-        Connection con = null;
-        ResultSet rs = null;
-        PreparedStatement stmt = null;
 
-        String str = "SELECT * FROM roles";
+        return (List<Role>) Queries.execute("SELECT * FROM roles", new Callback() {
+            @Override
+            public Object fetch(ResultSet resultSet) throws SQLException {
+                List<Role> roles = new ArrayList<>();
 
-        try {
-            con = DatabaseConnection.getConnection();
-            stmt = con.prepareStatement(str);
-            rs = stmt.executeQuery();
+                while (resultSet.next()) {
+                    roles.add(new Role(
+                            resultSet.getString("id"),
+                            resultSet.getString("title")));
+                }
 
-            List<Role> roles = new ArrayList<>();
-
-            while (rs.next()) {
-                roles.add(new Role(rs.getString("id"), rs.getString("title")));
+                return roles;
             }
+        });
 
-            return roles;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                rs.close();
-                stmt.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return null;
     }
 
     @Override
@@ -97,32 +71,15 @@ public class RoleDao implements CrudDao<Role, String> {
 
     @Override
     public int count() {
-        Connection con = null;
-        ResultSet rs = null;
-        PreparedStatement stmt = null;
-
-        String str = "SELECT COUNT(*) FROM roles";
-
-        try {
-            con = DatabaseConnection.getConnection();
-            stmt = con.prepareStatement(str);
-            rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                return rs.getInt(1);
+        return (int) Queries.execute("SELECT COUNT(*) FROM roles", new Callback() {
+            @Override
+            public Object fetch(ResultSet resultSet) throws SQLException {
+                if (resultSet.next()) {
+                    return resultSet.getInt(1);
+                } else {
+                    return 0;
+                }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                rs.close();
-                stmt.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return 0;
+        });
     }
 }
