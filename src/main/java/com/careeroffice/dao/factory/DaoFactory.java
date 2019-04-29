@@ -16,6 +16,10 @@ public class DaoFactory {
                     dao.put(daoEnum.toString(), new UserDao());
                     break;
                 }
+                case ClassifieldDao: {
+                    dao.put( daoEnum.toString(), new ClassifiedDao() );
+                    break;
+                }
                 case RoleDao: {
                     dao.put(daoEnum.toString(), new RoleDao());
                     break;
