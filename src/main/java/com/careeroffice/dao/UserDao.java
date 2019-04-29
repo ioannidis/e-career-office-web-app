@@ -18,7 +18,12 @@ public class UserDao implements CrudDao<User, String> {
         ResultSet rs = null;
         PreparedStatement stmt = null;
 
-        String str = "SELECT * FROM users WHERE username=?";
+        String str = "SELECT users.username, password, first_name, last_name, " +
+                "phone_number, email, role_id, uc.company_id, ud.department_id " +
+                "FROM users " +
+                "LEFT JOIN user_company uc ON users.username = uc.username " +
+                "LEFT JOIN user_department ud on users.username = ud.username " +
+                "WHERE users.username = ?";
 
         try {
             con = DatabaseConnection.getConnection();
@@ -36,7 +41,10 @@ public class UserDao implements CrudDao<User, String> {
                         rs.getString("last_name"),
                         rs.getString("phone_number"),
                         rs.getString("email"),
-                        rs.getString("role_id"));
+                        rs.getString("role_id"),
+                        rs.getString("company_id"),
+                        rs.getString("department_id")
+                );
             }
 
         } catch (SQLException e) {
@@ -60,7 +68,11 @@ public class UserDao implements CrudDao<User, String> {
         ResultSet rs = null;
         PreparedStatement stmt = null;
 
-        String str = "SELECT * FROM users";
+        String str = "SELECT users.username, password, first_name, last_name, " +
+                "phone_number, email, role_id, uc.company_id, ud.department_id " +
+                "FROM users " +
+                "LEFT JOIN user_company uc ON users.username = uc.username " +
+                "LEFT JOIN user_department ud on users.username = ud.username";
 
         try {
             con = DatabaseConnection.getConnection();
@@ -77,7 +89,10 @@ public class UserDao implements CrudDao<User, String> {
                         rs.getString("last_name"),
                         rs.getString("phone_number"),
                         rs.getString("email"),
-                        rs.getString("role_id")));
+                        rs.getString("role_id"),
+                        rs.getString("company_id"),
+                        rs.getString("department_id")
+                ));
             }
 
             return users;
@@ -101,7 +116,9 @@ public class UserDao implements CrudDao<User, String> {
         Connection con = null;
         PreparedStatement stmt = null;
 
-        String str = "insert into users(username, password, first_name, last_name, phone_number, email, role_id) values (?, ?, ?, ?, ?, ?, ?)";
+        String str = "insert into users" +
+                "(username, password, first_name, last_name, phone_number, email, role_id)" +
+                " values (?, ?, ?, ?, ?, ?, ?)";
 
         try {
             con = DatabaseConnection.getConnection();

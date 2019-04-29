@@ -39,20 +39,27 @@ public class User {
      * The role of this user.
      */
     private String roleId;
+    private Role role;
+
+    private String companyId;
+    private Company company;
+    private String departmentId;
+    private Department department;
 
     /**
      * Creates a new User.
-     * 
-     * @param username The username of the user.
-     * @param password The password of the user.
-     * @param name The name of the user.
-     * @param surname The surname of the user.
+     *
+     * @param username    The username of the user.
+     * @param password    The password of the user.
+     * @param name        The name of the user.
+     * @param surname     The surname of the user.
      * @param phoneNumber The phone number of the user.
-     * @param email The email of the user.
-     * @param roleId The role of the user.
+     * @param email       The email of the user.
+     * @param roleId      The role of the user.
      */
-    public User(String username, String password, String name, String surname, String phoneNumber,
-            String email, String roleId) {
+    public User(String username, String password, String name,
+                String surname, String phoneNumber, String email, String roleId,
+                String companyId, String departmentId) {
         this.username = username;
         this.password = password;
         this.name = name;
@@ -60,6 +67,13 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.roleId = roleId;
+        this.companyId = companyId;
+        this.departmentId = departmentId;
+    }
+
+    public User(String username, String password, String name,
+                String surname, String phoneNumber, String email, String roleId) {
+        this(username, password, name, surname, phoneNumber, email, roleId, null, null);
     }
 
     /**
@@ -172,7 +186,7 @@ public class User {
 
     /**
      * Get the role of the user.
-     * 
+     *
      * @return The role of the user.
      */
     public String getRoleId() {
@@ -181,20 +195,60 @@ public class User {
 
     /**
      * Set the role of the user.
-     * 
+     *
      * @param roleId The new role of the user.
      */
     public void setRoleId(String roleId) {
         this.roleId = roleId;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     /**
      * Returns the full name of the user.
-     * 
+     *
      * @return The first and last name of the user combined.
      */
     public String getFullName() {
         return name + " " + surname;
+    }
+
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public String getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(String departmentId) {
+        this.departmentId = departmentId;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
     /**

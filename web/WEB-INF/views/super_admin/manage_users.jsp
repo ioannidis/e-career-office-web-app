@@ -18,17 +18,21 @@
         <td>Phone Number</td>
         <td>Email</td>
         <td>Role</td>
+        <td>Company</td>
+        <td>Department</td>
     </tr>
     </thead>
     <tbody>
     <c:forEach items="${users}" var="otherUser">
         <tr>
-            <td><c:out value="${otherUser.username}" /></td>
-            <td><c:out value="${otherUser.name}" /></td>
-            <td><c:out value="${otherUser.surname}" /></td>
-            <td><c:out value="${otherUser.phoneNumber}" /></td>
-            <td><c:out value="${otherUser.email}" /></td>
-            <td><c:out value="${otherUser.roleId}" /></td>
+            <td><c:out value="${otherUser.username}" default="-" /></td>
+            <td><c:out value="${otherUser.name}" default="-" /></td>
+            <td><c:out value="${otherUser.surname}" default="-" /></td>
+            <td><c:out value="${otherUser.phoneNumber}" default="-" /></td>
+            <td><c:out value="${otherUser.email}" default="-" /></td>
+            <td><c:out value="${otherUser.role.title}" default="-" /></td>
+            <td><c:out value="${otherUser.company.title}" default="-" /></td>
+            <td><c:out value="${otherUser.department.title}" default="-" /></td>
         </tr>
     </c:forEach>
 

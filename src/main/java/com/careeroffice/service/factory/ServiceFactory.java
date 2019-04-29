@@ -13,16 +13,28 @@ public class ServiceFactory {
 
         if (serviceCache.get(serviceEnum.toString()) == null) {
             switch (serviceEnum) {
-                case LoginService : {
-                    serviceCache.put( serviceEnum.toString(), new LoginService() );
+                case LoginService: {
+                    serviceCache.put(serviceEnum.toString(), new LoginService());
                     break;
                 }
                 case UserService: {
-                    serviceCache.put( serviceEnum.toString(), new UserService() );
+                    serviceCache.put(serviceEnum.toString(), new UserService());
                     break;
                 }
                 case RegistrationService: {
-                    serviceCache.put( serviceEnum.toString(), new RegistrationService() );
+                    serviceCache.put(serviceEnum.toString(), new RegistrationService());
+                    break;
+                }
+                case RoleService: {
+                    serviceCache.put(serviceEnum.toString(), new RoleService());
+                    break;
+                }
+                case CompanyService: {
+                    serviceCache.put(serviceEnum.toString(), new CompanyService());
+                    break;
+                }
+                case DepartmentService: {
+                    serviceCache.put(serviceEnum.toString(), new DepartmentService());
                     break;
                 }
             }
