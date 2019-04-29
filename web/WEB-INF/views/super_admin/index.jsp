@@ -11,7 +11,10 @@
 <p><strong>What would you like to do?</strong></p>
 <ul>
     <li><a href="<c:url value="/manage_users"/>">Manage Users</a></li>
+    <li><a href="#">Manage Roles</a></li>
+    <li><a href="#">Manage Companies</a></li>
     <li><a href="#">Manage Departments</a></li>
+    <li><a href="#">Manage Classifieds</a></li>
     <li><a href="<c:url value="/logout"/>">Log Out</a></li>
 </ul>
 </body>
