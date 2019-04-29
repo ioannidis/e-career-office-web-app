@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public final class Queries {
-    public static Object execute(String query, Callback callback) {
+    public static Object execute(String query, QueryCallback callback) {
         Connection con = null;
         ResultSet rs = null;
         PreparedStatement stmt = null;
@@ -16,8 +16,8 @@ public final class Queries {
 
             stmt = con.prepareStatement(query);
 
-            if (callback instanceof ParameterCallback) {
-                ParameterCallback paramCallback = (ParameterCallback) callback;
+            if (callback instanceof QueryParamCallback) {
+                QueryParamCallback paramCallback = (QueryParamCallback) callback;
                 paramCallback.setParameters(stmt);
             }
 
