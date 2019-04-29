@@ -5,8 +5,7 @@ public enum ServiceEnum {
     LoginService,
     RegistrationService,
     AuthService,
-    ClassifiedService
-    AuthService,
+    ClassifiedService,
     RoleService,
     CompanyService,
     DepartmentService,
