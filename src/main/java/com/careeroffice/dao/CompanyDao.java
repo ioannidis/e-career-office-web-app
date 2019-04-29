@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CompanyDao implements CrudDao<Company, String> {
@@ -31,6 +32,7 @@ public class CompanyDao implements CrudDao<Company, String> {
                 return new Company(
                         rs.getString("id"),
                         rs.getString("title"),
+                        rs.getString("address"),
                         rs.getString("phone_number"),
                         rs.getString("email"),
                         rs.getString("website")
@@ -54,6 +56,43 @@ public class CompanyDao implements CrudDao<Company, String> {
 
     @Override
     public List<Company> findAll() {
+        Connection con = null;
+        ResultSet rs = null;
+        PreparedStatement stmt = null;
+
+        String str = "SELECT * FROM companies";
+
+        try {
+            con = DatabaseConnection.getConnection();
+            stmt = con.prepareStatement(str);
+            rs = stmt.executeQuery();
+
+            List<Company> companies = new ArrayList<>();
+
+            while (rs.next()) {
+                companies.add(new Company(
+                        rs.getString("id"),
+                        rs.getString("title"),
+                        rs.getString("address"),
+                        rs.getString("phone_number"),
+                        rs.getString("email"),
+                        rs.getString("website")
+                ));
+            }
+
+            return companies;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                stmt.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
         return null;
     }
 

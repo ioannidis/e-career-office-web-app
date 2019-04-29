@@ -9,6 +9,13 @@
 <h2>Manage Users</h2>
 <p><a href="<c:url value="/super_admin"/>"><< Back</a></p>
 <hr>
+<p>
+    <strong>
+        <a href="#">
+            + Create User
+        </a>
+    </strong>
+</p>
 <table>
     <thead>
     <tr>
@@ -20,6 +27,7 @@
         <td>Role</td>
         <td>Company</td>
         <td>Department</td>
+        <td>Actions</td>
     </tr>
     </thead>
     <tbody>
@@ -33,6 +41,9 @@
             <td><c:out value="${otherUser.role.title}" default="-" /></td>
             <td><c:out value="${otherUser.company.title}" default="-" /></td>
             <td><c:out value="${otherUser.department.title}" default="-" /></td>
+            <td>
+                <a href="#">Edit</a> / <a href="#">Delete</a>
+            </td>
         </tr>
     </c:forEach>
 

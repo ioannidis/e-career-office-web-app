@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RoleDao implements CrudDao<Role, String> {
@@ -27,12 +28,8 @@ public class RoleDao implements CrudDao<Role, String> {
             rs = stmt.executeQuery();
 
             if (rs.next()) {
-                return new Role(
-                        rs.getString("id"),
-                        rs.getString("title")
-                );
+                return new Role(rs.getString("id"), rs.getString("title"));
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -50,6 +47,36 @@ public class RoleDao implements CrudDao<Role, String> {
 
     @Override
     public List<Role> findAll() {
+        Connection con = null;
+        ResultSet rs = null;
+        PreparedStatement stmt = null;
+
+        String str = "SELECT * FROM roles";
+
+        try {
+            con = DatabaseConnection.getConnection();
+            stmt = con.prepareStatement(str);
+            rs = stmt.executeQuery();
+
+            List<Role> roles = new ArrayList<>();
+
+            while (rs.next()) {
+                roles.add(new Role(rs.getString("id"), rs.getString("title")));
+            }
+
+            return roles;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                stmt.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
         return null;
     }
 
