@@ -1,15 +1,16 @@
 package com.careeroffice.servlet;
 
-import javax.annotation.Resource;
+import com.careeroffice.service.AuthService;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
 import java.io.IOException;
 
 @WebServlet({"/ExternalServlet", "/external"})
-public class ExternalServlet {
+public class ExternalServlet extends HttpServlet {
     /**
      * Java related serial version UID.
      */
@@ -21,6 +22,19 @@ public class ExternalServlet {
     protected void doGet( HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        AuthService authService = new AuthService(request.getSession());
+
+        if (!authService.isLoggedIn()) {
+            response.sendRedirect("login");
+            return;
+        }
+
+        if (!authService.hasRole("external")) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+            return;
+        }
+
+        request.getRequestDispatcher("WEB-INF/views/external/index.jsp").forward(request, response);
     }
 
     /**
@@ -28,6 +42,6 @@ public class ExternalServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        doGet(request, response);
     }
 }

@@ -25,6 +25,13 @@ public class ServiceFactory {
                     serviceCache.put( serviceEnum.toString(), new RegistrationService() );
                     break;
                 }
+                case ClassifiedService: {
+                    serviceCache.put( serviceEnum.toString(), new ClassifiedService() );
+                    break;
+                }
+                default:
+                    // TODO: Throw exception
+                    break;
             }
         }
         return serviceCache.get(serviceEnum.toString());

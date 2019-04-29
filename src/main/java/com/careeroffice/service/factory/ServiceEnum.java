@@ -4,5 +4,6 @@ public enum ServiceEnum {
     UserService,
     LoginService,
     RegistrationService,
-    AuthService
+    AuthService,
+    ClassifiedService
 }

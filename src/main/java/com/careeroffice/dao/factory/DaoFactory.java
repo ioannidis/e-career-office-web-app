@@ -1,5 +1,6 @@
 package com.careeroffice.dao.factory;
 
+import com.careeroffice.dao.ClassifiedDao;
 import com.careeroffice.dao.CrudDao;
 import com.careeroffice.dao.UserDao;
 
@@ -15,6 +16,10 @@ public class DaoFactory {
             switch (daoEnum) {
                 case UserDao: {
                     dao.put( daoEnum.toString(), new UserDao() );
+                    break;
+                }
+                case ClassifieldDao: {
+                    dao.put( daoEnum.toString(), new ClassifiedDao() );
                     break;
                 }
                 default:
