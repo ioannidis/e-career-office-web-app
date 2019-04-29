@@ -36,5 +36,7 @@
     </c:forEach>
     </tbody>
 </table>
+
+<p>Displaying <strong><c:out value="${departmentCount}"/> departments</strong> in total.</p>
 </body>
 </html>

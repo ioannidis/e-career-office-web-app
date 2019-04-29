@@ -22,6 +22,7 @@ public class SuperAdminManageUsersServlet extends HttpServlet {
 
         request.setAttribute("user", authService.getUser());
         request.setAttribute("users", userService.findAll());
+        request.setAttribute("userCount", userService.count());
 
         request.getRequestDispatcher("WEB-INF/views/super_admin/manage_users.jsp").forward(request, response);
     }

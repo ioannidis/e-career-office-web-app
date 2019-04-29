@@ -36,5 +36,7 @@
     </c:forEach>
     </tbody>
 </table>
+
+<p>Displaying <strong><c:out value="${roleCount}"/> roles</strong> in total.</p>
 </body>
 </html>

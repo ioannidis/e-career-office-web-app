@@ -18,4 +18,8 @@ public class DepartmentService implements IPersistenceService<Department> {
     public List<Department> findAll() {
         return departmentDao.findAll();
     }
+
+    public int count() {
+        return departmentDao.count();
+    }
 }

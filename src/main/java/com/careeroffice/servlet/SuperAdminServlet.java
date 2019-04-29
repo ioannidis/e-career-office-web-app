@@ -1,6 +1,8 @@
 package com.careeroffice.servlet;
 
-import com.careeroffice.service.AuthService;
+import com.careeroffice.service.*;
+import com.careeroffice.service.factory.ServiceEnum;
+import com.careeroffice.service.factory.ServiceFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +18,16 @@ public class SuperAdminServlet extends HttpServlet {
             throws ServletException, IOException {
 
         AuthService authService = new AuthService(request.getSession());
+        UserService userService = (UserService) ServiceFactory.getService(ServiceEnum.UserService);
+        RoleService roleService = (RoleService) ServiceFactory.getService(ServiceEnum.RoleService);
+        CompanyService companyService = (CompanyService) ServiceFactory.getService(ServiceEnum.CompanyService);
+        DepartmentService departmentService = (DepartmentService) ServiceFactory.getService(ServiceEnum.DepartmentService);
+
         request.setAttribute("user", authService.getUser());
+        request.setAttribute("userCount", userService.count());
+        request.setAttribute("roleCount", roleService.count());
+        request.setAttribute("companyCount", companyService.count());
+        request.setAttribute("departmentCount", departmentService.count());
 
         request.getRequestDispatcher("WEB-INF/views/super_admin/index.jsp").forward(request, response);
     }

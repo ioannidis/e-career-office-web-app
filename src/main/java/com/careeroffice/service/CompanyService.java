@@ -18,4 +18,8 @@ public class CompanyService implements IPersistenceService<Company> {
     public List<Company> findAll() {
         return companyDao.findAll();
     }
+
+    public int count() {
+        return companyDao.count();
+    }
 }

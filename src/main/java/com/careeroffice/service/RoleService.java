@@ -18,4 +18,8 @@ public class RoleService implements IPersistenceService<Role> {
     public List<Role> findAll() {
         return roleDao.findAll();
     }
+
+    public int count() {
+        return roleDao.count();
+    }
 }

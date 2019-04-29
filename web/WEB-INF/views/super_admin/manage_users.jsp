@@ -46,8 +46,9 @@
             </td>
         </tr>
     </c:forEach>
-
     </tbody>
 </table>
+
+<p>Displaying <strong><c:out value="${userCount}"/> users</strong> in total.</p>
 </body>
 </html>

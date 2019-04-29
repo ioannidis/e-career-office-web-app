@@ -23,6 +23,7 @@ public class SuperAdminManageCompaniesServlet extends HttpServlet {
 
         request.setAttribute("user", authService.getUser());
         request.setAttribute("companies", companyService.findAll());
+        request.setAttribute("companyCount", companyService.count());
 
         request.getRequestDispatcher("WEB-INF/views/super_admin/manage_companies.jsp").forward(request, response);
     }

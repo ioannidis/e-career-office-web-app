@@ -23,6 +23,7 @@ public class SuperAdminManageRolesServlet extends HttpServlet {
 
         request.setAttribute("user", authService.getUser());
         request.setAttribute("roles", roleService.findAll());
+        request.setAttribute("roleCount", roleService.count());
 
         request.getRequestDispatcher("WEB-INF/views/super_admin/manage_roles.jsp").forward(request, response);
     }

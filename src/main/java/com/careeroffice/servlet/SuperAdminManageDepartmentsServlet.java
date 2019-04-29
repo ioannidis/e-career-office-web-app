@@ -23,6 +23,7 @@ public class SuperAdminManageDepartmentsServlet extends HttpServlet {
 
         request.setAttribute("user", authService.getUser());
         request.setAttribute("departments", departmentService.findAll());
+        request.setAttribute("departmentCount", departmentService.count());
 
         request.getRequestDispatcher("WEB-INF/views/super_admin/manage_departments.jsp").forward(request, response);
     }

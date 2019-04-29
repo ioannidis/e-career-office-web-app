@@ -44,5 +44,7 @@
     </c:forEach>
     </tbody>
 </table>
+
+<p>Displaying <strong><c:out value="${companyCount}"/> companies</strong> in total.</p>
 </body>
 </html>
