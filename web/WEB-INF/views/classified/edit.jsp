@@ -27,7 +27,7 @@
 
         <div class="card mb-3">
             <div class="card-header">
-                <i class="fa fa-table"></i><b>Edit course</b></div>
+                <i class="fa fa-table"></i><b>Edit classified</b></div>
             <div class="card-body">
                 <form action="externalclassifieds?id=${classified.id}&action=update" method="POST">
                     <div class="form-group">
@@ -40,9 +40,7 @@
                     </div>
                     <div class="form-group">
                         <label for="content"><strong>Content</strong></label>
-                        <textarea type="number" class="form-control"  name="content" id="content">
-                             <c:out value="${classified.content}"></c:out>
-                        </textarea>
+                        <textarea type="number" class="form-control"  name="content" id="content" required><c:out value="${classified.content}"></c:out></textarea>
                     </div>
                     <div class="form-group">
                         <label for="companyId"><strong>Company</strong></label>
@@ -63,7 +61,7 @@
                         <%--</select>--%>
                     <%--</div>--%>
                     <br />
-                    <button type="submit" class="btn btn-success"><i class="far fa-save" style="margin-right:8px"></i>Update Course</button>
+                    <button type="submit" class="btn btn-success"><i class="far fa-save" style="margin-right:8px"></i>Update</button>
                     <a href="externalclassifieds" class="btn btn-warning"><i class="fas fa-caret-left" style="margin-right:8px"></i>Cancel</a>
                 </form>
             </div>

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet({"/ExternalClassifiedsServlet", "/externalclassifieds"})
 public class ExternalClassifiedsServlet extends HttpServlet {
@@ -41,7 +42,7 @@ public class ExternalClassifiedsServlet extends HttpServlet {
         }
 
         String action = UrlUtil.getParameterOrDefault(request, "action", "index");
-        Integer id = Integer.parseInt(UrlUtil.getParameterOrDefault(request, "id", ""));
+        Integer id = UrlUtil.getParameterOrDefault(request, "id", -1);
 
         switch (action) {
             case "create": {
@@ -64,7 +65,10 @@ public class ExternalClassifiedsServlet extends HttpServlet {
                 break;
             }
             default: {
-                System.out.println( classifiedService.findAllByCompany( "ibm" ) );
+                List<Classified> classifieds = classifiedService.findAllByCompany( "ibm" );
+
+                request.setAttribute( "classifieds", classifieds );
+                request.getRequestDispatcher("WEB-INF/views/classified/index.jsp").forward(request, response);
                 break;
             }
         }
@@ -92,26 +96,31 @@ public class ExternalClassifiedsServlet extends HttpServlet {
         }
 
         String action = UrlUtil.getParameterOrDefault(request, "action", "index");
-        Integer id = Integer.parseInt(UrlUtil.getParameterOrDefault(request, "id", ""));
+        Integer id = UrlUtil.getParameterOrDefault(request, "id", -1);
 
         switch (action) {
             case "save": {
-                classifiedService.save( new Classified( "New Job", "tralala", "ibm", 1 ) );
+                System.out.println( "save+" );
+                Classified classified = new Classified(
+                        request.getParameter("title"),
+                        request.getParameter("content"),
+                        request.getParameter("companyId"),
+                        Integer.parseInt(request.getParameter("categoryId"))
+                );
+                classifiedService.save(classified);
+
+                response.sendRedirect("externalclassifieds");
                 break;
             }
             case "update": {
                 Classified classified = classifiedService.findOne(id);
 
-//                classified.setId(UrlUtil.getParameterOrDefault(request, "id", classified.getId()));
                 classified.setTitle(UrlUtil.getParameterOrDefault(request, "title", classified.getTitle()));
                 classified.setContent(UrlUtil.getParameterOrDefault(request, "content", classified.getContent()));
                 classified.setCompanyId(UrlUtil.getParameterOrDefault(request, "companyId", classified.getCompanyId()));
                 classified.setCategoryId(UrlUtil.getParameterOrDefault(request, "categoryId", classified.getCategoryId()));
 
-                System.out.println( classified );
                 classifiedService.update(classified);
-                System.out.println( classified );
-
 
                 response.sendRedirect("externalclassifieds");
                 break;

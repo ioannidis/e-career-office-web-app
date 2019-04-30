@@ -62,7 +62,6 @@ public class ClassifiedDao implements CrudDao <Classified, Integer> {
     public boolean save( Classified obj ) {
 
         Connection con = null;
-        ResultSet rs = null;
         PreparedStatement stmt = null;
 
         String str = "INSERT INTO classifieds(title,content,company_id,category_id) VALUES (?,?,?,?)";
@@ -83,7 +82,6 @@ public class ClassifiedDao implements CrudDao <Classified, Integer> {
             return false;
         } finally {
             try {
-                rs.close();
                 stmt.close();
                 con.close();
             } catch (SQLException e) {
@@ -98,7 +96,6 @@ public class ClassifiedDao implements CrudDao <Classified, Integer> {
     @Override
     public boolean update( Classified obj ) {
         Connection con = null;
-        ResultSet rs = null;
         PreparedStatement stmt = null;
 
         String str = "UPDATE classifieds SET title=?, content=?, company_id=?, category_id=? WHERE id=?";
@@ -115,27 +112,24 @@ public class ClassifiedDao implements CrudDao <Classified, Integer> {
 
             stmt.executeUpdate();
 
+            return true;
+
         } catch ( SQLException e) {
             e.printStackTrace();
             return false;
         } finally {
             try {
-                rs.close();
                 stmt.close();
                 con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
         }
-
-        return true;
     }
 
     @Override
     public boolean delete( Integer id ) {
         Connection con = null;
-        ResultSet rs = null;
         PreparedStatement stmt = null;
 
         String str = "DELETE FROM classifieds WHERE id=?";
@@ -148,12 +142,13 @@ public class ClassifiedDao implements CrudDao <Classified, Integer> {
 
             stmt.executeUpdate();
 
+            return true;
+
         } catch ( SQLException e) {
             e.printStackTrace();
             return false;
         } finally {
             try {
-                rs.close();
                 stmt.close();
                 con.close();
             } catch (SQLException e) {
@@ -161,8 +156,6 @@ public class ClassifiedDao implements CrudDao <Classified, Integer> {
             }
 
         }
-
-        return true;
     }
 
     @Override
@@ -171,7 +164,7 @@ public class ClassifiedDao implements CrudDao <Classified, Integer> {
     }
 
     public List<Classified> findAllByCompany( String companyId) {
-        List<Classified> courses = new ArrayList<>();
+        List<Classified> classifieds = new ArrayList<>();
 
         Connection con = null;
         ResultSet rs = null;
@@ -193,7 +186,7 @@ public class ClassifiedDao implements CrudDao <Classified, Integer> {
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                courses.add(new Classified(
+                classifieds.add(new Classified(
                         rs.getInt("id"),
                         rs.getString("title"),
                         rs.getString("content"),
@@ -214,6 +207,6 @@ public class ClassifiedDao implements CrudDao <Classified, Integer> {
 
         }
 
-        return courses;
+        return classifieds;
     }
 }
