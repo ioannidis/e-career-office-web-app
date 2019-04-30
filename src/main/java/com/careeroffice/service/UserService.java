@@ -1,11 +1,12 @@
 package com.careeroffice.service;
 
+import com.careeroffice.dao.CompanyDao;
+import com.careeroffice.dao.DepartmentDao;
+import com.careeroffice.dao.RoleDao;
 import com.careeroffice.dao.UserDao;
 import com.careeroffice.dao.factory.DaoEnum;
 import com.careeroffice.dao.factory.DaoFactory;
 import com.careeroffice.model.User;
-import com.careeroffice.service.factory.ServiceEnum;
-import com.careeroffice.service.factory.ServiceFactory;
 
 import java.util.List;
 
@@ -13,16 +14,16 @@ import java.util.List;
 public class UserService implements IPersistenceService<User> {
 
     private UserDao userDao = (UserDao) DaoFactory.getDao(DaoEnum.UserDao);
-    private RoleService roleService = (RoleService) ServiceFactory.getService(ServiceEnum.RoleService);
-    private CompanyService companyService = (CompanyService) ServiceFactory.getService(ServiceEnum.CompanyService);
-    private DepartmentService departmentService = (DepartmentService) ServiceFactory.getService(ServiceEnum.DepartmentService);
+    private RoleDao roleDao = (RoleDao) DaoFactory.getDao(DaoEnum.RoleDao);
+    private CompanyDao companyDao = (CompanyDao) DaoFactory.getDao(DaoEnum.CompanyDao);
+    private DepartmentDao departmentDao = (DepartmentDao) DaoFactory.getDao(DaoEnum.DepartmentDao);
 
     public User findOne(String username) {
         User user = userDao.findOne(username);
 
-        user.setRole(roleService.findOne(user.getRoleId()));
-        user.setCompany(companyService.findOne(user.getCompanyId()));
-        user.setDepartment(departmentService.findOne(user.getDepartmentId()));
+        user.setRole(roleDao.findOne(user.getRoleId()));
+        user.setCompany(companyDao.findOne(user.getCompanyId()));
+        user.setDepartment(departmentDao.findOne(user.getDepartmentId()));
 
         return user;
     }
@@ -31,9 +32,9 @@ public class UserService implements IPersistenceService<User> {
         List<User> users = userDao.findAll();
 
         users.forEach(user -> {
-            user.setRole(roleService.findOne(user.getRoleId()));
-            user.setCompany(companyService.findOne(user.getCompanyId()));
-            user.setDepartment(departmentService.findOne(user.getDepartmentId()));
+            user.setRole(roleDao.findOne(user.getRoleId()));
+            user.setCompany(companyDao.findOne(user.getCompanyId()));
+            user.setDepartment(departmentDao.findOne(user.getDepartmentId()));
         });
 
         return users;
