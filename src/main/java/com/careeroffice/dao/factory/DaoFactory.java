@@ -1,9 +1,6 @@
 package com.careeroffice.dao.factory;
 
-import com.careeroffice.dao.CategoryDao;
-import com.careeroffice.dao.ClassifiedDao;
-import com.careeroffice.dao.CrudDao;
-import com.careeroffice.dao.UserDao;
+import com.careeroffice.dao.*;
 
 import java.util.HashMap;
 import java.util.Map;
