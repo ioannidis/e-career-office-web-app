@@ -14,6 +14,42 @@ public class ClassifiedDao implements CrudDao <Classified, Integer> {
 
     @Override
     public Classified findOne( Integer id ) {
+        Connection con = null;
+        ResultSet rs = null;
+        PreparedStatement stmt = null;
+
+        String str = "SELECT cl.id, cl.title, cl.content, cl.company_id, cl.category_id  FROM classifieds AS cl WHERE cl.id=?";
+
+        try {
+            con = DatabaseConnection.getConnection();
+
+            stmt = con.prepareStatement(str);
+            stmt.setInt(1, id);
+
+            rs = stmt.executeQuery();
+
+            if  (rs.next()) {
+                return new Classified(
+                        rs.getInt("id"),
+                        rs.getString("title"),
+                        rs.getString("content"),
+                        rs.getString("company_id"),
+                        rs.getInt("category_id"));
+            }
+
+        } catch ( SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                stmt.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+
         return null;
     }
 
@@ -24,17 +60,102 @@ public class ClassifiedDao implements CrudDao <Classified, Integer> {
 
     @Override
     public boolean save( Classified obj ) {
-        return false;
+
+        Connection con = null;
+        PreparedStatement stmt = null;
+
+        String str = "INSERT INTO classifieds(title,content,company_id,category_id) VALUES (?,?,?,?)";
+
+        try {
+            con = DatabaseConnection.getConnection();
+
+            stmt = con.prepareStatement(str);
+            stmt.setString(1, obj.getTitle());
+            stmt.setString(2, obj.getContent());
+            stmt.setString(3, obj.getCompanyId());
+            stmt.setInt(4, obj.getCategoryId());
+
+            stmt.executeUpdate();
+
+        } catch ( SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                stmt.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        return true;
     }
 
     @Override
     public boolean update( Classified obj ) {
-        return false;
+        Connection con = null;
+        PreparedStatement stmt = null;
+
+        String str = "UPDATE classifieds SET title=?, content=?, company_id=?, category_id=? WHERE id=?";
+
+        try {
+            con = DatabaseConnection.getConnection();
+
+            stmt = con.prepareStatement(str);
+            stmt.setString(1, obj.getTitle());
+            stmt.setString(2, obj.getContent());
+            stmt.setString(3, obj.getCompanyId());
+            stmt.setInt(4, obj.getCategoryId());
+            stmt.setInt(5, obj.getId());
+
+            stmt.executeUpdate();
+
+            return true;
+
+        } catch ( SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                stmt.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
     public boolean delete( Integer id ) {
-        return false;
+        Connection con = null;
+        PreparedStatement stmt = null;
+
+        String str = "DELETE FROM classifieds WHERE id=?";
+
+        try {
+            con = DatabaseConnection.getConnection();
+
+            stmt = con.prepareStatement(str);
+            stmt.setInt(1, id);
+
+            stmt.executeUpdate();
+
+            return true;
+
+        } catch ( SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                stmt.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
     @Override
@@ -43,7 +164,7 @@ public class ClassifiedDao implements CrudDao <Classified, Integer> {
     }
 
     public List<Classified> findAllByCompany( String companyId) {
-        List<Classified> courses = new ArrayList<>();
+        List<Classified> classifieds = new ArrayList<>();
 
         Connection con = null;
         ResultSet rs = null;
@@ -65,7 +186,7 @@ public class ClassifiedDao implements CrudDao <Classified, Integer> {
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                courses.add(new Classified(
+                classifieds.add(new Classified(
                         rs.getInt("id"),
                         rs.getString("title"),
                         rs.getString("content"),
@@ -86,6 +207,6 @@ public class ClassifiedDao implements CrudDao <Classified, Integer> {
 
         }
 
-        return courses;
+        return classifieds;
     }
 }

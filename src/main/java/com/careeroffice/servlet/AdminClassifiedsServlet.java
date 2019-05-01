@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet({"/AdminServlet", "/admin"})
-public class AdminServlet extends HttpServlet {
+@WebServlet({"/AdminClassifiedsServlet", "/adminclassifieds"})
+public class AdminClassifiedsServlet extends HttpServlet {
     /**
      * Java related serial version UID.
      */
@@ -19,7 +19,7 @@ public class AdminServlet extends HttpServlet {
     /**
      * Handles all GET requests.
      */
-    protected void doGet( HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         AuthService authService = new AuthService(request.getSession());
@@ -34,7 +34,7 @@ public class AdminServlet extends HttpServlet {
             return;
         }
 
-        request.getRequestDispatcher("WEB-INF/views/admin/index.jsp").forward(request, response);
+        request.getRequestDispatcher("WEB-INF/views/admin/classifieds.jsp").forward(request, response);
 
     }
 

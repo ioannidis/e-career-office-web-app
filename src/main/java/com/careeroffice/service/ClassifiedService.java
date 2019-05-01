@@ -9,13 +9,29 @@ import java.util.List;
 
 public class ClassifiedService  implements IPersistenceService<Classified> {
 
-    ClassifiedDao classifiedDao = (ClassifiedDao) DaoFactory.getDao(DaoEnum.ClassifieldDao);
+    ClassifiedDao classifiedDao = (ClassifiedDao) DaoFactory.getDao(DaoEnum.ClassifiedDao);
 
     public ClassifiedService() {
     }
 
     public List<Classified> findAllByCompany(String companyId) {
         return classifiedDao.findAllByCompany(companyId);
+    }
+
+    public Classified findOne(Integer id) {
+        return classifiedDao.findOne(id);
+    }
+
+    public boolean save(Classified obj) {
+        return classifiedDao.save(obj);
+    }
+
+    public boolean update(Classified obj) {
+        return classifiedDao.update(obj);
+    }
+
+    public boolean delete(Integer id) {
+        return classifiedDao.delete(id);
     }
 
 }

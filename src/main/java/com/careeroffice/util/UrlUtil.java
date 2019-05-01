@@ -15,4 +15,16 @@ public class UrlUtil {
     public static String  getParameterOrDefault( HttpServletRequest request, String name, String def) {
         return request.getParameter(name) == null ? def : request.getParameter(name);
     }
+
+    /**
+     * Returns a default value if the parameter on the request is null.
+     *
+     * @param request The current request.
+     * @param name The name of the parameter to fetch.
+     * @param def The default value to return if the parameter is null.
+     * @return A default value or the parameter.
+     */
+    public static Integer  getParameterOrDefault( HttpServletRequest request, String name, Integer def) {
+        return request.getParameter(name) == null ? def : Integer.parseInt(request.getParameter(name));
+    }
 }

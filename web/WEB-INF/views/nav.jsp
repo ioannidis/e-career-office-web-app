@@ -20,7 +20,7 @@
 	        </c:if>
 
 			<c:if test="${ user.roleId=='admin' }">
-			  <%--<c:import url="/WEB-INF/views/nav-admin.jsp"></c:import>--%>
+			    <c:import url="/WEB-INF/views/nav-admin.jsp"></c:import>
 			</c:if>
 
 	        <c:if test="${ user.roleId=='external' }">

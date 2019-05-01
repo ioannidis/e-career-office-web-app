@@ -15,6 +15,13 @@ public class Classified {
     public Classified() {
     }
 
+    public Classified( String title, String content, String companyId, int categoryId ) {
+        this.title = title;
+        this.content = content;
+        this.companyId = companyId;
+        this.categoryId = categoryId;
+    }
+
     public Classified( int id, String title, String content, String companyId, int categoryId ) {
         this.id = id;
         this.title = title;
