@@ -111,6 +111,55 @@ public class UserDao implements CrudDao<User, String> {
         return null;
     }
 
+    public List<User> findStudents() {
+        Connection con = null;
+        ResultSet rs = null;
+        PreparedStatement stmt = null;
+
+        String str = "SELECT users.username, password, first_name, last_name, " +
+                "phone_number, email, role_id, uc.company_id, ud.department_id " +
+                "FROM users " +
+                "LEFT JOIN user_company uc ON users.username = uc.username " +
+                "LEFT JOIN user_department ud on users.username = ud.username "+
+                "WHERE users.role_id = 'u_student' OR users.role_id = 'p_student' ";
+
+        try {
+            con = DatabaseConnection.getConnection();
+            stmt = con.prepareStatement(str);
+            rs = stmt.executeQuery();
+
+            List<User> users = new ArrayList<>();
+
+            while (rs.next()) {
+                users.add(new User(
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("first_name"),
+                        rs.getString("last_name"),
+                        rs.getString("phone_number"),
+                        rs.getString("email"),
+                        rs.getString("role_id"),
+                        rs.getString("company_id"),
+                        rs.getString("department_id")
+                ));
+            }
+
+            return users;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                stmt.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null;
+    }
+
     @Override
     public boolean save(User obj) {
         Connection con = null;

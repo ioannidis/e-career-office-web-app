@@ -43,23 +43,25 @@
                             <th>Phone Number</th>
                             <th>Email</th>
                             <th>Role</th>
+                            <th>Skills</th>
+                            <th>Actions</th>
 
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${users}" var="user">
+                        <c:forEach items="${users}" var="users">
                             <tr>
-                                <td><c:out value="${user.username}" /></td>
-                                <td><c:out value="${user.first_name}" /></td>
-                                <td><c:out value="${user.last_name}" /></td>
-                                <td><c:out value="${user.phone_number}" /></td>
-                                <td><c:out value="${user.email}" /></td>
-                                <td><c:out value="${user.role_id}" /></td>
-                                <td><c:out value="${user_department[user.username].department_id}" /></td>
-                                <td><c:out value="${keyword_cv[cvs[user.username].username].keyword_id}" /></td>
+                                <td><c:out value="${users.username}" /></td>
+                                <td><c:out value="${users.name}" /></td>
+                                <td><c:out value="${users.surname}" /></td>
+                                <td><c:out value="${users.phoneNumber}" /></td>
+                                <td><c:out value="${users.email}" /></td>
+                                <td><c:out value="${users.roleId}" /></td>
+                                <td></td>
+
                                 <td>
-                                    <a class="btn btn-primary" href="adminstudents?id=${user.id}&action=show"><i class="fas fa-external-link-alt" style="margin-right:8px"></i>Show</a>
-                                    <a class="btn btn-primary" href="adminclassifieds?id=${user.id}&action=assign"><i class="fas fa-external-link-alt" style="margin-right:8px"></i>Assign</a>
+                                    <a class="btn btn-group" href="adminclassifieds?skills=?"><i class="fas fa-external-link-alt" style="margin-right:8px"></i>Assign Job</a>
+
                                 </td>
                             </tr>
                         </c:forEach>
