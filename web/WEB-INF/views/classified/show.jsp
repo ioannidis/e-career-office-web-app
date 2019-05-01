@@ -49,7 +49,7 @@
                         </tr>
                         <tr>
                             <td><b>Category</b></td>
-                            <td><c:out value="${classified.categoryId}" /></td>
+                            <td><c:out value="${category.title}" /></td>
                         </tr>
                         <tr>
                             <td><b>Keywords</b></td>

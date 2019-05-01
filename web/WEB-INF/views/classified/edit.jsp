@@ -47,8 +47,14 @@
                         <input type="text" class="form-control"  name="companyId" id="companyId" value="${classified.companyId}" disabled />
                     </div>
                     <div class="form-group">
-                        <label for="categoryId"><strong>Categoty</strong></label>
-                        <input type="text" class="form-control"  name="categoryId" id="categoryId" value="${classified.categoryId}" required />
+                        <label for="categoryId"><strong>Category</strong></label>
+                        <select class="form-control" name="categoryId" id="categoryId" required>
+                            <c:forEach items="${ categories }" var="category">
+                                <option value="<c:out value="${ category.id }"/>" <c:if test="${category.id == classified.categoryId}">selected</c:if> >
+                                    <c:out value="${ category.title}" />
+                                </option>
+                            </c:forEach>
+                        </select>
                     </div>
                     <%--<div class="form-group">--%>
                         <%--<label for="teachingInstructor"><strong>Select Instructor</strong></label>--%>
@@ -61,8 +67,8 @@
                         <%--</select>--%>
                     <%--</div>--%>
                     <br />
-                    <button type="submit" class="btn btn-success"><i class="far fa-save" style="margin-right:8px"></i>Update</button>
                     <a href="externalclassifieds" class="btn btn-warning"><i class="fas fa-caret-left" style="margin-right:8px"></i>Cancel</a>
+                    <button type="submit" class="btn btn-success"><i class="far fa-save" style="margin-right:8px"></i>Update</button>
                 </form>
             </div>
         </div>

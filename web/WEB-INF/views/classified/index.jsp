@@ -50,7 +50,7 @@
                                 <td><c:out value="${classified.id}" /></td>
                                 <td><c:out value="${classified.title}" /></td>
                                 <td><c:out value="${classified.companyId}" /></td>
-                                <td><c:out value="${classified.categoryId}" /></td>
+                                <td><c:out value="${categories[classified.categoryId].title}" /></td>
                                 <td>
                                     <a class="btn btn-primary" href="externalclassifieds?id=${classified.id}&action=show"><i class="fas fa-external-link-alt" style="margin-right:8px"></i>Show</a>
                                     <a class="btn btn-warning" href="externalclassifieds?id=${classified.id}&action=edit"><i class="far fa-edit" style="margin-right:8px"></i>Edit</a>

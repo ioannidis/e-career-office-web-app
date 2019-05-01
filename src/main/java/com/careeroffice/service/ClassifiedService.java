@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ClassifiedService  implements IPersistenceService<Classified> {
 
-    ClassifiedDao classifiedDao = (ClassifiedDao) DaoFactory.getDao(DaoEnum.ClassifieldDao);
+    ClassifiedDao classifiedDao = (ClassifiedDao) DaoFactory.getDao(DaoEnum.ClassifiedDao);
 
     public ClassifiedService() {
     }

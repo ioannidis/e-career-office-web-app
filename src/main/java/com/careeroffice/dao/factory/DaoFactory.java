@@ -1,5 +1,6 @@
 package com.careeroffice.dao.factory;
 
+import com.careeroffice.dao.CategoryDao;
 import com.careeroffice.dao.ClassifiedDao;
 import com.careeroffice.dao.CrudDao;
 import com.careeroffice.dao.UserDao;
@@ -18,8 +19,12 @@ public class DaoFactory {
                     dao.put( daoEnum.toString(), new UserDao() );
                     break;
                 }
-                case ClassifieldDao: {
+                case ClassifiedDao: {
                     dao.put( daoEnum.toString(), new ClassifiedDao() );
+                    break;
+                }
+                case CategoryDao: {
+                    dao.put( daoEnum.toString(), new CategoryDao() );
                     break;
                 }
                 default:

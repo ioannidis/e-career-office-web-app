@@ -29,6 +29,10 @@ public class ServiceFactory {
                     serviceCache.put( serviceEnum.toString(), new ClassifiedService() );
                     break;
                 }
+                case CategoryService: {
+                    serviceCache.put( serviceEnum.toString(), new CategoryService() );
+                    break;
+                }
                 default:
                     // TODO: Throw exception
                     break;
