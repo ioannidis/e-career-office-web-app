@@ -1,4 +1,32 @@
 package com.careeroffice.servlet;
 
-public class SuperAdminDeleteUserServlet {
+import com.careeroffice.service.UserService;
+import com.careeroffice.service.factory.ServiceEnum;
+import com.careeroffice.service.factory.ServiceFactory;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@WebServlet({"/delete_user"})
+public class SuperAdminDeleteUserServlet extends HttpServlet {
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String username = request.getParameter("id");
+        UserService userService = (UserService) ServiceFactory.getService(ServiceEnum.UserService);
+
+        request.setAttribute("user", userService.findOne(username));
+
+        request.getRequestDispatcher("WEB-INF/views/super_admin/delete_user.jsp").forward(request, response);
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+    }
 }

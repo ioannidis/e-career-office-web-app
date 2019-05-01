@@ -6,56 +6,80 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<h2>Edit: <c:out value="${user.fullName}" /></h2>
+<h2>Edit: ${user.fullName}</h2>
 <p><a href="<c:url value="/manage_users"/>"><< Back</a></p>
 <hr>
 <form action="<c:url value="/edit_user?id=${user.username}"/>" method="POST">
     <p>
         <strong><label for="username">Username</label></strong>
         <br>
-        <input type="text" name="username" id="username" value="<c:out value="${user.username}" />" required>
+        <input type="text" name="username" id="username" value="${user.username}" required>
     </p>
 
     <p>
         <strong><label for="first_name">First Name</label></strong>
         <br>
-        <input type="text" name="first_name" id="first_name" value="<c:out value="${user.name}" />" required>
+        <input type="text" name="first_name" id="first_name" value="${user.name}" required>
     </p>
 
     <p>
         <strong><label for="last_name">Last Name</label></strong>
         <br>
-        <input type="text" name="last_name" id="last_name" value="<c:out value="${user.surname}" />" required>
+        <input type="text" name="last_name" id="last_name" value="${user.surname}" required>
     </p>
 
     <p>
         <strong><label for="phone_number">Phone Number</label></strong>
         <br>
-        <input type="text" name="phone_number" id="phone_number" value="<c:out value="${user.phoneNumber}" />" required>
+        <input type="text" name="phone_number" id="phone_number" value="${user.phoneNumber}" required>
     </p>
 
     <p>
         <strong><label for="email">Email</label></strong>
         <br>
-        <input type="email" name="email" id="email" value="<c:out value="${user.email}" />" required>
+        <input type="email" name="email" id="email" value="${user.email}" required>
     </p>
 
     <p>
         <strong><label for="role">Role</label></strong>
         <br>
-        <input type="text" name="role" id="role" value="<c:out value="${user.role.title}" />" required>
+        <select name="role" id="role">
+            <c:forEach items="${roles}" var="role">
+                <option value="${role.id}">${role.title}</option>
+            </c:forEach>
+        </select>
     </p>
 
     <p>
-        <strong><label for="role">Company</label></strong>
+        <strong><label for="company">Company</label></strong>
         <br>
-        <input type="text" name="company" id="company" value="<c:out value="${user.company.title}" />" required>
+        <select name="company" id="company"  ${user.hasExternalRole() ? "" : "disabled"}>
+            <option value="nothing" <c:if test="${user.company == null}">selected</c:if>>-</option>
+
+            <c:forEach items="${companies}" var="company">
+
+                <option value="<c:out value="${company.id}" />" ${company.id == user.companyId ? "selected" : ""}>
+                    ${company.title}
+                </option>
+
+            </c:forEach>
+        </select>
     </p>
 
     <p>
         <strong><label for="department">Department</label></strong>
         <br>
-        <input type="text" name="department" id="department" value="<c:out value="${user.department.title}" />" required>
+        <select name="department" id="department">
+            <option value="nothing" <c:if test="${user.department == null}">selected</c:if>>-</option>
+
+            <c:forEach items="${departments}" var="department">
+
+                <option value="${department.id}" ${department.id == user.departmentId ? "selected" : ""}>
+                    ${department.title}
+                </option>
+
+            </c:forEach>
+        </select>
     </p>
 
     <input type="submit" value="Save Changes">

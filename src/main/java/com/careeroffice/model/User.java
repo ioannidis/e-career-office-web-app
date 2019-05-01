@@ -210,6 +210,10 @@ public class User {
         this.role = role;
     }
 
+    public boolean hasExternalRole() {
+        return roleId.equals(Role.External);
+    }
+
     /**
      * Returns the full name of the user.
      *
