@@ -1,9 +1,10 @@
 package com.careeroffice.dao;
 
-import com.careeroffice.database.DatabaseConnection;
+import com.careeroffice.database.Queries;
+import com.careeroffice.database.QueryCallback;
+import com.careeroffice.database.QueryParamCallback;
 import com.careeroffice.model.Company;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,86 +15,53 @@ public class CompanyDao implements CrudDao<Company, String> {
 
     @Override
     public Company findOne(String id) {
-        Connection con = null;
-        ResultSet rs = null;
-        PreparedStatement stmt = null;
 
-        String str = "SELECT * FROM companies WHERE id=?";
-
-        try {
-            con = DatabaseConnection.getConnection();
-
-            stmt = con.prepareStatement(str);
-            stmt.setString(1, id);
-
-            rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                return new Company(
-                        rs.getString("id"),
-                        rs.getString("title"),
-                        rs.getString("address"),
-                        rs.getString("phone_number"),
-                        rs.getString("email"),
-                        rs.getString("website")
-                );
+        return Queries.execute("SELECT * FROM companies WHERE id=?", new QueryParamCallback() {
+            @Override
+            public void setParameters(PreparedStatement statement) throws SQLException {
+                statement.setString(1, id);
             }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                rs.close();
-                stmt.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            @Override
+            public Object fetch(ResultSet resultSet) throws SQLException {
+                if (resultSet.next()) {
+                    return new Company(
+                            resultSet.getString("id"),
+                            resultSet.getString("title"),
+                            resultSet.getString("address"),
+                            resultSet.getString("phone_number"),
+                            resultSet.getString("email"),
+                            resultSet.getString("website")
+                    );
+                } else {
+                    return null;
+                }
             }
-        }
-
-        return null;
+        });
     }
 
     @Override
     public List<Company> findAll() {
-        Connection con = null;
-        ResultSet rs = null;
-        PreparedStatement stmt = null;
 
-        String str = "SELECT * FROM companies";
+        return Queries.execute("SELECT * FROM companies", new QueryCallback() {
+            @Override
+            public Object fetch(ResultSet resultSet) throws SQLException {
+                List<Company> companies = new ArrayList<>();
 
-        try {
-            con = DatabaseConnection.getConnection();
-            stmt = con.prepareStatement(str);
-            rs = stmt.executeQuery();
+                while (resultSet.next()) {
+                    companies.add(new Company(
+                            resultSet.getString("id"),
+                            resultSet.getString("title"),
+                            resultSet.getString("address"),
+                            resultSet.getString("phone_number"),
+                            resultSet.getString("email"),
+                            resultSet.getString("website")
+                    ));
+                }
 
-            List<Company> companies = new ArrayList<>();
-
-            while (rs.next()) {
-                companies.add(new Company(
-                        rs.getString("id"),
-                        rs.getString("title"),
-                        rs.getString("address"),
-                        rs.getString("phone_number"),
-                        rs.getString("email"),
-                        rs.getString("website")
-                ));
+                return companies;
             }
-
-            return companies;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                rs.close();
-                stmt.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return null;
+        });
     }
 
     @Override
@@ -113,32 +81,16 @@ public class CompanyDao implements CrudDao<Company, String> {
 
     @Override
     public int count() {
-        Connection con = null;
-        ResultSet rs = null;
-        PreparedStatement stmt = null;
 
-        String str = "SELECT COUNT(*) FROM companies";
-
-        try {
-            con = DatabaseConnection.getConnection();
-            stmt = con.prepareStatement(str);
-            rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                return rs.getInt(1);
+        return Queries.execute("SELECT COUNT(*) FROM companies", new QueryCallback() {
+            @Override
+            public Object fetch(ResultSet resultSet) throws SQLException {
+                if (resultSet.next()) {
+                    return resultSet.getInt(1);
+                } else {
+                    return 0;
+                }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                rs.close();
-                stmt.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return 0;
+        });
     }
 }

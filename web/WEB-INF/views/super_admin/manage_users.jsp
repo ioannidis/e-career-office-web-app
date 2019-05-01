@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Manage Users - Super Admin</title>
+    <title>Super Admin | Manage Users</title>
     <meta charset="UTF-8">
 </head>
 <body>
@@ -42,7 +42,9 @@
             <td><c:out value="${otherUser.company.title}" default="-" /></td>
             <td><c:out value="${otherUser.department.title}" default="-" /></td>
             <td>
-                <a href="#">Edit</a> / <a href="#">Delete</a>
+                <a href="<c:url value="/edit_user?id=${otherUser.username}"/>">Edit</a>
+                /
+                <a href="#">Delete</a>
             </td>
         </tr>
     </c:forEach>

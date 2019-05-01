@@ -15,7 +15,7 @@ public class RoleDao implements CrudDao<Role, String> {
     @Override
     public Role findOne(String id) {
 
-        return (Role) Queries.execute("SELECT * FROM roles WHERE id=?", new QueryParamCallback() {
+        return Queries.execute("SELECT * FROM roles WHERE id=?", new QueryParamCallback() {
             @Override
             public void setParameters(PreparedStatement statement) throws SQLException {
                 statement.setString(1, id);
@@ -37,7 +37,7 @@ public class RoleDao implements CrudDao<Role, String> {
     @Override
     public List<Role> findAll() {
 
-        return (List<Role>) Queries.execute("SELECT * FROM roles", new QueryCallback() {
+        return Queries.execute("SELECT * FROM roles", new QueryCallback() {
             @Override
             public Object fetch(ResultSet resultSet) throws SQLException {
                 List<Role> roles = new ArrayList<>();
@@ -71,7 +71,7 @@ public class RoleDao implements CrudDao<Role, String> {
 
     @Override
     public int count() {
-        return (int) Queries.execute("SELECT COUNT(*) FROM roles", new QueryCallback() {
+        return Queries.execute("SELECT COUNT(*) FROM roles", new QueryCallback() {
             @Override
             public Object fetch(ResultSet resultSet) throws SQLException {
                 if (resultSet.next()) {

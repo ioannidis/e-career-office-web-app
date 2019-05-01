@@ -6,14 +6,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public final class Queries {
-    public static Object execute(String query, QueryCallback callback) {
+    public static <T> T execute(String query, QueryCallback callback) {
         Connection con = null;
         ResultSet rs = null;
         PreparedStatement stmt = null;
 
         try {
             con = DatabaseConnection.getConnection();
-
             stmt = con.prepareStatement(query);
 
             if (callback instanceof QueryParamCallback) {
@@ -23,7 +22,7 @@ public final class Queries {
 
             rs = stmt.executeQuery();
 
-            return callback.fetch(rs);
+            return (T) callback.fetch(rs);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

@@ -1,9 +1,10 @@
 package com.careeroffice.dao;
 
-import com.careeroffice.database.DatabaseConnection;
+import com.careeroffice.database.Queries;
+import com.careeroffice.database.QueryCallback;
+import com.careeroffice.database.QueryParamCallback;
 import com.careeroffice.model.Department;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,78 +14,45 @@ import java.util.List;
 public class DepartmentDao implements CrudDao<Department, String> {
     @Override
     public Department findOne(String id) {
-        Connection con = null;
-        ResultSet rs = null;
-        PreparedStatement stmt = null;
 
-        String str = "SELECT * FROM departments WHERE id=?";
-
-        try {
-            con = DatabaseConnection.getConnection();
-
-            stmt = con.prepareStatement(str);
-            stmt.setString(1, id);
-
-            rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                return new Department(
-                        rs.getString("id"),
-                        rs.getString("title")
-                );
+        return Queries.execute("SELECT * FROM departments WHERE id=?", new QueryParamCallback() {
+            @Override
+            public void setParameters(PreparedStatement statement) throws SQLException {
+                statement.setString(1, id);
             }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                rs.close();
-                stmt.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            @Override
+            public Object fetch(ResultSet resultSet) throws SQLException {
+                if (resultSet.next()) {
+                    return new Department(
+                            resultSet.getString("id"),
+                            resultSet.getString("title")
+                    );
+                } else {
+                    return null;
+                }
             }
-        }
-
-        return null;
+        });
     }
 
     @Override
     public List<Department> findAll() {
-        Connection con = null;
-        ResultSet rs = null;
-        PreparedStatement stmt = null;
 
-        String str = "SELECT * FROM departments";
+        return Queries.execute("SELECT * FROM departments", new QueryCallback() {
+            @Override
+            public Object fetch(ResultSet resultSet) throws SQLException {
+                List<Department> departments = new ArrayList<>();
 
-        try {
-            con = DatabaseConnection.getConnection();
-            stmt = con.prepareStatement(str);
-            rs = stmt.executeQuery();
+                while (resultSet.next()) {
+                    departments.add(new Department(
+                            resultSet.getString("id"),
+                            resultSet.getString("title")
+                    ));
+                }
 
-            List<Department> departments = new ArrayList<>();
-
-            while (rs.next()) {
-                departments.add(new Department(
-                        rs.getString("id"),
-                        rs.getString("title")
-                ));
+                return departments;
             }
-
-            return departments;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                rs.close();
-                stmt.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return null;
+        });
     }
 
     @Override
@@ -104,32 +72,16 @@ public class DepartmentDao implements CrudDao<Department, String> {
 
     @Override
     public int count() {
-        Connection con = null;
-        ResultSet rs = null;
-        PreparedStatement stmt = null;
 
-        String str = "SELECT COUNT(*) FROM departments";
-
-        try {
-            con = DatabaseConnection.getConnection();
-            stmt = con.prepareStatement(str);
-            rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                return rs.getInt(1);
+        return Queries.execute("SELECT COUNT(*) FROM departments", new QueryCallback() {
+            @Override
+            public Object fetch(ResultSet resultSet) throws SQLException {
+                if (resultSet.next()) {
+                    return resultSet.getInt(1);
+                } else {
+                    return 0;
+                }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                rs.close();
-                stmt.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return 0;
+        });
     }
 }
