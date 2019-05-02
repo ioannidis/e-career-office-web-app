@@ -41,7 +41,6 @@ public class User {
     // Relationships
     private UserCompany userCompany;
     private UserDepartment userDepartment;
-    private CV cv;
 
     /**
      * Creates a new User.
@@ -227,14 +226,6 @@ public class User {
 
     public void setUserDepartment(UserDepartment userDepartment) {
         this.userDepartment = userDepartment;
-    }
-
-    public CV getCv() {
-        return cv;
-    }
-
-    public void setCv(CV cv) {
-        this.cv = cv;
     }
 
     /**
