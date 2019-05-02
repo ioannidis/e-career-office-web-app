@@ -1,8 +1,10 @@
 package com.careeroffice.servlet;
 
-import java.io.File;
-import java.io.IOException;
+import com.careeroffice.model.User;
+
+import java.io.*;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
@@ -26,8 +28,29 @@ public class StudentDownloadCv extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String filePath = SAVE_DIR + File.separator + "test.pdf";
-        response.setHeader("Content-Disposition", "attachment; filename="+filePath+";");
+        // Gets username
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        String username = user.getUsername();
+
+        String filePath = SAVE_DIR + File.separator + username + ".pdf";
+
+
+        byte[] outputBytes = loadFile(filePath);
+
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Cache-control", "private");
+        response.setDateHeader("Expires", 0);
+        response.setContentType("application/pdf");
+        response.setHeader("Content-Disposition", "attachment; filename=\"test.pdf\"");
+
+        if (outputBytes != null) {
+            response.setContentLength(outputBytes.length);
+            ServletOutputStream out = response.getOutputStream();
+            out.write(outputBytes);
+            out.flush();
+            out.close();
+        }
 
     }
 
@@ -37,8 +60,42 @@ public class StudentDownloadCv extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String filePath = request.getServletContext().getRealPath("") + File.separator + "uploadFiles" + "test.pdf";
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        String username = user.getUsername();
+
+        String filePath = SAVE_DIR + File.separator + username + ".pdf";
         response.setHeader("Content-Disposition", "attachment; filename="+filePath+";");
 
+    }
+
+    private static byte[] loadFile(String sourcePath) throws IOException
+    {
+        InputStream inputStream = null;
+        try
+        {
+            inputStream = new FileInputStream(sourcePath);
+            return readFully(inputStream);
+        }
+        finally
+        {
+            if (inputStream != null)
+            {
+                inputStream.close();
+            }
+        }
+    }
+
+    private static byte[] readFully(InputStream stream) throws IOException
+    {
+        byte[] buffer = new byte[8192];
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        int bytesRead;
+        while ((bytesRead = stream.read(buffer)) != -1)
+        {
+            baos.write(buffer, 0, bytesRead);
+        }
+        return baos.toByteArray();
     }
 }
