@@ -15,3 +15,6 @@
 
 <!-- Core plugin JavaScript-->
 <script src="<c:url value="/assets/js/jquery.easing.min.js"/>"></script>
+
+<%--&lt;%&ndash;Keywords Dynamic Tabs ! Na allaxoun se local----%>
+<script src="https://cdn.jsdelivr.net/bootstrap.tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>

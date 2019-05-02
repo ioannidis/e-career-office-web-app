@@ -7,6 +7,7 @@ public enum DaoEnum {
     RoleDao,
     CompanyDao,
     DepartmentDao,
+    CvDao,
     UserCompanyDao,
     UserDepartmentDao,
 }

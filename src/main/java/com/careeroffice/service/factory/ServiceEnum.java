@@ -10,6 +10,7 @@ public enum ServiceEnum {
     CompanyService,
     DepartmentService,
     CategoryService,
+    CvService,
     UserCompanyService,
     UserDepartmentService,
 }
