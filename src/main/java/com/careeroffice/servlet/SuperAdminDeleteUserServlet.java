@@ -13,12 +13,12 @@ import java.io.IOException;
 
 @WebServlet({"/delete_user"})
 public class SuperAdminDeleteUserServlet extends HttpServlet {
+    private static final UserService userService = (UserService) ServiceFactory.getService(ServiceEnum.UserService);
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         String username = request.getParameter("id");
-        UserService userService = (UserService) ServiceFactory.getService(ServiceEnum.UserService);
 
         request.setAttribute("user", userService.findOne(username));
 
@@ -27,6 +27,8 @@ public class SuperAdminDeleteUserServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        String username = request.getParameter("id");
+        userService.delete(username);
+        response.sendRedirect("/manage_users");
     }
 }

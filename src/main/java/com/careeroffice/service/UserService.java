@@ -56,6 +56,10 @@ public class UserService implements IPersistenceService<User> {
         userDao.save(user);
     }
 
+    public boolean delete(String id) {
+        return userDao.delete(id);
+    }
+
     public int count() {
         return userDao.count();
     }

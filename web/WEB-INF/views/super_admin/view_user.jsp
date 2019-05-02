@@ -7,7 +7,14 @@
 </head>
 <body>
 <h2>View: ${user.fullName}</h2>
-<p><a href="<c:url value="/manage_users"/>"><< Back</a></p>
+<p>
+    <a href="<c:url value="/edit_user?id=${user.username}"/>">Edit</a>
+    /
+    <a href="<c:url value="/delete_user?id=${user.username}"/>">Delete</a>
+</p>
+<p>
+    <a href="<c:url value="/manage_users"/>"><< Back</a>
+</p>
 <hr>
 <h4>Username</h4>
 <p>${user.username}</p>
