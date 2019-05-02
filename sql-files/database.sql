@@ -1,4 +1,4 @@
-create database if not exists career_office_test;
+create database if not exists career_office;
 
 create table if not exists roles
 (
