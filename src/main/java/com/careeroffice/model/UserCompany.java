@@ -4,6 +4,7 @@ public class UserCompany {
 
     private String username;
     private String companyId;
+    private Company company;
 
     public UserCompany(String username, String companyId) {
         this.username = username;
@@ -24,5 +25,13 @@ public class UserCompany {
 
     public void setCompanyId(String companyId) {
         this.companyId = companyId;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
 }

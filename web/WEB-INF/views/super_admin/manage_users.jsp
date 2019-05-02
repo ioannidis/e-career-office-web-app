@@ -39,8 +39,8 @@
             <td><c:out value="${otherUser.phoneNumber}" default="-" /></td>
             <td><c:out value="${otherUser.email}" default="-" /></td>
             <td><c:out value="${otherUser.role.title}" default="-" /></td>
-            <td><c:out value="${otherUser.company.title}" default="-" /></td>
-            <td><c:out value="${otherUser.department.title}" default="-" /></td>
+            <td><c:out value="${otherUser.userCompany.company.title}" default="-" /></td>
+            <td><c:out value="${otherUser.userDepartment.department.title}" default="-" /></td>
             <td>
                 <a href="<c:url value="/view_user?id=${otherUser.username}"/>">View</a>
                 /

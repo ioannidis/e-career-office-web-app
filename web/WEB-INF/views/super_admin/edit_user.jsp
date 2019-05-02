@@ -54,11 +54,11 @@
         <strong><label for="company">Company</label></strong>
         <br>
         <select name="company" id="company"  ${user.hasExternalRole() ? "" : "disabled"}>
-            <option value="nothing" <c:if test="${user.company == null}">selected</c:if>>-</option>
+            <option value="nothing" <c:if test="${user.userCompany == null}">selected</c:if>>-</option>
 
             <c:forEach items="${companies}" var="company">
 
-                <option value="<c:out value="${company.id}" />" ${company.id == user.companyId ? "selected" : ""}>
+                <option value="<c:out value="${company.id}" />" ${company.id == user.userCompany.companyId ? "selected" : ""}>
                     ${company.title}
                 </option>
 
@@ -70,11 +70,11 @@
         <strong><label for="department">Department</label></strong>
         <br>
         <select name="department" id="department">
-            <option value="nothing" <c:if test="${user.department == null}">selected</c:if>>-</option>
+            <option value="nothing" <c:if test="${user.userDepartment == null}">selected</c:if>>-</option>
 
             <c:forEach items="${departments}" var="department">
 
-                <option value="${department.id}" ${department.id == user.departmentId ? "selected" : ""}>
+                <option value="${department.id}" ${department.id == user.userDepartment.departmentId ? "selected" : ""}>
                     ${department.title}
                 </option>
 

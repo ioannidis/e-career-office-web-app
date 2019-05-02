@@ -35,14 +35,12 @@ public class User {
      */
     private String email;
 
-    // Relationships
     private String roleId;
     private Role role;
-    private String companyId;
-    private Company company;
-    private String departmentId;
-    private Department department;
-    private String cvID;
+
+    // Relationships
+    private UserCompany userCompany;
+    private UserDepartment userDepartment;
     private CV cv;
 
     /**
@@ -55,10 +53,10 @@ public class User {
      * @param phoneNumber The phone number of the user.
      * @param email       The email of the user.
      * @param roleId      The role of the user.
-     */
+    }
+    **/
     public User(String username, String password, String name,
-                String surname, String phoneNumber, String email, String roleId,
-                String companyId, String departmentId) {
+                String surname, String phoneNumber, String email, String roleId) {
         this.username = username;
         this.password = password;
         this.name = name;
@@ -66,13 +64,6 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.roleId = roleId;
-        this.companyId = companyId;
-        this.departmentId = departmentId;
-    }
-
-    public User(String username, String password, String name,
-                String surname, String phoneNumber, String email, String roleId) {
-        this(username, password, name, surname, phoneNumber, email, roleId, null, null);
     }
 
     /**
@@ -222,44 +213,20 @@ public class User {
         return roleId.equals(Role.External);
     }
 
-    public String getCompanyId() {
-        return companyId;
+    public UserCompany getUserCompany() {
+        return userCompany;
     }
 
-    public void setCompanyId(String companyId) {
-        this.companyId = companyId;
+    public void setUserCompany(UserCompany userCompany) {
+        this.userCompany = userCompany;
     }
 
-    public Company getCompany() {
-        return company;
+    public UserDepartment getUserDepartment() {
+        return userDepartment;
     }
 
-    public void setCompany(Company company) {
-        this.company = company;
-    }
-
-    public String getDepartmentId() {
-        return departmentId;
-    }
-
-    public void setDepartmentId(String departmentId) {
-        this.departmentId = departmentId;
-    }
-
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
-
-    public String getCvID() {
-        return cvID;
-    }
-
-    public void setCvID(String cvID) {
-        this.cvID = cvID;
+    public void setUserDepartment(UserDepartment userDepartment) {
+        this.userDepartment = userDepartment;
     }
 
     public CV getCv() {

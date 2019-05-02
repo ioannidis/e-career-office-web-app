@@ -4,6 +4,7 @@ public class UserDepartment {
 
     private String username;
     private String departmentId;
+    private Department department;
 
     public UserDepartment(String username, String departmentId) {
         this.username = username;
@@ -24,5 +25,13 @@ public class UserDepartment {
 
     public void setDepartmentId(String departmentId) {
         this.departmentId = departmentId;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 }

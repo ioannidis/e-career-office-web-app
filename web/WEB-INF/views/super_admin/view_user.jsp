@@ -31,14 +31,14 @@
 <h4>Role</h4>
 <p>${user.role.title}</p>
 
-<c:if test="${user.company != null}">
+<c:if test="${user.userCompany != null}">
     <h4>Company</h4>
-    <p>${user.company.title}</p>
+    <p>${user.userCompany.company.title}</p>
 </c:if>
 
-<c:if test="${user.department != null}">
+<c:if test="${user.userDepartment != null}">
     <h4>Department</h4>
-    <p>${user.department.title}</p>
+    <p>${user.userDepartment.department.title}</p>
 </c:if>
 </body>
 </html>

@@ -36,6 +36,14 @@ public class DaoFactory {
                     dao.put( daoEnum.toString(), new CategoryDao() );
                     break;
                 }
+                case UserCompanyDao: {
+                    dao.put( daoEnum.toString(), new UserCompanyDao() );
+                    break;
+                }
+                case UserDepartmentDao: {
+                    dao.put( daoEnum.toString(), new UserDepartmentDao() );
+                    break;
+                }
                 default:
                     //TODO: Throw exception
                     return null;

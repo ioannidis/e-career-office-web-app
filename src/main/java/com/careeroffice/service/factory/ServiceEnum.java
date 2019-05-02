@@ -9,5 +9,7 @@ public enum ServiceEnum {
     RoleService,
     CompanyService,
     DepartmentService,
-    CategoryService
+    CategoryService,
+    UserCompanyService,
+    UserDepartmentService,
 }
