@@ -55,8 +55,52 @@ public class ClassifiedDao implements CrudDao <Classified, Integer> {
 
     @Override
     public List<Classified> findAll() {
-        return null;
+
+        List<Classified> classifieds = new ArrayList<>();
+
+        Connection con = null;
+        ResultSet rs = null;
+        PreparedStatement stmt = null;
+
+        String str =
+                "SELECT cl.id, cl.title, cl.content, cl.company_id, cl.category_id "
+                        + "FROM classifieds AS cl "
+                        + "INNER JOIN companies AS co "
+                        + "ON cl.company_id = co.id ";
+
+        try {
+            con = DatabaseConnection.getConnection();
+
+            stmt = con.prepareStatement(str);
+
+
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                classifieds.add(new Classified(
+                        rs.getInt("id"),
+                        rs.getString("title"),
+                        rs.getString("content"),
+                        rs.getString("company_id"),
+                        rs.getInt("category_id")));
+            }
+
+        } catch ( SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                stmt.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        return classifieds;
     }
+
 
     @Override
     public boolean save( Classified obj ) {

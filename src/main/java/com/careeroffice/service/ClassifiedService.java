@@ -18,6 +18,10 @@ public class ClassifiedService  implements IPersistenceService<Classified> {
         return classifiedDao.findAllByCompany(companyId);
     }
 
+    public List<Classified> findAll() {
+        return classifiedDao.findAll();
+    }
+
     public Classified findOne(Integer id) {
         return classifiedDao.findOne(id);
     }

@@ -14,7 +14,9 @@
 
 <!-- Navigation -->
 <c:import url="/WEB-INF/views/nav.jsp"></c:import>
-
+<%
+    request.getAttribute("name");
+%>
 <div class="content-wrapper">
     <div class="container-fluid">
 
@@ -60,7 +62,7 @@
                                 <td></td>
 
                                 <td>
-                                    <a class="btn btn-group" href="adminclassifieds?skills=?"><i class="fas fa-external-link-alt" style="margin-right:8px"></i>Assign Job</a>
+                                    <a class="btn btn-primary" href="adminclassifieds?name=${users.name} ${users.surname}"><i class="fas fa-clipboard" style="margin-right:8px"></i>Assign Job</a>
 
                                 </td>
                             </tr>

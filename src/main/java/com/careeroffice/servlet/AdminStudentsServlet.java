@@ -37,6 +37,8 @@ public class AdminStudentsServlet extends HttpServlet {
             return;
         }
 
+
+
         List<User> students = userService.findStudents();
         request.setAttribute("users",students);
         request.getRequestDispatcher("WEB-INF/views/admin/students.jsp").forward(request, response);
