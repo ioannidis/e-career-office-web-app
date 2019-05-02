@@ -11,24 +11,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet({"/delete_user"})
-public class SuperAdminDeleteUserServlet extends HttpServlet {
-    private static final UserService userService = (UserService) ServiceFactory.getService(ServiceEnum.UserService);
+@WebServlet({"/view_user"})
+public class SuperAdminViewUserServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         String username = request.getParameter("id");
+        UserService userService = (UserService) ServiceFactory.getService(ServiceEnum.UserService);
 
         request.setAttribute("user", userService.findOne(username));
 
-        request.getRequestDispatcher("WEB-INF/views/super_admin/delete_user.jsp").forward(request, response);
-    }
-
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String username = request.getParameter("id");
-        userService.delete(username);
-        response.sendRedirect("/manage_users");
+        request.getRequestDispatcher("WEB-INF/views/super_admin/view_user.jsp").forward(request, response);
     }
 }

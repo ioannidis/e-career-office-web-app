@@ -23,7 +23,7 @@ public class DatabaseConnection {
     private static final String Panos_User = "root";
     private static final String Panos_Password = "123456";
 
-    private static final String Dionisis_URL = "jdbc:mysql://localhost:3306/career_office";
+    private static final String Dionisis_URL = "jdbc:mysql://localhost:3306/career_office?serverTimezone=Europe/Athens&useSSL=false";
     private static final String Dionisis_User = "root";
     private static final String Dionisis_Password = "123456";
 

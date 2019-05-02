@@ -46,8 +46,7 @@
                                 <td><c:out value="${classified.companyId}" /></td>
                                 <td><c:out value="${categories[classified.categoryId].title}" /></td>
                                 <td>
-                                    <a class="btn btn-primary" href="externalclassifieds?id=${classified.id}&action=show"><i class="fas fa-external-link-alt" style="margin-right:8px"></i>Show</a>
-                                    <a class="btn btn-primary" href="externalclassifieds?id=${classified.id}&action=assign"><i class="fas fa-external-link-alt" style="margin-right:8px"></i>Assign</a>
+                                    
                                 </td>
                             </tr>
                         </c:forEach>

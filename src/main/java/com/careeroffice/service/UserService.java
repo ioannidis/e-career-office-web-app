@@ -40,9 +40,24 @@ public class UserService implements IPersistenceService<User> {
         return users;
     }
 
-    public void save(String username, String password, String firstName, String lastName,
-                     String phone, String email, String role) {
-        userDao.save(new User(username, password, firstName, lastName, phone, email, role));
+    public List<User> findStudents() {
+        List<User> users = userDao.findStudents();
+
+        users.forEach(user -> {
+            user.setRole(roleDao.findOne(user.getRoleId()));
+            user.setCompany(companyDao.findOne(user.getCompanyId()));
+            user.setDepartment(departmentDao.findOne(user.getDepartmentId()));
+        });
+
+        return users;
+    }
+
+    public void save(User user) {
+        userDao.save(user);
+    }
+
+    public boolean delete(String id) {
+        return userDao.delete(id);
     }
 
     public int count() {

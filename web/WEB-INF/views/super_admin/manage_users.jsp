@@ -42,9 +42,11 @@
             <td><c:out value="${otherUser.company.title}" default="-" /></td>
             <td><c:out value="${otherUser.department.title}" default="-" /></td>
             <td>
+                <a href="<c:url value="/view_user?id=${otherUser.username}"/>">View</a>
+                /
                 <a href="<c:url value="/edit_user?id=${otherUser.username}"/>">Edit</a>
                 /
-                <a href="#">Delete</a>
+                <a href="<c:url value="/delete_user?id=${otherUser.username}"/>">Delete</a>
             </td>
         </tr>
     </c:forEach>
