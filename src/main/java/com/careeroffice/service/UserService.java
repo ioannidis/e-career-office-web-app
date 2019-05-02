@@ -52,9 +52,8 @@ public class UserService implements IPersistenceService<User> {
         return users;
     }
 
-    public void save(String username, String password, String firstName, String lastName,
-                     String phone, String email, String role) {
-        userDao.save(new User(username, password, firstName, lastName, phone, email, role));
+    public void save(User user) {
+        userDao.save(user);
     }
 
     public int count() {

@@ -35,16 +35,15 @@ public class User {
      */
     private String email;
 
-    /**
-     * The role of this user.
-     */
+    // Relationships
     private String roleId;
     private Role role;
-
     private String companyId;
     private Company company;
     private String departmentId;
     private Department department;
+    private String cvID;
+    private CV cv;
 
     /**
      * Creates a new User.
@@ -149,6 +148,15 @@ public class User {
     }
 
     /**
+     * Returns the full name of the user.
+     *
+     * @return The first and last name of the user combined.
+     */
+    public String getFullName() {
+        return name + " " + surname;
+    }
+
+    /**
      * Get the last name of this user.
      *
      * @return The last name of this user.
@@ -214,15 +222,6 @@ public class User {
         return roleId.equals(Role.External);
     }
 
-    /**
-     * Returns the full name of the user.
-     *
-     * @return The first and last name of the user combined.
-     */
-    public String getFullName() {
-        return name + " " + surname;
-    }
-
     public String getCompanyId() {
         return companyId;
     }
@@ -253,6 +252,22 @@ public class User {
 
     public void setDepartment(Department department) {
         this.department = department;
+    }
+
+    public String getCvID() {
+        return cvID;
+    }
+
+    public void setCvID(String cvID) {
+        this.cvID = cvID;
+    }
+
+    public CV getCv() {
+        return cv;
+    }
+
+    public void setCv(CV cv) {
+        this.cv = cv;
     }
 
     /**
