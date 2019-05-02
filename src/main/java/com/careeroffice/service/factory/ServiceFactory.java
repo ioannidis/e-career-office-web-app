@@ -1,6 +1,7 @@
 package com.careeroffice.service.factory;
 
 import com.careeroffice.service.*;
+import com.careeroffice.service.student.CvService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,11 +39,15 @@ public class ServiceFactory {
                     break;
                 }
                 case ClassifiedService: {
-                    serviceCache.put( serviceEnum.toString(), new ClassifiedService() );
+                    serviceCache.put(serviceEnum.toString(), new ClassifiedService() );
                     break;
                 }
                 case CategoryService: {
-                    serviceCache.put( serviceEnum.toString(), new CategoryService() );
+                    serviceCache.put(serviceEnum.toString(), new CategoryService() );
+                    break;
+                }
+                case CvService: {
+                    serviceCache.put(serviceEnum.toString(), new CvService() );
                     break;
                 }
                 default:

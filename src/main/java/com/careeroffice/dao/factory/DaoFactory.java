@@ -1,6 +1,8 @@
 package com.careeroffice.dao.factory;
 
 import com.careeroffice.dao.*;
+import com.careeroffice.dao.student.CvDao;
+import com.careeroffice.dao.student.KeywordsDao;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,16 +10,16 @@ import java.util.Map;
 public class DaoFactory {
     private static Map<String, CrudDao> dao = new HashMap<>();
 
-    public static CrudDao getDao( DaoEnum daoEnum) {
+    public static CrudDao getDao(DaoEnum daoEnum) {
 
         if (dao.get(daoEnum.toString()) == null) {
             switch (daoEnum) {
                 case UserDao: {
-                    dao.put( daoEnum.toString(), new UserDao() );
+                    dao.put(daoEnum.toString(), new UserDao() );
                     break;
                 }
                 case ClassifiedDao: {
-                    dao.put( daoEnum.toString(), new ClassifiedDao() );
+                    dao.put(daoEnum.toString(), new ClassifiedDao() );
                     break;
                 }
                 case RoleDao: {
@@ -33,7 +35,11 @@ public class DaoFactory {
                     break;
                 }
                 case CategoryDao: {
-                    dao.put( daoEnum.toString(), new CategoryDao() );
+                    dao.put( daoEnum.toString(), new CategoryDao());
+                    break;
+                }
+                case CvDao: {
+                    dao.put(daoEnum.toString(), new CvDao());
                     break;
                 }
                 default:
