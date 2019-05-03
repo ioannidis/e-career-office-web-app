@@ -22,6 +22,8 @@ public class ClassifiedService  implements IPersistenceService<Classified> {
         return classifiedDao.findAll();
     }
 
+    public String findClassifiedSkills(Integer id){return classifiedDao.findClassifiedSkills(id);}
+
     public Classified findOne(Integer id) {
         return classifiedDao.findOne(id);
     }

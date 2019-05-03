@@ -12,6 +12,9 @@ public class Classified {
 
     private int categoryId;
 
+    //Relationships
+    private Skills skills;
+
     public Classified() {
     }
 
@@ -68,6 +71,14 @@ public class Classified {
 
     public void setCategoryId( int categoryId ) {
         this.categoryId = categoryId;
+    }
+
+    public Skills getSkills() {
+        return skills;
+    }
+
+    public void setSkills(Skills skills) {
+        this.skills = skills;
     }
 
     @Override

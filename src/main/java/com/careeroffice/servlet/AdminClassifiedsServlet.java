@@ -2,6 +2,7 @@ package com.careeroffice.servlet;
 
 import com.careeroffice.model.Category;
 import com.careeroffice.model.Classified;
+import com.careeroffice.model.Skills;
 import com.careeroffice.service.AuthService;
 import com.careeroffice.service.CategoryService;
 import com.careeroffice.service.ClassifiedService;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -33,6 +35,7 @@ public class AdminClassifiedsServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String name = UrlUtil.getParameterOrDefault(request, "name", "a Student");
+        String studentSkills = UrlUtil.getParameterOrDefault(request, "studentSkills", "All");
 
 
         AuthService authService = new AuthService(request.getSession());
@@ -51,10 +54,62 @@ public class AdminClassifiedsServlet extends HttpServlet {
 
 
         List<Classified> classifieds = classifiedService.findAll();
+        for (Classified job:classifieds
+             ) {
+            Skills skills = new Skills(String.valueOf(job.getId()),classifiedService.findClassifiedSkills(job.getId()));
+            job.setSkills(skills);
+        }
+
+
+        if (!(studentSkills.equals("All"))) {
+            if (!(studentSkills.equals("None"))) {
+                List<Classified> deleteClassifieds = new ArrayList<>();
+                for (Classified job : classifieds
+                ) {
+                    String skills = job.getSkills().getSkills();
+
+                    String[] all;
+                    if (!(skills.contains(","))) {
+                        all = new String[1];
+                        all[0] = skills;
+                    }
+                    else{
+                        all = skills.split(",");
+                    }
+
+
+
+                    String[] studentAll = studentSkills.split(",");
+                    boolean found = false;
+                    for (String classifiedSkill : all
+                    ) {
+                        for (String skill : studentAll
+                        ) {
+                            if (classifiedSkill.equals(skill)) {
+                                found = true;
+                            }
+                        }
+                    }
+                    if (!found) {
+                        deleteClassifieds.add(job);
+                    }
+
+
+                }
+
+                if (deleteClassifieds.size() != 0) {
+                    for (Classified job : deleteClassifieds
+                    ) {
+                        classifieds.remove(job);
+                    }
+                }
+            } else {
+                classifieds.clear();
+            }
+        }
 
         Map<Integer, Category> categoryMap = categoryService.findAll().stream()
                 .collect( Collectors.toMap( Category::getId, x -> x ) );
-
         request.setAttribute( "classifieds", classifieds );
         request.setAttribute( "categories", categoryMap );
         request.setAttribute("name", name);

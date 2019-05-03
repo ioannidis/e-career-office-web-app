@@ -39,6 +39,7 @@
                             <th>Title</th>
                             <th>Company</th>
                             <th>Category</th>
+                            <th>Skills Required</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
@@ -49,8 +50,9 @@
                                 <td><c:out value="${classified.title}" /></td>
                                 <td><c:out value="${classified.companyId}" /></td>
                                 <td><c:out value="${categories[classified.categoryId].title}" /></td>
+                                <td><c:out value="${classified.getSkills().skills}" /></td>
                                 <td>
-                                    <a class="btn btn-primary" href="adminclassifieds?name=${name}"><i class="fas fa-user" style="margin-right:8px"></i>Assign Job to <c:out value="${name}" /></a>
+                                    <a class="btn btn-primary" href="adminstudents?classifiedSkills=${classified.getSkills().skills}"><i class="fas fa-user" style="margin-right:8px"></i>Assign Job to <c:out value="${name}" /></a>
                                 </td>
                             </tr>
                         </c:forEach>

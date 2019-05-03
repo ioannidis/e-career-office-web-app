@@ -4,6 +4,7 @@ import com.careeroffice.model.Skills;
 import com.careeroffice.model.User;
 import com.careeroffice.service.AuthService;
 import com.careeroffice.service.UserService;
+import com.careeroffice.util.UrlUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,11 +40,52 @@ public class AdminStudentsServlet extends HttpServlet {
             return;
         }
 
-
-
+        String classifiedSkills = UrlUtil.getParameterOrDefault(request, "classifiedSkills", "None");
         List<User> students = userService.findStudents();
 
+        if (!(classifiedSkills.equals("None"))){
+            List<User> deleteUsers = new ArrayList<>();
+            for (User student:students
+                 ) {
+                String skills = student.getUserSkills().getSkills();
+                if (!(skills.equals("None"))) {
+                    String[] all = skills.split(",");
+                    String[] classifiedAll = classifiedSkills.split(",");
+                    boolean found = false;
+                    for (String skill : classifiedAll
+                    ) {
+                        for (String studentSkill : all
+                        ) {
+                            if (studentSkill.equals(skill)) {
+                                found = true;
+                                break;
+                            }
+
+                        }
+                        if (found){break;}
+                    }
+                    if (!found) {
+                        deleteUsers.add(student);
+                    }
+
+                }
+                else{
+                    deleteUsers.add(student);
+                }
+            }
+
+            if (deleteUsers.size()!= 0){
+                for (User user:deleteUsers
+                     ) {
+                    students.remove(user);
+                }
+            }
+        }
+
+
+
         request.setAttribute("users",students);
+
 
         request.getRequestDispatcher("WEB-INF/views/admin/students.jsp").forward(request, response);
 

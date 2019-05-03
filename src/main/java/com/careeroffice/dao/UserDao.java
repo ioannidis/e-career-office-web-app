@@ -159,7 +159,7 @@ public class UserDao implements CrudDao<User, String> {
             rs = stmt.executeQuery();
 
             StringBuilder skills = new StringBuilder();
-            skills.append("No skills");
+            skills.append("None");
 
             if (rs.next()){
                 skills = new StringBuilder();

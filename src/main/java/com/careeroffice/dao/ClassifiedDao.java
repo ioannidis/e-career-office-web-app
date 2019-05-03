@@ -102,6 +102,61 @@ public class ClassifiedDao implements CrudDao <Classified, Integer> {
     }
 
 
+    public String findClassifiedSkills(int id) {
+        Connection con = null;
+        ResultSet rs = null;
+        PreparedStatement stmt = null;
+
+        String str = "SELECT cl.id, cl.title, cl.content, cl.company_id, cl.category_id, kw.title AS skills\n" +
+                "    FROM classifieds AS cl ,\n" +
+                "    keyword_classified AS kc,\n" +
+                "    keywords AS kw,\n" +
+                "    companies as co\n" +
+                "    WHERE cl.company_id = co.id\n" +
+                "    AND kc.classified_id = cl.id\n" +
+                "    AND cl.id= ?\n" +
+                "    AND kc.keyword_id = kw.id;";
+
+        try {
+            con = DatabaseConnection.getConnection();
+            stmt = con.prepareStatement(str);
+            stmt.setString(1,String.valueOf(id));
+            rs = stmt.executeQuery();
+
+            StringBuilder skills = new StringBuilder();
+            skills.append("None");
+
+            if (rs.next()){
+                skills = new StringBuilder();
+                skills.append(rs.getString("skills"));
+            }
+
+            while (rs.next()) {
+                skills.append(", "+rs.getString("skills"));
+            }
+
+
+
+            return skills.toString();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                stmt.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null;
+    }
+
+
+
+
+
     @Override
     public boolean save( Classified obj ) {
 
