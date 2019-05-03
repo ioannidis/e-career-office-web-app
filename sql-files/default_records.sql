@@ -51,8 +51,8 @@ insert into categories(title, slug) values( 'Frontend', 'frontend' );
 insert into categories(title, slug) values( 'Data Analysis', 'data_anal' );
 
 # Classifieds
-insert into classifieds(id,title, content, company_id, category_id) values( 1,'Frontend developer', 'mpla mpla mpla', 'ibm', 2 );
-insert into classifieds(id,title, content, company_id, category_id) values( 2,'Backend developer', 'taka taka taka', 'ms', 1 );
+insert into classifieds(title, content, company_id, category_id) values( 'Frontend developer', 'mpla mpla mpla', 'ibm', 2 );
+insert into classifieds(title, content, company_id, category_id) values( 'Backend developer', 'taka taka taka', 'ms', 1 );
 
 #Keyword_classified
 insert into keyword_classified value (1,1);
