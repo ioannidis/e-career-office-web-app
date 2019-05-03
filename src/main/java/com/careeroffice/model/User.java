@@ -41,6 +41,7 @@ public class User {
     // Relationships
     private UserCompany userCompany;
     private UserDepartment userDepartment;
+    private Skills skills;
 
     /**
      * Creates a new User.
@@ -218,6 +219,14 @@ public class User {
 
     public void setUserCompany(UserCompany userCompany) {
         this.userCompany = userCompany;
+    }
+
+    public Skills getUserSkills() {
+        return skills;
+    }
+
+    public void setUserSkills(Skills skills) {
+        this.skills = skills;
     }
 
     public UserDepartment getUserDepartment() {

@@ -1,5 +1,6 @@
 package com.careeroffice.servlet;
 
+import com.careeroffice.model.Skills;
 import com.careeroffice.model.User;
 import com.careeroffice.service.AuthService;
 import com.careeroffice.service.UserService;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet({"/AdminStudentsServlet", "/adminstudents"})
@@ -40,7 +42,9 @@ public class AdminStudentsServlet extends HttpServlet {
 
 
         List<User> students = userService.findStudents();
+
         request.setAttribute("users",students);
+
         request.getRequestDispatcher("WEB-INF/views/admin/students.jsp").forward(request, response);
 
     }

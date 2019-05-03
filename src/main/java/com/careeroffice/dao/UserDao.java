@@ -140,6 +140,53 @@ public class UserDao implements CrudDao<User, String> {
         return null;
     }
 
+    public String findStudentSkills(String username) {
+        Connection con = null;
+        ResultSet rs = null;
+        PreparedStatement stmt = null;
+
+        String str = "SELECT users.username,keywords.title FROM users,keywords,keyword_cv,cvs\n" +
+                " WHERE users.username = cvs.username AND\n" +
+                " users.username =? AND\n" +
+                " cvs.id = keyword_cv.cv_id AND\n" +
+                " keyword_cv.keyword_id = keywords.id\n" +
+                " AND (role_id = 'u_student' OR role_id = 'p_student');";
+
+        try {
+            con = DatabaseConnection.getConnection();
+            stmt = con.prepareStatement(str);
+            stmt.setString(1,username);
+            rs = stmt.executeQuery();
+
+            StringBuilder skills = new StringBuilder();
+            skills.append("No skills");
+
+            if (rs.next()){
+                skills = new StringBuilder();
+                skills.append(rs.getString("title"));
+            }
+
+            while (rs.next()) {
+                skills.append(", "+rs.getString("title"));
+            }
+
+
+
+            return skills.toString();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                stmt.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null;
+    }
     @Override
     public boolean save(User obj) {
         Connection con = null;

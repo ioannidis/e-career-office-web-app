@@ -32,7 +32,7 @@ public class AdminClassifiedsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String name = UrlUtil.getParameterOrDefault(request, "name", "index");
+        String name = UrlUtil.getParameterOrDefault(request, "name", "a Student");
 
 
         AuthService authService = new AuthService(request.getSession());

@@ -15,6 +15,7 @@
 <!-- Navigation -->
 <c:import url="/WEB-INF/views/nav.jsp"></c:import>
 <%
+    request.getAttribute("skills");
     request.getAttribute("name");
 %>
 <div class="content-wrapper">
@@ -59,8 +60,7 @@
                                 <td><c:out value="${users.phoneNumber}" /></td>
                                 <td><c:out value="${users.email}" /></td>
                                 <td><c:out value="${users.roleId}" /></td>
-                                <td></td>
-
+                                <td><c:out value="${users.getUserSkills().skills}" /></td>
                                 <td>
                                     <a class="btn btn-primary" href="adminclassifieds?name=${users.name} ${users.surname}"><i class="fas fa-clipboard" style="margin-right:8px"></i>Assign Job</a>
 
