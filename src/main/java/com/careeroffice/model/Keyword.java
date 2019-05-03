@@ -1,6 +1,6 @@
 package com.careeroffice.model;
 
-public class Keywords {
+public class Keyword {
 
     private int id;
 
@@ -8,10 +8,10 @@ public class Keywords {
 
     private String slug;
 
-    public Keywords() {
+    public Keyword() {
     }
 
-    public Keywords( int id, String title, String slug ) {
+    public Keyword( int id, String title, String slug ) {
         this.id = id;
         this.title = title;
         this.slug = slug;

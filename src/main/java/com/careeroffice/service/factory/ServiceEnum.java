@@ -13,4 +13,5 @@ public enum ServiceEnum {
     CvService,
     UserCompanyService,
     UserDepartmentService,
+    KeywordService
 }

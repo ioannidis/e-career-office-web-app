@@ -2,13 +2,16 @@ package com.careeroffice.servlet;
 
 import com.careeroffice.model.Category;
 import com.careeroffice.model.Classified;
+import com.careeroffice.model.Keyword;
 import com.careeroffice.service.AuthService;
 import com.careeroffice.service.CategoryService;
 import com.careeroffice.service.ClassifiedService;
+import com.careeroffice.service.KeywordService;
 import com.careeroffice.service.factory.ServiceEnum;
 import com.careeroffice.service.factory.ServiceFactory;
 import com.careeroffice.util.UrlUtil;
 import com.google.protobuf.Internal;
+import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -37,6 +40,7 @@ public class ExternalClassifiedsServlet extends HttpServlet {
         AuthService authService = new AuthService(request.getSession());
         ClassifiedService classifiedService = (ClassifiedService) ServiceFactory.getService( ServiceEnum.ClassifiedService );
         CategoryService categoryService = (CategoryService) ServiceFactory.getService( ServiceEnum.CategoryService );
+        KeywordService keywordService = (KeywordService) ServiceFactory.getService( ServiceEnum.KeywordService );
 
         if (!authService.isLoggedIn()) {
             response.sendRedirect("login");
@@ -54,24 +58,31 @@ public class ExternalClassifiedsServlet extends HttpServlet {
         switch (action) {
             case "create": {
                 request.setAttribute( "categories", categoryService.findAll() );
+                request.setAttribute( "allKeywords", keywordService.findAll() );
                 request.getRequestDispatcher("WEB-INF/views/classified/create.jsp").forward(request, response);
                 break;
             }
             case "show": {
                 Classified classified = classifiedService.findOne(id);
 
+                System.out.println( keywordService.findByClassified(classified.getId())  );
+
                 request.setAttribute( "classified", classified );
                 request.setAttribute( "category", categoryService.findOne(classified.getCategoryId()) );
+                request.setAttribute( "keywords", keywordService.findByClassified(classified.getId()) );
                 request.getRequestDispatcher("WEB-INF/views/classified/show.jsp").forward(request, response);
                 break;
             }
             case "edit": {
                 Classified classified = classifiedService.findOne(id);
-
-                System.out.println( categoryService.findAll() );
+                List<Keyword> keywords = keywordService.findAll();
+                Map<Integer, Keyword> selectedKeywords = keywordService.findByClassified(classified.getId()).stream()
+                        .collect( Collectors.toMap( x -> x.getId(), x -> x ) );
 
                 request.setAttribute( "classified", classified );
                 request.setAttribute( "categories", categoryService.findAll() );
+                request.setAttribute( "selectedKeywords", selectedKeywords );
+                request.setAttribute( "allKeywords", keywords );
                 request.getRequestDispatcher("WEB-INF/views/classified/edit.jsp").forward(request, response);
                 break;
             }
@@ -128,6 +139,8 @@ public class ExternalClassifiedsServlet extends HttpServlet {
                 );
                 classifiedService.save(classified);
 
+                //TODO: save keywords
+
                 response.sendRedirect("externalclassifieds");
                 break;
             }
@@ -140,6 +153,8 @@ public class ExternalClassifiedsServlet extends HttpServlet {
                 classified.setCategoryId(UrlUtil.getParameterOrDefault(request, "categoryId", classified.getCategoryId()));
 
                 classifiedService.update(classified);
+
+                //TODO: update keywords
 
                 response.sendRedirect("externalclassifieds");
                 break;

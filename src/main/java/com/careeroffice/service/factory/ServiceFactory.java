@@ -53,12 +53,14 @@ public class ServiceFactory {
                 case UserCompanyService: {
                     serviceCache.put( serviceEnum.toString(), new UserCompanyService() );
                     break;
-
                 }
                 case UserDepartmentService: {
                     serviceCache.put( serviceEnum.toString(), new UserDepartmentService() );
                     break;
-
+                }
+                case KeywordService: {
+                    serviceCache.put( serviceEnum.toString(), new KeywordService() );
+                    break;
                 }
                 default:
                     // TODO: Throw exception

@@ -53,7 +53,11 @@
                         </tr>
                         <tr>
                             <td><b>Keywords</b></td>
-                            <td><c:out value="${classified.categoryId}" /></td>
+                            <td>
+                                <c:forEach var="keyword" items="${keywords}">
+                                    <span class="badge badge-info">${keyword.title}</span>
+                                </c:forEach>
+                            </td>
                         </tr>
                         <tr>
                             <td><b>Actions</b></td>

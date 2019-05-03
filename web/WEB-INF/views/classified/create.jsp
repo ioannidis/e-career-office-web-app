@@ -51,16 +51,15 @@
                         </c:forEach>
                         </select>
                     </div>
-                    <%--<div class="form-group">--%>
-                    <%--<label for="teachingInstructor"><strong>Select Instructor</strong></label>--%>
-                    <%--<select class="form-control" name="teachingInstructor" id="teachingInstructor" required>--%>
-                    <%--<c:forEach items="${ instructors }" var="professor">--%>
-                    <%--<option value="<c:out value="${ professor.username }"/>" <c:if test="${course.instructorUsername == professor.username}">selected</c:if> >--%>
-                    <%--<c:out value="${ professor.name } ${ professor.surname } (${ professor.username})" />--%>
-                    <%--</option>--%>
-                    <%--</c:forEach>--%>
-                    <%--</select>--%>
-                    <%--</div>--%>
+                    <div class="form-group">
+                        <label><strong>Keywords</strong></label>
+                        <c:forEach var="keyword" items="${allKeywords}">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="${keyword.slug}}" value="${keyword.id}">
+                                <label class="form-check-label" for="${keyword.slug}">${keyword.title}</label>
+                            </div>
+                        </c:forEach>
+                    </div>
                     <br />
                     <a href="externalclassifieds" class="btn btn-warning"><i class="fas fa-caret-left" style="margin-right:8px"></i>Cancel</a>
                     <button type="submit" class="btn btn-success"><i class="far fa-save" style="margin-right:8px"></i>Save</button>

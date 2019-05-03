@@ -10,7 +10,7 @@ public class DatabaseConnection {
     private static DatabaseConnection db;
     private static Connection connection;
 
-    private static final String who = "thanos";
+    private static final String who = "panos";
     private static String URL = "";
     private static String User = "";
     private static String Password = "";
