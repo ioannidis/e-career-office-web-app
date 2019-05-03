@@ -65,8 +65,9 @@ public class UserService implements IPersistenceService<User> {
         users.forEach(this::setupRelationships);
         for (User student:users
              ) {
-            String skills = userDao.findStudentSkills(student.getUsername());
-            Skills skill = new Skills(student.getUsername(),skills);
+            String skills = userDao.findStudentSkills(student.getUsername(),"skills");
+            String slug = userDao.findStudentSkills(student.getUsername(),"slug");
+            Skills skill = new Skills(student.getUsername(),skills,slug);
             setupSkills(student,skill);
         }
         return users;

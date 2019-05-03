@@ -4,12 +4,14 @@ public class Skills {
 
     private String username;
     private String skills;
+    private String slug;
 
     public Skills(){}
 
-    public  Skills(String username , String skills){
+    public  Skills(String username , String skills, String slug){
         this.username = username;
         this.skills = skills;
+        this.slug = slug;
     }
 
     public String getUsername() {
@@ -18,5 +20,9 @@ public class Skills {
 
     public String getSkills() {
         return skills;
+    }
+
+    public String getSlug() {
+        return slug;
     }
 }

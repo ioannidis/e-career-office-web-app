@@ -140,12 +140,12 @@ public class UserDao implements CrudDao<User, String> {
         return null;
     }
 
-    public String findStudentSkills(String username) {
+    public String findStudentSkills(String username,String type) {
         Connection con = null;
         ResultSet rs = null;
         PreparedStatement stmt = null;
 
-        String str = "SELECT users.username,keywords.title FROM users,keywords,keyword_cv,cvs\n" +
+        String str = "SELECT users.username,keywords.title,keywords.slug FROM users,keywords,keyword_cv,cvs\n" +
                 " WHERE users.username = cvs.username AND\n" +
                 " users.username =? AND\n" +
                 " cvs.id = keyword_cv.cv_id AND\n" +
@@ -160,18 +160,23 @@ public class UserDao implements CrudDao<User, String> {
 
             StringBuilder skills = new StringBuilder();
             skills.append("None");
+            StringBuilder slug = new StringBuilder();
+            slug.append("None");
 
             if (rs.next()){
                 skills = new StringBuilder();
                 skills.append(rs.getString("title"));
+                slug = new StringBuilder();
+                slug.append(rs.getString("slug"));
             }
 
             while (rs.next()) {
                 skills.append(", "+rs.getString("title"));
+                slug.append(", "+rs.getString("slug"));
             }
-
-
-
+            if (type.equals("slug")){
+                return slug.toString();
+            }
             return skills.toString();
         } catch (SQLException e) {
             e.printStackTrace();

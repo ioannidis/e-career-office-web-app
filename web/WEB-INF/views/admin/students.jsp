@@ -65,7 +65,7 @@
                                 <td><c:out value="${all}" /></td>
                                 <td><c:out value="${classifiedAll}" /></td>
                                 <td>
-                                    <a class="btn btn-primary" href="adminclassifieds?name=${users.name} ${users.surname}&studentSkills=${users.getUserSkills().skills}"><i class="fas fa-clipboard" style="margin-right:8px"></i>Assign Job</a>
+                                    <a class="btn btn-primary" href="adminclassifieds?name=${users.name} ${users.surname}&studentSkills=${users.getUserSkills().getSlug()}"><i class="fas fa-clipboard" style="margin-right:8px"></i>Assign Job</a>
 
                                 </td>
                             </tr>

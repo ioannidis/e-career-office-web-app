@@ -56,7 +56,7 @@ public class AdminClassifiedsServlet extends HttpServlet {
         List<Classified> classifieds = classifiedService.findAll();
         for (Classified job:classifieds
              ) {
-            Skills skills = new Skills(String.valueOf(job.getId()),classifiedService.findClassifiedSkills(job.getId()));
+            Skills skills = new Skills(String.valueOf(job.getId()),classifiedService.findClassifiedSkills(job.getId(),"skills"),classifiedService.findClassifiedSkills(job.getId(),"slug"));
             job.setSkills(skills);
         }
 
@@ -66,7 +66,7 @@ public class AdminClassifiedsServlet extends HttpServlet {
                 List<Classified> deleteClassifieds = new ArrayList<>();
                 for (Classified job : classifieds
                 ) {
-                    String skills = job.getSkills().getSkills();
+                    String skills = job.getSkills().getSlug();
 
                     String[] all;
                     if (!(skills.contains(","))) {
@@ -85,7 +85,9 @@ public class AdminClassifiedsServlet extends HttpServlet {
                     ) {
                         for (String skill : studentAll
                         ) {
-                            if (classifiedSkill.equals(skill)) {
+
+                            if (skill.contains(classifiedSkill)) {
+                                request.setAttribute("test",skill+classifiedSkill);
                                 found = true;
                             }
                         }

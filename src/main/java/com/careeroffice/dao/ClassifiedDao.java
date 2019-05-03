@@ -102,12 +102,12 @@ public class ClassifiedDao implements CrudDao <Classified, Integer> {
     }
 
 
-    public String findClassifiedSkills(int id) {
+    public String findClassifiedSkills(int id,String type) {
         Connection con = null;
         ResultSet rs = null;
         PreparedStatement stmt = null;
 
-        String str = "SELECT cl.id, cl.title, cl.content, cl.company_id, cl.category_id, kw.title AS skills\n" +
+        String str = "SELECT cl.id, cl.title, cl.content, cl.company_id, cl.category_id, kw.title AS skills,kw.slug AS slug\n" +
                 "    FROM classifieds AS cl ,\n" +
                 "    keyword_classified AS kc,\n" +
                 "    keywords AS kw,\n" +
@@ -125,18 +125,23 @@ public class ClassifiedDao implements CrudDao <Classified, Integer> {
 
             StringBuilder skills = new StringBuilder();
             skills.append("None");
+            StringBuilder slug = new StringBuilder();
+            slug.append("None");
 
             if (rs.next()){
                 skills = new StringBuilder();
                 skills.append(rs.getString("skills"));
+                slug = new StringBuilder();
+                slug.append(rs.getString("slug"));
             }
 
             while (rs.next()) {
                 skills.append(", "+rs.getString("skills"));
+                slug.append(", "+rs.getString("slug"));
             }
-
-
-
+            if (type.equals("slug")){
+                return slug.toString();
+            }
             return skills.toString();
         } catch (SQLException e) {
             e.printStackTrace();

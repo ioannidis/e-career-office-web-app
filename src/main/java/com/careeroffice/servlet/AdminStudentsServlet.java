@@ -47,16 +47,36 @@ public class AdminStudentsServlet extends HttpServlet {
             List<User> deleteUsers = new ArrayList<>();
             for (User student:students
                  ) {
-                String skills = student.getUserSkills().getSkills();
+                String skills = student.getUserSkills().getSlug();
                 if (!(skills.equals("None"))) {
-                    String[] all = skills.split(",");
-                    String[] classifiedAll = classifiedSkills.split(",");
+
+
+                    String[] all;
+                    if (!(skills.contains(","))) {
+                        all = new String[1];
+                        all[0] = skills;
+                    }
+                    else{
+                        all = skills.split(",");
+                    }
+
+
+                    String[] classifiedAll;
+                    if (!(classifiedSkills.contains(","))) {
+                        classifiedAll = new String[1];
+                        classifiedAll[0] = skills;
+                    }
+                    else{
+                        classifiedAll = classifiedSkills.split(",");
+                    }
+
+
                     boolean found = false;
                     for (String skill : classifiedAll
                     ) {
                         for (String studentSkill : all
                         ) {
-                            if (studentSkill.equals(skill)) {
+                            if (skill.contains(studentSkill)) {
                                 found = true;
                                 break;
                             }
