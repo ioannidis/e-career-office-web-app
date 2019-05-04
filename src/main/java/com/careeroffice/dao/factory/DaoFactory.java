@@ -1,6 +1,7 @@
 package com.careeroffice.dao.factory;
 
 import com.careeroffice.dao.*;
+import com.careeroffice.dao.pivot.KeywordClassifiedPivotDao;
 import com.careeroffice.dao.student.CvDao;
 
 import java.util.HashMap;

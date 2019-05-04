@@ -19,11 +19,11 @@ public class CompanyService implements IPersistenceService<Company> {
         return companyDao.findAll();
     }
 
-    public boolean save(Company obj) {
+    public Company save(Company obj) {
         return companyDao.save(obj);
     }
 
-    public boolean update(Company obj) {
+    public Company update(Company obj) {
         return companyDao.update(obj);
     }
 

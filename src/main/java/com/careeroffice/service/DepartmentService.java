@@ -19,11 +19,11 @@ public class DepartmentService implements IPersistenceService<Department> {
         return departmentDao.findAll();
     }
 
-    public boolean save(Department obj) {
+    public Department save(Department obj) {
         return departmentDao.save(obj);
     }
 
-    public boolean update(Department obj) {
+    public Department update(Department obj) {
         return departmentDao.update(obj);
     }
 

@@ -169,9 +169,9 @@ public class UserDao implements CrudDao<User, String> {
     }
 
     @Override
-    public boolean save(User obj) {
+    public User save(User obj) {
 
-        return Queries.executeUpdate(Save_Query, new UpdateCallback() {
+        Queries.executeUpdate(Save_Query, new UpdateCallback() {
             @Override
             public void setParameters(PreparedStatement statement) throws SQLException {
                 statement.setString(1, obj.getUsername());
@@ -183,12 +183,14 @@ public class UserDao implements CrudDao<User, String> {
                 statement.setString(7, obj.getRoleId());
             }
         });
+
+        return obj;
     }
 
     @Override
-    public boolean update(User obj) {
+    public User update(User obj) {
 
-        return Queries.executeUpdate(Update_Query, new UpdateCallback() {
+        Queries.executeUpdate(Update_Query, new UpdateCallback() {
             @Override
             public void setParameters(PreparedStatement statement) throws SQLException {
                 statement.setString(1, obj.getPassword());
@@ -199,6 +201,8 @@ public class UserDao implements CrudDao<User, String> {
                 statement.setString(6, obj.getUsername());
             }
         });
+
+        return obj;
     }
 
     @Override

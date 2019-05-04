@@ -65,27 +65,31 @@ public class UserCompanyDao implements CrudDao<UserCompany, String> {
     }
 
     @Override
-    public boolean save(UserCompany obj) {
+    public UserCompany save( UserCompany obj) {
 
-        return Queries.executeUpdate(Save_Query, new UpdateCallback() {
+        Queries.executeUpdate(Save_Query, new UpdateCallback() {
             @Override
             public void setParameters(PreparedStatement statement) throws SQLException {
                 statement.setString(1, obj.getUsername());
                 statement.setString(2, obj.getCompanyId());
             }
         });
+
+        return obj;
     }
 
     @Override
-    public boolean update(UserCompany obj) {
+    public UserCompany update(UserCompany obj) {
 
-        return Queries.executeUpdate(Update_Query, new UpdateCallback() {
+        Queries.executeUpdate(Update_Query, new UpdateCallback() {
             @Override
             public void setParameters(PreparedStatement statement) throws SQLException {
                 statement.setString(1, obj.getCompanyId());
                 statement.setString(2, obj.getUsername());
             }
         });
+
+        return obj;
     }
 
     @Override

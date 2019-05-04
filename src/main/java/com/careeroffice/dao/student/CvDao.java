@@ -56,7 +56,7 @@ public class CvDao implements CrudDao<Cv, String> {
     }
 
     @Override
-    public boolean save(Cv obj) {
+    public Cv save(Cv obj) {
         Connection con = null;
         PreparedStatement stmt = null;
 
@@ -72,7 +72,7 @@ public class CvDao implements CrudDao<Cv, String> {
 
             stmt.executeUpdate();
 
-            return true;
+            return obj;
 
         } catch ( SQLException e) {
             e.printStackTrace();
@@ -85,11 +85,11 @@ public class CvDao implements CrudDao<Cv, String> {
             }
         }
 
-        return false;
+        return null;
     }
 
     @Override
-    public boolean update(Cv obj) {
+    public Cv update(Cv obj) {
         Connection con = null;
         PreparedStatement stmt = null;
 
@@ -104,7 +104,7 @@ public class CvDao implements CrudDao<Cv, String> {
 
             stmt.executeUpdate();
 
-            return true;
+            return obj;
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -117,7 +117,7 @@ public class CvDao implements CrudDao<Cv, String> {
             }
         }
 
-        return false;
+        return null;
     }
 
     @Override

@@ -58,11 +58,11 @@ public class UserService implements IPersistenceService<User> {
         return users;
     }
 
-    public boolean save(User user) {
+    public User save(User user) {
         return userDao.save(user);
     }
 
-    public boolean update(User user) {
+    public User update(User user) {
         return userDao.update(user);
     }
 

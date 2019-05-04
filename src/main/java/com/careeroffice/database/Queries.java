@@ -1,9 +1,6 @@
 package com.careeroffice.database;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public final class Queries {
 
@@ -64,5 +61,41 @@ public final class Queries {
         }
 
         return false;
+    }
+
+    public static int executeUpdateAutoInc(String query, UpdateCallback callback) {
+
+        Connection con = null;
+        PreparedStatement stmt = null;
+
+        try {
+            con = DatabaseConnection.getConnection();
+            stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+
+            callback.setParameters(stmt);
+
+            stmt.executeUpdate();
+
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getInt(1);
+                }
+                else {
+                    throw new SQLException("Creating user failed, no ID obtained.");
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return -1;
     }
 }

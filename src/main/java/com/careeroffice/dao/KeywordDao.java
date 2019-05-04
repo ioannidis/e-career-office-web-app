@@ -94,13 +94,13 @@ public class KeywordDao implements CrudDao<Keyword, Integer> {
     }
 
     @Override
-    public boolean save( Keyword obj ) {
-        return false;
+    public Keyword save( Keyword obj ) {
+        return null;
     }
 
     @Override
-    public boolean update( Keyword obj ) {
-        return false;
+    public Keyword update( Keyword obj ) {
+        return null;
     }
 
     @Override

@@ -3,12 +3,11 @@ package com.careeroffice.servlet;
 import com.careeroffice.model.Category;
 import com.careeroffice.model.Classified;
 import com.careeroffice.model.Keyword;
-import com.careeroffice.service.AuthService;
-import com.careeroffice.service.CategoryService;
-import com.careeroffice.service.ClassifiedService;
-import com.careeroffice.service.KeywordService;
+import com.careeroffice.model.KeywordClassifiedPivot;
+import com.careeroffice.service.*;
 import com.careeroffice.service.factory.ServiceEnum;
 import com.careeroffice.service.factory.ServiceFactory;
+import com.careeroffice.service.pivot.KeywordClassifiedPivotService;
 import com.careeroffice.util.UrlUtil;
 
 import javax.servlet.ServletException;
@@ -17,9 +16,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static java.lang.Thread.sleep;
 
 @WebServlet({"/ExternalClassifiedsServlet", "/externalclassifieds"})
 public class ExternalClassifiedsServlet extends HttpServlet {
@@ -38,6 +40,7 @@ public class ExternalClassifiedsServlet extends HttpServlet {
         ClassifiedService classifiedService = (ClassifiedService) ServiceFactory.getService(ServiceEnum.ClassifiedService);
         CategoryService categoryService = (CategoryService) ServiceFactory.getService(ServiceEnum.CategoryService);
         KeywordService keywordService = (KeywordService) ServiceFactory.getService(ServiceEnum.KeywordService);
+        KeywordClassifiedPivotService keywordClassifiedPivotService = (KeywordClassifiedPivotService) ServiceFactory.getService(ServiceEnum.KeywordClassifiedPivotService);
 
         if (!authService.isLoggedIn()) {
             response.sendRedirect("login");
@@ -54,6 +57,9 @@ public class ExternalClassifiedsServlet extends HttpServlet {
 
         switch (action) {
             case "create": {
+                UserCompanyService userCompanyService = (UserCompanyService) ServiceFactory.getService( ServiceEnum.UserCompanyService );
+
+                request.setAttribute("company", userCompanyService.findOne( authService.getUser().getUsername() ).getCompany());
                 request.setAttribute("categories", categoryService.findAll());
                 request.setAttribute("allKeywords", keywordService.findAll());
                 request.getRequestDispatcher("WEB-INF/views/classified/create.jsp").forward(request, response);
@@ -62,18 +68,18 @@ public class ExternalClassifiedsServlet extends HttpServlet {
             case "show": {
                 Classified classified = classifiedService.findOne(id);
 
-                System.out.println(keywordService.findByClassified(classified.getId()));
+                System.out.println(keywordClassifiedPivotService.findByClassified(classified.getId()));
 
                 request.setAttribute("classified", classified);
                 request.setAttribute("category", categoryService.findOne(classified.getCategoryId()));
-                request.setAttribute("keywords", keywordService.findByClassified(classified.getId()));
+                request.setAttribute("keywords", keywordClassifiedPivotService.findByClassified(classified.getId()));
                 request.getRequestDispatcher("WEB-INF/views/classified/show.jsp").forward(request, response);
                 break;
             }
             case "edit": {
                 Classified classified = classifiedService.findOne(id);
                 List<Keyword> keywords = keywordService.findAll();
-                Map<Integer, Keyword> selectedKeywords = keywordService.findByClassified(classified.getId()).stream()
+                Map<Integer, Keyword> selectedKeywords = keywordClassifiedPivotService.findByClassified(classified.getId()).stream()
                         .collect(Collectors.toMap(x -> x.getId(), x -> x));
 
                 request.setAttribute("classified", classified);
@@ -84,7 +90,9 @@ public class ExternalClassifiedsServlet extends HttpServlet {
                 break;
             }
             case "delete": {
+                keywordClassifiedPivotService.deleteByClassifiedId(id);
                 classifiedService.delete(id);
+
                 response.sendRedirect("externalclassifieds");
                 break;
             }
@@ -112,6 +120,8 @@ public class ExternalClassifiedsServlet extends HttpServlet {
 
         AuthService authService = new AuthService(request.getSession());
         ClassifiedService classifiedService = (ClassifiedService) ServiceFactory.getService(ServiceEnum.ClassifiedService);
+        KeywordClassifiedPivotService keywordClassifiedPivotService = (KeywordClassifiedPivotService) ServiceFactory.getService(ServiceEnum.KeywordClassifiedPivotService);
+
 
         if (!authService.isLoggedIn()) {
             response.sendRedirect("login");
@@ -134,9 +144,14 @@ public class ExternalClassifiedsServlet extends HttpServlet {
                         request.getParameter("companyId"),
                         Integer.parseInt(request.getParameter("categoryId"))
                 );
-                classifiedService.save(classified);
 
-                //TODO: save keywords
+                classified = classifiedService.save(classified);
+
+                String[] keywordArray = request.getParameterValues("keywordIds");
+
+                for ( String x: keywordArray) {
+                    keywordClassifiedPivotService.save(new KeywordClassifiedPivot(Integer.valueOf(x), classified.getId()));
+                }
 
                 response.sendRedirect("externalclassifieds");
                 break;
@@ -151,7 +166,12 @@ public class ExternalClassifiedsServlet extends HttpServlet {
 
                 classifiedService.update(classified);
 
-                //TODO: update keywords
+                keywordClassifiedPivotService.deleteByClassifiedId( classified.getId() );
+
+                String[] keywordArray = request.getParameterValues("keywordIds");
+                for ( String x: keywordArray) {
+                    keywordClassifiedPivotService.save(new KeywordClassifiedPivot(Integer.valueOf(x), classified.getId()));
+                }
 
                 response.sendRedirect("externalclassifieds");
                 break;

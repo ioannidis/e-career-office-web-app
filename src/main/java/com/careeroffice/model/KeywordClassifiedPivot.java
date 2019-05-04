@@ -9,9 +9,9 @@ public class KeywordClassifiedPivot {
     public KeywordClassifiedPivot() {
     }
 
-    public KeywordClassifiedPivot( int keywordId, int pivotAttr ) {
+    public KeywordClassifiedPivot( int keywordId, int classifiedId ) {
         this.keywordId = keywordId;
-        this.classifiedId = pivotAttr;
+        this.classifiedId = classifiedId;
     }
 
     public int getKeywordId() {

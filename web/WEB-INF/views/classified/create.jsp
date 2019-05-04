@@ -39,7 +39,7 @@
                     </div>
                     <div class="form-group">
                         <label for="companyId"><strong>Company</strong></label>
-                        <input type="text" class="form-control"  name="companyId" id="companyId" value="" required />
+                        <input type="text" class="form-control"  name="companyId" id="companyId" value="${company.id}" readonly/>
                     </div>
                     <div class="form-group">
                         <label for="categoryId"><strong>Categoty</strong></label>
@@ -55,7 +55,7 @@
                         <label><strong>Keywords</strong></label>
                         <c:forEach var="keyword" items="${allKeywords}">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="${keyword.slug}}" value="${keyword.id}">
+                                <input class="form-check-input" type="checkbox" name="keywordIds" id="${keyword.slug}" value="${keyword.id}">
                                 <label class="form-check-label" for="${keyword.slug}">${keyword.title}</label>
                             </div>
                         </c:forEach>

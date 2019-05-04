@@ -64,27 +64,31 @@ public class RoleDao implements CrudDao<Role, String> {
     }
 
     @Override
-    public boolean save(Role obj) {
+    public Role save(Role obj) {
 
-        return Queries.executeUpdate(Save_Query, new UpdateCallback() {
+        Queries.executeUpdate(Save_Query, new UpdateCallback() {
             @Override
             public void setParameters(PreparedStatement statement) throws SQLException {
                 statement.setString(1, obj.getId());
                 statement.setString(2, obj.getTitle());
             }
         });
+
+        return obj;
     }
 
     @Override
-    public boolean update(Role obj) {
+    public Role update(Role obj) {
 
-        return Queries.executeUpdate(Update_Query, new UpdateCallback() {
+        Queries.executeUpdate(Update_Query, new UpdateCallback() {
             @Override
             public void setParameters(PreparedStatement statement) throws SQLException {
                 statement.setString(1, obj.getTitle());
                 statement.setString(2, obj.getId());
             }
         });
+
+        return obj;
     }
 
     @Override

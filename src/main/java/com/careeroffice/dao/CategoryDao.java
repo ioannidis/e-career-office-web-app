@@ -2,8 +2,6 @@ package com.careeroffice.dao;
 
 import com.careeroffice.database.DatabaseConnection;
 import com.careeroffice.model.Category;
-import com.careeroffice.model.Classified;
-import com.careeroffice.model.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -78,6 +76,7 @@ public class CategoryDao implements CrudDao<Category, Integer> {
 
         } catch ( SQLException e) {
             e.printStackTrace();
+            return null;
         } finally {
             try {
                 rs.close();
@@ -93,13 +92,13 @@ public class CategoryDao implements CrudDao<Category, Integer> {
     }
 
     @Override
-    public boolean save( Category obj ) {
-        return false;
+    public Category save( Category obj ) {
+        return null;
     }
 
     @Override
-    public boolean update( Category obj ) {
-        return false;
+    public Category update( Category obj ) {
+        return null;
     }
 
     @Override

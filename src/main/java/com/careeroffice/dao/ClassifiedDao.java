@@ -1,12 +1,10 @@
 package com.careeroffice.dao;
 
-import com.careeroffice.database.DatabaseConnection;
+import com.careeroffice.database.*;
 import com.careeroffice.model.Classified;
+import com.careeroffice.model.User;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,91 +12,59 @@ public class ClassifiedDao implements CrudDao <Classified, Integer> {
 
     @Override
     public Classified findOne( Integer id ) {
-        Connection con = null;
-        ResultSet rs = null;
-        PreparedStatement stmt = null;
 
-        String str = "SELECT cl.id, cl.title, cl.content, cl.company_id, cl.category_id  FROM classifieds AS cl WHERE cl.id=?";
+        final String str = "SELECT cl.id, cl.title, cl.content, cl.company_id, cl.category_id  FROM classifieds AS cl WHERE cl.id=?";
 
-        try {
-            con = DatabaseConnection.getConnection();
-
-            stmt = con.prepareStatement(str);
-            stmt.setInt(1, id);
-
-            rs = stmt.executeQuery();
-
-            if  (rs.next()) {
-                return new Classified(
-                        rs.getInt("id"),
-                        rs.getString("title"),
-                        rs.getString("content"),
-                        rs.getString("company_id"),
-                        rs.getInt("category_id"));
+        return Queries.execute(str, new ResultCallback() {
+            @Override
+            public void setParameters(PreparedStatement statement) throws SQLException {
+                statement.setInt(1, id);
             }
 
-        } catch ( SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                rs.close();
-                stmt.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            @Override
+            public Object fetch(ResultSet resultSet) throws SQLException {
+                if  (resultSet.next()) {
+                    return new Classified(
+                            resultSet.getInt("id"),
+                            resultSet.getString("title"),
+                            resultSet.getString("content"),
+                            resultSet.getString("company_id"),
+                            resultSet.getInt("category_id"));
+                } else {
+                    return null;
+                }
             }
+        });
 
-        }
-
-        return null;
     }
 
     @Override
     public List<Classified> findAll() {
 
-        List<Classified> classifieds = new ArrayList<>();
-
-        Connection con = null;
-        ResultSet rs = null;
-        PreparedStatement stmt = null;
-
-        String str =
+        final String str =
                 "SELECT cl.id, cl.title, cl.content, cl.company_id, cl.category_id "
                         + "FROM classifieds AS cl "
                         + "INNER JOIN companies AS co "
                         + "ON cl.company_id = co.id ";
 
-        try {
-            con = DatabaseConnection.getConnection();
+        return Queries.execute(str, new Callback() {
 
-            stmt = con.prepareStatement(str);
+            @Override
+            public Object fetch(ResultSet resultSet) throws SQLException {
+                List<Classified> classifieds = new ArrayList<>();
 
+                while (resultSet.next()) {
+                    classifieds.add(new Classified(
+                            resultSet.getInt("id"),
+                            resultSet.getString("title"),
+                            resultSet.getString("content"),
+                            resultSet.getString("company_id"),
+                            resultSet.getInt("category_id")));
+                }
 
-            rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                classifieds.add(new Classified(
-                        rs.getInt("id"),
-                        rs.getString("title"),
-                        rs.getString("content"),
-                        rs.getString("company_id"),
-                        rs.getInt("category_id")));
+                return classifieds;
             }
-
-        } catch ( SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                rs.close();
-                stmt.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-        }
-
-        return classifieds;
+        });
     }
 
 
@@ -158,108 +124,55 @@ public class ClassifiedDao implements CrudDao <Classified, Integer> {
         return null;
     }
 
-
-
-
-
     @Override
-    public boolean save( Classified obj ) {
+    public Classified save( Classified obj ) {
 
-        Connection con = null;
-        PreparedStatement stmt = null;
+        final String str = "INSERT INTO classifieds(title,content,company_id,category_id) VALUES (?,?,?,?)";
 
-        String str = "INSERT INTO classifieds(title,content,company_id,category_id) VALUES (?,?,?,?)";
-
-        try {
-            con = DatabaseConnection.getConnection();
-
-            stmt = con.prepareStatement(str);
-            stmt.setString(1, obj.getTitle());
-            stmt.setString(2, obj.getContent());
-            stmt.setString(3, obj.getCompanyId());
-            stmt.setInt(4, obj.getCategoryId());
-
-            stmt.executeUpdate();
-
-        } catch ( SQLException e) {
-            e.printStackTrace();
-            return false;
-        } finally {
-            try {
-                stmt.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+        int id = Queries.executeUpdateAutoInc(str, new UpdateCallback() {
+            @Override
+            public void setParameters(PreparedStatement statement) throws SQLException {
+                statement.setString(1, obj.getTitle());
+                statement.setString(2, obj.getContent());
+                statement.setString(3, obj.getCompanyId());
+                statement.setInt(4, obj.getCategoryId());
             }
+        });
 
-        }
-
-        return true;
+        obj.setId(id);
+        return obj;
     }
 
     @Override
-    public boolean update( Classified obj ) {
-        Connection con = null;
-        PreparedStatement stmt = null;
+    public Classified update( Classified obj ) {
 
-        String str = "UPDATE classifieds SET title=?, content=?, company_id=?, category_id=? WHERE id=?";
+        final String str = "UPDATE classifieds SET title=?, content=?, company_id=?, category_id=? WHERE id=?";
 
-        try {
-            con = DatabaseConnection.getConnection();
-
-            stmt = con.prepareStatement(str);
-            stmt.setString(1, obj.getTitle());
-            stmt.setString(2, obj.getContent());
-            stmt.setString(3, obj.getCompanyId());
-            stmt.setInt(4, obj.getCategoryId());
-            stmt.setInt(5, obj.getId());
-
-            stmt.executeUpdate();
-
-            return true;
-
-        } catch ( SQLException e) {
-            e.printStackTrace();
-            return false;
-        } finally {
-            try {
-                stmt.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+        Queries.executeUpdate(str, new UpdateCallback() {
+            @Override
+            public void setParameters(PreparedStatement statement) throws SQLException {
+                statement.setString(1, obj.getTitle());
+                statement.setString(2, obj.getContent());
+                statement.setString(3, obj.getCompanyId());
+                statement.setInt(4, obj.getCategoryId());
+                statement.setInt(5, obj.getId());
             }
-        }
+        });
+
+        return obj;
     }
 
     @Override
     public boolean delete( Integer id ) {
-        Connection con = null;
-        PreparedStatement stmt = null;
 
         String str = "DELETE FROM classifieds WHERE id=?";
 
-        try {
-            con = DatabaseConnection.getConnection();
-
-            stmt = con.prepareStatement(str);
-            stmt.setInt(1, id);
-
-            stmt.executeUpdate();
-
-            return true;
-
-        } catch ( SQLException e) {
-            e.printStackTrace();
-            return false;
-        } finally {
-            try {
-                stmt.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+        return Queries.executeUpdate(str, new UpdateCallback() {
+            @Override
+            public void setParameters(PreparedStatement statement) throws SQLException {
+                statement.setInt(1, id);
             }
-
-        }
+        });
     }
 
     @Override

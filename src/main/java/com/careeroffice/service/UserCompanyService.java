@@ -23,11 +23,11 @@ public class UserCompanyService implements IPersistenceService<UserCompany> {
         return userCompany;
     }
 
-    public boolean save(UserCompany obj) {
+    public UserCompany save(UserCompany obj) {
         return userCompanyDao.save(obj);
     }
 
-    public boolean update(UserCompany obj) {
+    public UserCompany update(UserCompany obj) {
         return userCompanyDao.update(obj);
     }
 

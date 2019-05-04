@@ -23,11 +23,11 @@ public class UserDepartmentService implements IPersistenceService<UserDepartment
         return userDepartment;
     }
 
-    public boolean save(UserDepartment obj) {
+    public UserDepartment save(UserDepartment obj) {
         return userDepartmentDao.save(obj);
     }
 
-    public boolean update(UserDepartment obj) {
+    public UserDepartment update(UserDepartment obj) {
         return userDepartmentDao.update(obj);
     }
 

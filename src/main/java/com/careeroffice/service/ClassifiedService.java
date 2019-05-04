@@ -28,11 +28,11 @@ public class ClassifiedService  implements IPersistenceService<Classified> {
         return classifiedDao.findOne(id);
     }
 
-    public boolean save(Classified obj) {
+    public Classified save(Classified obj) {
         return classifiedDao.save(obj);
     }
 
-    public boolean update(Classified obj) {
+    public Classified update(Classified obj) {
         return classifiedDao.update(obj);
     }
 

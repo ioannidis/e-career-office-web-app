@@ -65,27 +65,31 @@ public class DepartmentDao implements CrudDao<Department, String> {
     }
 
     @Override
-    public boolean save(Department obj) {
+    public Department save(Department obj) {
 
-        return Queries.executeUpdate(Save_Query, new UpdateCallback() {
+        Queries.executeUpdate(Save_Query, new UpdateCallback() {
             @Override
             public void setParameters(PreparedStatement statement) throws SQLException {
                 statement.setString(1, obj.getId());
                 statement.setString(2, obj.getTitle());
             }
         });
+
+        return obj;
     }
 
     @Override
-    public boolean update(Department obj) {
+    public Department update(Department obj) {
 
-        return Queries.executeUpdate(Update_Query, new UpdateCallback() {
+        Queries.executeUpdate(Update_Query, new UpdateCallback() {
             @Override
             public void setParameters(PreparedStatement statement) throws SQLException {
                 statement.setString(1, obj.getTitle());
                 statement.setString(2, obj.getId());
             }
         });
+
+        return obj;
     }
 
     @Override

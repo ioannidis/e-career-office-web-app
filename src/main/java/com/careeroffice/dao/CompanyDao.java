@@ -73,9 +73,9 @@ public class CompanyDao implements CrudDao<Company, String> {
     }
 
     @Override
-    public boolean save(Company obj) {
+    public Company save(Company obj) {
 
-        return Queries.executeUpdate(Save_Query, new UpdateCallback() {
+        Queries.executeUpdate(Save_Query, new UpdateCallback() {
             @Override
             public void setParameters(PreparedStatement statement) throws SQLException {
                 statement.setString(1, obj.getId());
@@ -86,12 +86,14 @@ public class CompanyDao implements CrudDao<Company, String> {
                 statement.setString(6, obj.getWebsite());
             }
         });
+
+        return obj;
     }
 
     @Override
-    public boolean update(Company obj) {
+    public Company update(Company obj) {
 
-        return Queries.executeUpdate(Update_Query, new UpdateCallback() {
+        Queries.executeUpdate(Update_Query, new UpdateCallback() {
             @Override
             public void setParameters(PreparedStatement statement) throws SQLException {
                 statement.setString(1, obj.getTitle());
@@ -102,6 +104,8 @@ public class CompanyDao implements CrudDao<Company, String> {
                 statement.setString(6, obj.getId());
             }
         });
+
+        return obj;
     }
 
     @Override

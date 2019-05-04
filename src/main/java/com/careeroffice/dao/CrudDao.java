@@ -7,9 +7,9 @@ public interface CrudDao<T, K> {
 
     List<T> findAll();
 
-    boolean save(T obj);
+    T save(T obj);
 
-    boolean update(T obj);
+    T update(T obj);
 
     boolean delete(K id);
 
