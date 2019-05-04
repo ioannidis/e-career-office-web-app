@@ -10,7 +10,7 @@
 <p><a href="<c:url value="/manage_users"/>"><< Back</a></p>
 <hr>
 <p>Are you sure you want to delete <strong>${user.fullName} (${user.username})</strong>?</p>
-<form action="<c:url value="/delete_user"/>" method="POST">
+<form action="<c:url value="/delete_user?id=${user.username}"/>" method="POST">
     <input type="submit" value="Yes, Delete">
 </form>
 </body>

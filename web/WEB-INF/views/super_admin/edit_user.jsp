@@ -11,12 +11,6 @@
 <hr>
 <form action="<c:url value="/edit_user?id=${user.username}"/>" method="POST">
     <p>
-        <strong><label for="username">Username</label></strong>
-        <br>
-        <input type="text" name="username" id="username" value="${user.username}" required>
-    </p>
-
-    <p>
         <strong><label for="first_name">First Name</label></strong>
         <br>
         <input type="text" name="first_name" id="first_name" value="${user.name}" required>
@@ -41,20 +35,10 @@
     </p>
 
     <p>
-        <strong><label for="role">Role</label></strong>
-        <br>
-        <select name="role" id="role">
-            <c:forEach items="${roles}" var="role">
-                <option value="${role.id}">${role.title}</option>
-            </c:forEach>
-        </select>
-    </p>
-
-    <p>
         <strong><label for="company">Company</label></strong>
         <br>
-        <select name="company" id="company"  ${user.hasExternalRole() ? "" : "disabled"}>
-            <option value="nothing" <c:if test="${user.userCompany == null}">selected</c:if>>-</option>
+        <select name="company" id="company">
+            <option value="nothing" ${user.userCompany == null ? "selected" : ""}>-</option>
 
             <c:forEach items="${companies}" var="company">
 
@@ -70,7 +54,7 @@
         <strong><label for="department">Department</label></strong>
         <br>
         <select name="department" id="department">
-            <option value="nothing" <c:if test="${user.userDepartment == null}">selected</c:if>>-</option>
+            <option value="nothing" ${user.userDepartment == null ? "selected" : ""}>-</option>
 
             <c:forEach items="${departments}" var="department">
 

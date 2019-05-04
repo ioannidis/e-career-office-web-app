@@ -1,8 +1,9 @@
 package com.careeroffice.dao;
 
+import com.careeroffice.database.Callback;
 import com.careeroffice.database.Queries;
-import com.careeroffice.database.QueryCallback;
-import com.careeroffice.database.QueryParamCallback;
+import com.careeroffice.database.ResultCallback;
+import com.careeroffice.database.UpdateCallback;
 import com.careeroffice.model.Department;
 
 import java.sql.PreparedStatement;
@@ -12,10 +13,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DepartmentDao implements CrudDao<Department, String> {
+
+    private static final String Find_One_Query = "SELECT * FROM departments WHERE id=?";
+    private static final String Find_All_Query = "SELECT * FROM departments";
+    private static final String Save_Query = "INSERT INTO departments(id, title) VALUES (?, ?)";
+    private static final String Update_Query = "UPDATE departments SET title=? WHERE id=?";
+    private static final String Delete_Query = "DELETE FROM departments WHERE id=?";
+    private static final String Count_Query = "SELECT COUNT(*) FROM departments";
+
     @Override
     public Department findOne(String id) {
 
-        return Queries.execute("SELECT * FROM departments WHERE id=?", new QueryParamCallback() {
+        return Queries.execute(Find_One_Query, new ResultCallback() {
             @Override
             public void setParameters(PreparedStatement statement) throws SQLException {
                 statement.setString(1, id);
@@ -38,7 +47,7 @@ public class DepartmentDao implements CrudDao<Department, String> {
     @Override
     public List<Department> findAll() {
 
-        return Queries.execute("SELECT * FROM departments", new QueryCallback() {
+        return Queries.execute(Find_All_Query, new Callback() {
             @Override
             public Object fetch(ResultSet resultSet) throws SQLException {
                 List<Department> departments = new ArrayList<>();
@@ -57,23 +66,43 @@ public class DepartmentDao implements CrudDao<Department, String> {
 
     @Override
     public boolean save(Department obj) {
-        return false;
+
+        return Queries.executeUpdate(Save_Query, new UpdateCallback() {
+            @Override
+            public void setParameters(PreparedStatement statement) throws SQLException {
+                statement.setString(1, obj.getId());
+                statement.setString(2, obj.getTitle());
+            }
+        });
     }
 
     @Override
     public boolean update(Department obj) {
-        return false;
+
+        return Queries.executeUpdate(Update_Query, new UpdateCallback() {
+            @Override
+            public void setParameters(PreparedStatement statement) throws SQLException {
+                statement.setString(1, obj.getTitle());
+                statement.setString(2, obj.getId());
+            }
+        });
     }
 
     @Override
     public boolean delete(String id) {
-        return false;
+
+        return Queries.executeUpdate(Delete_Query, new UpdateCallback() {
+            @Override
+            public void setParameters(PreparedStatement statement) throws SQLException {
+                statement.setString(1, id);
+            }
+        });
     }
 
     @Override
     public int count() {
 
-        return Queries.execute("SELECT COUNT(*) FROM departments", new QueryCallback() {
+        return Queries.execute(Count_Query, new Callback() {
             @Override
             public Object fetch(ResultSet resultSet) throws SQLException {
                 if (resultSet.next()) {

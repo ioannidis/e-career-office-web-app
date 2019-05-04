@@ -1,6 +1,6 @@
 package com.careeroffice.dao;
 
-import com.careeroffice.database.DatabaseConnection;
+import com.careeroffice.database.*;
 import com.careeroffice.model.User;
 
 import java.sql.Connection;
@@ -12,90 +12,65 @@ import java.util.List;
 
 public class UserDao implements CrudDao<User, String> {
 
+    private static final String Find_One_Query = "SELECT * FROM users WHERE username=?";
+    private static final String Find_All_Query = "SELECT * FROM users";
+    private static final String Save_Query = "INSERT INTO users(username, password, first_name, last_name, phone_number, email, role_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private static final String Update_Query = "UPDATE users SET password=?, first_name=?, last_name=?, phone_number=?, email=? WHERE username=?";
+    private static final String Delete_Query = "DELETE FROM users WHERE username=?";
+    private static final String Count_Query = "SELECT COUNT(*) FROM users";
+
     @Override
     public User findOne(String id) {
-        Connection con = null;
-        ResultSet rs = null;
-        PreparedStatement stmt = null;
 
-        String str = "SELECT * FROM users WHERE username=?";
-
-        try {
-            con = DatabaseConnection.getConnection();
-
-            stmt = con.prepareStatement(str);
-            stmt.setString(1, id);
-
-            rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                return new User(
-                        rs.getString("username"),
-                        rs.getString("password"),
-                        rs.getString("first_name"),
-                        rs.getString("last_name"),
-                        rs.getString("phone_number"),
-                        rs.getString("email"),
-                        rs.getString("role_id")
-                );
+        return Queries.execute(Find_One_Query, new ResultCallback() {
+            @Override
+            public void setParameters(PreparedStatement statement) throws SQLException {
+                statement.setString(1, id);
             }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                rs.close();
-                stmt.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            @Override
+            public Object fetch(ResultSet resultSet) throws SQLException {
+                if (resultSet.next()) {
+                    return new User(
+                            resultSet.getString("username"),
+                            resultSet.getString("password"),
+                            resultSet.getString("first_name"),
+                            resultSet.getString("last_name"),
+                            resultSet.getString("phone_number"),
+                            resultSet.getString("email"),
+                            resultSet.getString("role_id")
+                    );
+                } else {
+                    return null;
+                }
             }
-        }
-
-        return null;
+        });
     }
 
     @Override
     public List<User> findAll() {
-        Connection con = null;
-        ResultSet rs = null;
-        PreparedStatement stmt = null;
 
-        String str = "SELECT * FROM users";
+        return Queries.execute(Find_All_Query, new Callback() {
 
-        try {
-            con = DatabaseConnection.getConnection();
-            stmt = con.prepareStatement(str);
-            rs = stmt.executeQuery();
+            @Override
+            public Object fetch(ResultSet resultSet) throws SQLException {
+                List<User> users = new ArrayList<>();
 
-            List<User> users = new ArrayList<>();
+                while (resultSet.next()) {
+                    users.add(new User(
+                            resultSet.getString("username"),
+                            resultSet.getString("password"),
+                            resultSet.getString("first_name"),
+                            resultSet.getString("last_name"),
+                            resultSet.getString("phone_number"),
+                            resultSet.getString("email"),
+                            resultSet.getString("role_id")
+                    ));
+                }
 
-            while (rs.next()) {
-                users.add(new User(
-                        rs.getString("username"),
-                        rs.getString("password"),
-                        rs.getString("first_name"),
-                        rs.getString("last_name"),
-                        rs.getString("phone_number"),
-                        rs.getString("email"),
-                        rs.getString("role_id")
-                ));
+                return users;
             }
-
-            return users;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                rs.close();
-                stmt.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return null;
+        });
     }
 
     public List<User> findStudents() {
@@ -140,7 +115,7 @@ public class UserDao implements CrudDao<User, String> {
         return null;
     }
 
-    public String findStudentSkills(String username,String type) {
+    public String findStudentSkills(String username, String type) {
         Connection con = null;
         ResultSet rs = null;
         PreparedStatement stmt = null;
@@ -155,7 +130,7 @@ public class UserDao implements CrudDao<User, String> {
         try {
             con = DatabaseConnection.getConnection();
             stmt = con.prepareStatement(str);
-            stmt.setString(1,username);
+            stmt.setString(1, username);
             rs = stmt.executeQuery();
 
             StringBuilder skills = new StringBuilder();
@@ -163,7 +138,7 @@ public class UserDao implements CrudDao<User, String> {
             StringBuilder slug = new StringBuilder();
             slug.append("None");
 
-            if (rs.next()){
+            if (rs.next()) {
                 skills = new StringBuilder();
                 skills.append(rs.getString("title"));
                 slug = new StringBuilder();
@@ -171,10 +146,10 @@ public class UserDao implements CrudDao<User, String> {
             }
 
             while (rs.next()) {
-                skills.append(", "+rs.getString("title"));
-                slug.append(", "+rs.getString("slug"));
+                skills.append(", " + rs.getString("title"));
+                slug.append(", " + rs.getString("slug"));
             }
-            if (type.equals("slug")){
+            if (type.equals("slug")) {
                 return slug.toString();
             }
             return skills.toString();
@@ -192,108 +167,66 @@ public class UserDao implements CrudDao<User, String> {
 
         return null;
     }
+
     @Override
     public boolean save(User obj) {
-        Connection con = null;
-        PreparedStatement stmt = null;
 
-        String str = "insert into users" +
-                "(username, password, first_name, last_name, phone_number, email, role_id)" +
-                " values (?, ?, ?, ?, ?, ?, ?)";
-
-        try {
-            con = DatabaseConnection.getConnection();
-
-            stmt = con.prepareStatement(str);
-            stmt.setString(1, obj.getUsername());
-            stmt.setString(2, obj.getPassword());
-            stmt.setString(3, obj.getName());
-            stmt.setString(4, obj.getSurname());
-            stmt.setString(5, obj.getPhoneNumber());
-            stmt.setString(6, obj.getEmail());
-            stmt.setString(7, obj.getRoleId());
-
-            stmt.executeUpdate();
-
-            return true;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                stmt.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+        return Queries.executeUpdate(Save_Query, new UpdateCallback() {
+            @Override
+            public void setParameters(PreparedStatement statement) throws SQLException {
+                statement.setString(1, obj.getUsername());
+                statement.setString(2, obj.getPassword());
+                statement.setString(3, obj.getName());
+                statement.setString(4, obj.getSurname());
+                statement.setString(5, obj.getPhoneNumber());
+                statement.setString(6, obj.getEmail());
+                statement.setString(7, obj.getRoleId());
             }
-        }
-
-        return false;
+        });
     }
 
     @Override
     public boolean update(User obj) {
-        return false;
+
+        return Queries.executeUpdate(Update_Query, new UpdateCallback() {
+            @Override
+            public void setParameters(PreparedStatement statement) throws SQLException {
+                statement.setString(1, obj.getPassword());
+                statement.setString(2, obj.getName());
+                statement.setString(3, obj.getSurname());
+                statement.setString(4, obj.getPhoneNumber());
+                statement.setString(5, obj.getEmail());
+                statement.setString(6, obj.getUsername());
+            }
+        });
     }
 
     @Override
     public boolean delete(String id) {
-        Connection con = null;
-        ResultSet rs = null;
-        PreparedStatement stmt = null;
 
-        String str = "DELETE FROM users WHERE username=?";
+        return Queries.executeUpdate(Delete_Query, new UpdateCallback() {
+            @Override
+            public void setParameters(PreparedStatement statement) throws SQLException {
+                statement.setString(1, id);
 
-        try {
-            con = DatabaseConnection.getConnection();
-            stmt = con.prepareStatement(str);
-            stmt.setString(1, id);
-
-            return stmt.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                rs.close();
-                stmt.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
-        }
-
-        return false;
+        });
     }
 
     @Override
     public int count() {
-        Connection con = null;
-        ResultSet rs = null;
-        PreparedStatement stmt = null;
 
-        String str = "SELECT COUNT(*) FROM users";
+        return Queries.execute(Count_Query, new Callback() {
 
-        try {
-            con = DatabaseConnection.getConnection();
-            stmt = con.prepareStatement(str);
-            rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                return rs.getInt(1);
+            @Override
+            public Object fetch(ResultSet resultSet) throws SQLException {
+                if (resultSet.next()) {
+                    return resultSet.getInt(1);
+                } else {
+                    return 0;
+                }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                rs.close();
-                stmt.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return 0;
+        });
     }
 
     public boolean searchUserBy(String value, String field) {

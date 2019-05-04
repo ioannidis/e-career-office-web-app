@@ -1,8 +1,9 @@
 package com.careeroffice.dao;
 
+import com.careeroffice.database.Callback;
 import com.careeroffice.database.Queries;
-import com.careeroffice.database.QueryCallback;
-import com.careeroffice.database.QueryParamCallback;
+import com.careeroffice.database.ResultCallback;
+import com.careeroffice.database.UpdateCallback;
 import com.careeroffice.model.Role;
 
 import java.sql.PreparedStatement;
@@ -12,10 +13,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RoleDao implements CrudDao<Role, String> {
+
+    private static final String Find_One_Query = "SELECT * FROM roles WHERE id=?";
+    private static final String Find_All_Query = "SELECT * FROM roles";
+    private static final String Save_Query = "INSERT INTO roles(id, title) VALUES (?, ?)";
+    private static final String Update_Query = "UPDATE roles SET title=? WHERE id=?";
+    private static final String Delete_Query = "DELETE FROM roles WHERE id=?";
+    private static final String Count_Query = "SELECT COUNT(*) FROM roles";
+
     @Override
     public Role findOne(String id) {
 
-        return Queries.execute("SELECT * FROM roles WHERE id=?", new QueryParamCallback() {
+        return Queries.execute(Find_One_Query, new ResultCallback() {
             @Override
             public void setParameters(PreparedStatement statement) throws SQLException {
                 statement.setString(1, id);
@@ -37,7 +46,7 @@ public class RoleDao implements CrudDao<Role, String> {
     @Override
     public List<Role> findAll() {
 
-        return Queries.execute("SELECT * FROM roles", new QueryCallback() {
+        return Queries.execute(Find_All_Query, new Callback() {
             @Override
             public Object fetch(ResultSet resultSet) throws SQLException {
                 List<Role> roles = new ArrayList<>();
@@ -56,22 +65,43 @@ public class RoleDao implements CrudDao<Role, String> {
 
     @Override
     public boolean save(Role obj) {
-        return false;
+
+        return Queries.executeUpdate(Save_Query, new UpdateCallback() {
+            @Override
+            public void setParameters(PreparedStatement statement) throws SQLException {
+                statement.setString(1, obj.getId());
+                statement.setString(2, obj.getTitle());
+            }
+        });
     }
 
     @Override
     public boolean update(Role obj) {
-        return false;
+
+        return Queries.executeUpdate(Update_Query, new UpdateCallback() {
+            @Override
+            public void setParameters(PreparedStatement statement) throws SQLException {
+                statement.setString(1, obj.getTitle());
+                statement.setString(2, obj.getId());
+            }
+        });
     }
 
     @Override
     public boolean delete(String id) {
-        return false;
+
+        return Queries.executeUpdate(Delete_Query, new UpdateCallback() {
+            @Override
+            public void setParameters(PreparedStatement statement) throws SQLException {
+                statement.setString(1, id);
+            }
+        });
     }
 
     @Override
     public int count() {
-        return Queries.execute("SELECT COUNT(*) FROM roles", new QueryCallback() {
+
+        return Queries.execute(Count_Query, new Callback() {
             @Override
             public Object fetch(ResultSet resultSet) throws SQLException {
                 if (resultSet.next()) {

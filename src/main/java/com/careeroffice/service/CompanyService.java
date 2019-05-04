@@ -19,6 +19,18 @@ public class CompanyService implements IPersistenceService<Company> {
         return companyDao.findAll();
     }
 
+    public boolean save(Company obj) {
+        return companyDao.save(obj);
+    }
+
+    public boolean update(Company obj) {
+        return companyDao.update(obj);
+    }
+
+    public boolean delete(String id) {
+        return companyDao.delete(id);
+    }
+
     public int count() {
         return companyDao.count();
     }

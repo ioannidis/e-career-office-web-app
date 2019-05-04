@@ -10,8 +10,6 @@ import com.careeroffice.service.KeywordService;
 import com.careeroffice.service.factory.ServiceEnum;
 import com.careeroffice.service.factory.ServiceFactory;
 import com.careeroffice.util.UrlUtil;
-import com.google.protobuf.Internal;
-import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +17,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -34,13 +31,13 @@ public class ExternalClassifiedsServlet extends HttpServlet {
     /**
      * Handles all GET requests.
      */
-    protected void doGet( HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         AuthService authService = new AuthService(request.getSession());
-        ClassifiedService classifiedService = (ClassifiedService) ServiceFactory.getService( ServiceEnum.ClassifiedService );
-        CategoryService categoryService = (CategoryService) ServiceFactory.getService( ServiceEnum.CategoryService );
-        KeywordService keywordService = (KeywordService) ServiceFactory.getService( ServiceEnum.KeywordService );
+        ClassifiedService classifiedService = (ClassifiedService) ServiceFactory.getService(ServiceEnum.ClassifiedService);
+        CategoryService categoryService = (CategoryService) ServiceFactory.getService(ServiceEnum.CategoryService);
+        KeywordService keywordService = (KeywordService) ServiceFactory.getService(ServiceEnum.KeywordService);
 
         if (!authService.isLoggedIn()) {
             response.sendRedirect("login");
@@ -57,19 +54,19 @@ public class ExternalClassifiedsServlet extends HttpServlet {
 
         switch (action) {
             case "create": {
-                request.setAttribute( "categories", categoryService.findAll() );
-                request.setAttribute( "allKeywords", keywordService.findAll() );
+                request.setAttribute("categories", categoryService.findAll());
+                request.setAttribute("allKeywords", keywordService.findAll());
                 request.getRequestDispatcher("WEB-INF/views/classified/create.jsp").forward(request, response);
                 break;
             }
             case "show": {
                 Classified classified = classifiedService.findOne(id);
 
-                System.out.println( keywordService.findByClassified(classified.getId())  );
+                System.out.println(keywordService.findByClassified(classified.getId()));
 
-                request.setAttribute( "classified", classified );
-                request.setAttribute( "category", categoryService.findOne(classified.getCategoryId()) );
-                request.setAttribute( "keywords", keywordService.findByClassified(classified.getId()) );
+                request.setAttribute("classified", classified);
+                request.setAttribute("category", categoryService.findOne(classified.getCategoryId()));
+                request.setAttribute("keywords", keywordService.findByClassified(classified.getId()));
                 request.getRequestDispatcher("WEB-INF/views/classified/show.jsp").forward(request, response);
                 break;
             }
@@ -77,12 +74,12 @@ public class ExternalClassifiedsServlet extends HttpServlet {
                 Classified classified = classifiedService.findOne(id);
                 List<Keyword> keywords = keywordService.findAll();
                 Map<Integer, Keyword> selectedKeywords = keywordService.findByClassified(classified.getId()).stream()
-                        .collect( Collectors.toMap( x -> x.getId(), x -> x ) );
+                        .collect(Collectors.toMap(x -> x.getId(), x -> x));
 
-                request.setAttribute( "classified", classified );
-                request.setAttribute( "categories", categoryService.findAll() );
-                request.setAttribute( "selectedKeywords", selectedKeywords );
-                request.setAttribute( "allKeywords", keywords );
+                request.setAttribute("classified", classified);
+                request.setAttribute("categories", categoryService.findAll());
+                request.setAttribute("selectedKeywords", selectedKeywords);
+                request.setAttribute("allKeywords", keywords);
                 request.getRequestDispatcher("WEB-INF/views/classified/edit.jsp").forward(request, response);
                 break;
             }
@@ -92,13 +89,13 @@ public class ExternalClassifiedsServlet extends HttpServlet {
                 break;
             }
             default: {
-                List<Classified> classifieds = classifiedService.findAllByCompany( "ibm" );
+                List<Classified> classifieds = classifiedService.findAllByCompany("ibm");
 
                 Map<Integer, Category> categoryMap = categoryService.findAll().stream()
-                        .collect( Collectors.toMap( Category::getId, x -> x ) );
+                        .collect(Collectors.toMap(Category::getId, x -> x));
 
-                request.setAttribute( "classifieds", classifieds );
-                request.setAttribute( "categories", categoryMap );
+                request.setAttribute("classifieds", classifieds);
+                request.setAttribute("categories", categoryMap);
                 request.getRequestDispatcher("WEB-INF/views/classified/index.jsp").forward(request, response);
                 break;
             }
@@ -114,7 +111,7 @@ public class ExternalClassifiedsServlet extends HttpServlet {
             throws ServletException, IOException {
 
         AuthService authService = new AuthService(request.getSession());
-        ClassifiedService classifiedService = (ClassifiedService) ServiceFactory.getService( ServiceEnum.ClassifiedService );
+        ClassifiedService classifiedService = (ClassifiedService) ServiceFactory.getService(ServiceEnum.ClassifiedService);
 
         if (!authService.isLoggedIn()) {
             response.sendRedirect("login");
@@ -160,7 +157,7 @@ public class ExternalClassifiedsServlet extends HttpServlet {
                 break;
             }
             default: {
-                doGet( request, response );
+                doGet(request, response);
                 break;
             }
         }

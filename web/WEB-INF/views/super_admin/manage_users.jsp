@@ -11,7 +11,7 @@
 <hr>
 <p>
     <strong>
-        <a href="#">
+        <a href="<c:url value="/create_user" />">
             + Create User
         </a>
     </strong>

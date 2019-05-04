@@ -58,7 +58,21 @@ public class UserService implements IPersistenceService<User> {
         return users;
     }
 
+    public boolean save(User user) {
+        return userDao.save(user);
+    }
 
+    public boolean update(User user) {
+        return userDao.update(user);
+    }
+
+    public boolean delete(String id) {
+        return userDao.delete(id);
+    }
+
+    public int count() {
+        return userDao.count();
+    }
 
     public List<User> findStudents() {
         List<User> users = userDao.findStudents();
@@ -71,17 +85,5 @@ public class UserService implements IPersistenceService<User> {
             setupSkills(student,skill);
         }
         return users;
-    }
-
-    public void save(User user) {
-        userDao.save(user);
-    }
-
-    public boolean delete(String id) {
-        return userDao.delete(id);
-    }
-
-    public int count() {
-        return userDao.count();
     }
 }

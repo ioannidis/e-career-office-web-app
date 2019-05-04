@@ -1,9 +1,9 @@
 package com.careeroffice.servlet;
 
-import com.careeroffice.service.CompanyService;
-import com.careeroffice.service.DepartmentService;
-import com.careeroffice.service.RoleService;
-import com.careeroffice.service.UserService;
+import com.careeroffice.model.User;
+import com.careeroffice.model.UserCompany;
+import com.careeroffice.model.UserDepartment;
+import com.careeroffice.service.*;
 import com.careeroffice.service.factory.ServiceEnum;
 import com.careeroffice.service.factory.ServiceFactory;
 
@@ -16,18 +16,19 @@ import java.io.IOException;
 
 @WebServlet({"/edit_user"})
 public class SuperAdminEditUserServlet extends HttpServlet {
+    private static final UserService userService = (UserService) ServiceFactory.getService(ServiceEnum.UserService);
+    private static final CompanyService companyService = (CompanyService) ServiceFactory.getService(ServiceEnum.CompanyService);
+    private static final DepartmentService departmentService = (DepartmentService) ServiceFactory.getService(ServiceEnum.DepartmentService);
+
+    private static final UserCompanyService userCompanyService = (UserCompanyService) ServiceFactory.getService(ServiceEnum.UserCompanyService);
+    private static final UserDepartmentService userDepartmentService = (UserDepartmentService) ServiceFactory.getService(ServiceEnum.UserDepartmentService);
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         String username = request.getParameter("id");
-        UserService userService = (UserService) ServiceFactory.getService(ServiceEnum.UserService);
-        RoleService roleService = (RoleService) ServiceFactory.getService(ServiceEnum.RoleService);
-        CompanyService companyService = (CompanyService) ServiceFactory.getService(ServiceEnum.CompanyService);
-        DepartmentService departmentService = (DepartmentService) ServiceFactory.getService(ServiceEnum.DepartmentService);
 
         request.setAttribute("user", userService.findOne(username));
-        request.setAttribute("roles", roleService.findAll());
         request.setAttribute("companies", companyService.findAll());
         request.setAttribute("departments", departmentService.findAll());
 
@@ -37,5 +38,47 @@ public class SuperAdminEditUserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        String username = request.getParameter("id");
+        User user = userService.findOne(username);
+
+        // TODO: Check duplicate username/email and validate submission
+
+        String firstName = request.getParameter("first_name");
+        String lastName = request.getParameter("last_name");
+        String phoneNumber = request.getParameter("phone_number");
+        String email = request.getParameter("email");
+        String companyId = request.getParameter("company");
+        String departmentId = request.getParameter("department");
+
+        user.setName(firstName);
+        user.setSurname(lastName);
+        user.setPhoneNumber(phoneNumber);
+        user.setEmail(email);
+        userService.update(user);
+
+        if (companyId != null && !companyId.equals("nothing")) {
+            if (user.getUserCompany() == null) {
+                userCompanyService.save(new UserCompany(user.getUsername(), companyId));
+            } else {
+                user.getUserCompany().setCompanyId(companyId);
+                userCompanyService.update(user.getUserCompany());
+            }
+        } else {
+            userCompanyService.delete(user.getUsername());
+        }
+
+        if (departmentId != null && !departmentId.equals("nothing")) {
+            if (user.getUserDepartment() == null) {
+                userDepartmentService.save(new UserDepartment(user.getUsername(), departmentId));
+            } else {
+                user.getUserDepartment().setDepartmentId(departmentId);
+                userDepartmentService.update(user.getUserDepartment());
+            }
+
+        } else {
+            userDepartmentService.delete(user.getUsername());
+        }
+
+        response.sendRedirect("view_user?id=" + user.getUsername());
     }
 }

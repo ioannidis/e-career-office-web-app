@@ -19,6 +19,18 @@ public class RoleService implements IPersistenceService<Role> {
         return roleDao.findAll();
     }
 
+    public boolean save(Role obj) {
+        return roleDao.save(obj);
+    }
+
+    public boolean update(Role obj) {
+        return roleDao.update(obj);
+    }
+
+    public boolean delete(String id) {
+        return roleDao.delete(id);
+    }
+
     public int count() {
         return roleDao.count();
     }

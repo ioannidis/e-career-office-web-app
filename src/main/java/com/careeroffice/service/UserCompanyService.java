@@ -22,4 +22,20 @@ public class UserCompanyService implements IPersistenceService<UserCompany> {
 
         return userCompany;
     }
+
+    public boolean save(UserCompany obj) {
+        return userCompanyDao.save(obj);
+    }
+
+    public boolean update(UserCompany obj) {
+        return userCompanyDao.update(obj);
+    }
+
+    public boolean delete(String id) {
+        return userCompanyDao.delete(id);
+    }
+
+    public int count() {
+        return userCompanyDao.count();
+    }
 }
