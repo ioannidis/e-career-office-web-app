@@ -3,6 +3,7 @@ package com.careeroffice.dao.factory;
 import com.careeroffice.dao.*;
 import com.careeroffice.dao.pivot.KeywordClassifiedPivotDao;
 import com.careeroffice.dao.student.CvDao;
+import com.careeroffice.dao.student.KeywordCvDao;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -52,6 +53,10 @@ public class DaoFactory {
                 }
                 case KeywordDao: {
                     dao.put( daoEnum.toString(), new KeywordDao() );
+                    break;
+                }
+                case KeywordCvDao: {
+                    dao.put( daoEnum.toString(), new KeywordCvDao() );
                     break;
                 }
                 case KeywordClassifiedPivotDao: {

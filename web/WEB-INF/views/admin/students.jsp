@@ -15,9 +15,8 @@
 <!-- Navigation -->
 <c:import url="/WEB-INF/views/nav.jsp"></c:import>
 <%
-    request.getAttribute("skills");
     request.getAttribute("name");
-    request.getAttribute("classifiedSkills");
+    request.getAttribute("studentKeyword");
 %>
 <div class="content-wrapper">
     <div class="container-fluid">
@@ -47,13 +46,13 @@
                             <th>Phone Number</th>
                             <th>Email</th>
                             <th>Role</th>
-                            <th>Skills</th>
+                            <th>Keywords</th>
                             <th>Actions</th>
 
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${users}" var="users">
+                        <c:forEach items="${users}" var="users" varStatus="loop">
                             <tr>
                                 <td><c:out value="${users.username}" /></td>
                                 <td><c:out value="${users.name}" /></td>
@@ -61,11 +60,13 @@
                                 <td><c:out value="${users.phoneNumber}" /></td>
                                 <td><c:out value="${users.email}" /></td>
                                 <td><c:out value="${users.roleId}" /></td>
-                                <td><c:out value="${users.getUserSkills().skills}" /></td>
-                                <td><c:out value="${all}" /></td>
-                                <td><c:out value="${classifiedAll}" /></td>
                                 <td>
-                                    <a class="btn btn-primary" href="adminclassifieds?name=${users.name} ${users.surname}&studentSkills=${users.getUserSkills().getSlug()}"><i class="fas fa-clipboard" style="margin-right:8px"></i>Assign Job</a>
+
+                                    <c:out value="${studentKeyword[loop.index]}" />
+
+                                </td>
+                                <td>
+                                    <a class="btn btn-primary" href="adminclassifieds?name=${users.username}"><i class="fas fa-clipboard" style="margin-right:8px"></i>Assign Job</a>
 
                                 </td>
                             </tr>

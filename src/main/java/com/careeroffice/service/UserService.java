@@ -38,9 +38,7 @@ public class UserService implements IPersistenceService<User> {
         }
     }
 
-    private void setupSkills(User user,Skills skills) {
-        user.setUserSkills(skills);
-    }
+
 
     public User findOne(String username) {
         User user = userDao.findOne(username);
@@ -77,13 +75,7 @@ public class UserService implements IPersistenceService<User> {
     public List<User> findStudents() {
         List<User> users = userDao.findStudents();
         users.forEach(this::setupRelationships);
-        for (User student:users
-             ) {
-            String skills = userDao.findStudentSkills(student.getUsername(),"skills");
-            String slug = userDao.findStudentSkills(student.getUsername(),"slug");
-            Skills skill = new Skills(student.getUsername(),skills,slug);
-            setupSkills(student,skill);
-        }
+
         return users;
     }
 }

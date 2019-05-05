@@ -1,9 +1,12 @@
 package com.careeroffice.servlet;
 
-import com.careeroffice.model.Skills;
-import com.careeroffice.model.User;
+import com.careeroffice.model.*;
 import com.careeroffice.service.AuthService;
+import com.careeroffice.service.KeywordService;
 import com.careeroffice.service.UserService;
+import com.careeroffice.service.pivot.KeywordClassifiedPivotService;
+import com.careeroffice.service.student.CvService;
+import com.careeroffice.service.student.KeywordCvService;
 import com.careeroffice.util.UrlUtil;
 
 import javax.servlet.ServletException;
@@ -14,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 @WebServlet({"/AdminStudentsServlet", "/adminstudents"})
 public class AdminStudentsServlet extends HttpServlet {
@@ -30,6 +34,11 @@ public class AdminStudentsServlet extends HttpServlet {
 
         AuthService authService = new AuthService(request.getSession());
         UserService userService = new UserService();
+        KeywordCvService keywordCvService = new KeywordCvService();
+        KeywordService keywordService = new KeywordService();
+        CvService cvService = new CvService();
+        KeywordClassifiedPivotService keywordClassifiedPivotService = new KeywordClassifiedPivotService();
+
         if (!authService.isLoggedIn()) {
             response.sendRedirect("login");
             return;
@@ -40,71 +49,64 @@ public class AdminStudentsServlet extends HttpServlet {
             return;
         }
 
-        String classifiedSkills = UrlUtil.getParameterOrDefault(request, "classifiedSkills", "None");
+        String cl_id = UrlUtil.getParameterOrDefault(request, "cl_Id", "None");
         List<User> students = userService.findStudents();
+        List<String> studentKeywords = new ArrayList<>();
 
-        if (!(classifiedSkills.equals("None"))){
+        if (!(cl_id.equals("None"))) {
             List<User> deleteUsers = new ArrayList<>();
-            for (User student:students
-                 ) {
-                String skills = student.getUserSkills().getSlug();
-                if (!(skills.equals("None"))) {
-
-
-                    String[] all;
-                    if (!(skills.contains(","))) {
-                        all = new String[1];
-                        all[0] = skills;
-                    }
-                    else{
-                        all = skills.split(",");
-                    }
-
-
-                    String[] classifiedAll;
-                    if (!(classifiedSkills.contains(","))) {
-                        classifiedAll = new String[1];
-                        classifiedAll[0] = skills;
-                    }
-                    else{
-                        classifiedAll = classifiedSkills.split(",");
-                    }
-
-
+            List<Keyword> classifiedKeywords = keywordClassifiedPivotService.findByClassified(Integer.parseInt(cl_id));
+            for (User student : students
+            ) {
+                    Cv cv = cvService.findOne(student.getUsername());
+                    List<Keyword> keywordCv = keywordCvService.findByCv(cv.getId());
                     boolean found = false;
-                    for (String skill : classifiedAll
+                    for (Keyword clKeyword : classifiedKeywords
                     ) {
-                        for (String studentSkill : all
+                        for (Keyword keyword : keywordCv
                         ) {
-                            if (skill.contains(studentSkill)) {
+                            if (clKeyword.getSlug().equals(keyword.getSlug())) {
                                 found = true;
                                 break;
                             }
-
                         }
-                        if (found){break;}
                     }
+
                     if (!found) {
                         deleteUsers.add(student);
                     }
 
-                }
-                else{
-                    deleteUsers.add(student);
+            }
+            if (deleteUsers.size() != 0){
+                for (User student:deleteUsers
+                     ) {
+                    students.remove(student);
                 }
             }
 
-            if (deleteUsers.size()!= 0){
-                for (User user:deleteUsers
+
+        }
+
+        for (User student:students
+             ) {
+            List<String> keywords = new ArrayList<>();
+            StringJoiner joiner = new StringJoiner(",");
+            try {
+                Cv cv = cvService.findOne(student.getUsername());
+                List<Keyword> keywordCv = keywordCvService.findByCv(cv.getId());
+                for (Keyword keyword:keywordCv
                      ) {
-                    students.remove(user);
+                    joiner.add(keyword.getTitle());
                 }
+                studentKeywords.add(joiner.toString());
+            }
+            catch (NullPointerException e){
+                studentKeywords.add("None");
             }
         }
 
-
-
         request.setAttribute("users",students);
+        request.setAttribute("studentKeyword",studentKeywords);
 
 
         request.getRequestDispatcher("WEB-INF/views/admin/students.jsp").forward(request, response);
