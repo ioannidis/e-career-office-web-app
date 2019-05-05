@@ -17,7 +17,6 @@
 
 <%
     request.getAttribute("name");
-    request.getAttribute("keywords");
 %>
 
 <div class="content-wrapper">
@@ -45,16 +44,21 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${classifieds}" var="classified" varStatus="loop">
+                        <c:forEach items="${classifieds}" var="classifieds" varStatus="loop">
                             <tr>
-                                <td><c:out value="${classified.id}" /></td>
-                                <td><c:out value="${classified.title}" /></td>
-                                <td><c:out value="${classified.companyId}" /></td>
-                                <td><c:out value="${categories[classified.categoryId].title}" /></td>
-                                <td><c:out value="${keywords[loop.index]}" /></td>
+                                <td><c:out value="${classifieds.classified.id}" /></td>
+                                <td><c:out value="${classifieds.classified.title}" /></td>
+                                <td><c:out value="${classifieds.classified.companyId}" /></td>
+                                <td><c:out value="${categories[classifieds.classified.categoryId].title}" /></td>
+                                <td>
+                                    <c:forEach var="keyword" items="${classifieds.keywords}">
+                                        <span class="badge badge-info">${keyword.title}</span>
+                                    </c:forEach>
+                                </td>
 
                                 <td>
-                                    <a class="btn btn-primary" href="adminstudents?cl_id=${classified.id}"><i class="fas fa-user" style="margin-right:8px"></i>Assign Job to <c:out value="${name}" /></a>
+                                    <a class="btn btn-info" href="adminstudents?cl_id=${classifieds.classified.id}"><i class="fas fa-user" style="margin-right:8px"></i>Assign Job to <c:out value="${name}" /></a>
+                                    <a class="btn btn-primary" href="#"><i class="fas fa-external-link-alt" style="margin-right:8px"></i>Show</a>
                                 </td>
                             </tr>
                         </c:forEach>

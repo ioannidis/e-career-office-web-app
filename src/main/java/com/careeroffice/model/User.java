@@ -220,7 +220,7 @@ public class User {
     public void setUserCompany(UserCompany userCompany) {
         this.userCompany = userCompany;
     }
-    
+
 
     public UserDepartment getUserDepartment() {
         return userDepartment;

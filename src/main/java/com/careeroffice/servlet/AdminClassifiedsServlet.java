@@ -1,6 +1,7 @@
 package com.careeroffice.servlet;
 
 import com.careeroffice.model.*;
+import com.careeroffice.model.decorator.ClassifiedKeywordDecorator;
 import com.careeroffice.service.*;
 import com.careeroffice.service.factory.ServiceEnum;
 import com.careeroffice.service.factory.ServiceFactory;
@@ -40,9 +41,7 @@ public class AdminClassifiedsServlet extends HttpServlet {
         AuthService authService = new AuthService(request.getSession());
         ClassifiedService classifiedService = (ClassifiedService) ServiceFactory.getService( ServiceEnum.ClassifiedService );
         CategoryService categoryService = (CategoryService) ServiceFactory.getService( ServiceEnum.CategoryService );
-        KeywordCvService keywordCvService = new KeywordCvService();
         KeywordService keywordService = new KeywordService();
-        CvService cvService = new CvService();
         KeywordClassifiedPivotService keywordClassifiedPivotService = new KeywordClassifiedPivotService();
         UserService userService = new UserService();
 
@@ -60,67 +59,27 @@ public class AdminClassifiedsServlet extends HttpServlet {
         String name = UrlUtil.getParameterOrDefault(request, "name", "a Student");
 
         List<Classified> classifieds = classifiedService.findAll();
-        List<String> keywords = new ArrayList<>();
 
+        List<ClassifiedKeywordDecorator> classifiedList = new ArrayList<>();
 
-        if (!(name.equals("a Student"))) {
-            List<Classified> deleteClassifieds = new ArrayList<>();
-                for (Classified classified : classifieds
-                ) {
-                    try {
-                        Cv studentCv = cvService.findOne(name);
-                        List<Keyword> studentKeywords = keywordCvService.findByCv(studentCv.getId());
-                        List<Keyword> keywordList = keywordClassifiedPivotService.findByClassified(classified.getId());
-                        boolean found = false;
-                        for (Keyword keyword : studentKeywords
-                        ) {
-                            for (Keyword clKeyword : keywordList
-                            ) {
-                                if (keyword.getSlug().equals(clKeyword.getSlug())) {
-                                    found = true;
-                                    break;
-                                }
-                            }
-                        }
-                        if (!found) {
-                            deleteClassifieds.add(classified);
-                        }
-                    } catch (NullPointerException e) {
-                        deleteClassifieds.add(classified);
-                    }
-                }
-            if (deleteClassifieds.size() != 0) {
-                for (Classified classified : deleteClassifieds
-                ) {
-                    classifieds.remove(classified);
-                }
-            }
-
-
-        }
-        for (Classified classified:classifieds
+        for (Classified classified : classifieds
         ) {
-            StringJoiner joiner = new StringJoiner(",");
-            try {
-                List<Keyword> keywordCv = keywordClassifiedPivotService.findByClassified(classified.getId());
-                for (Keyword keyword:keywordCv
-                ) {
-                    joiner.add(keyword.getTitle());
-                }
-                keywords.add(joiner.toString());
-            }
-            catch (NullPointerException e){
-                keywords.add("None");
-            }
+            List<Keyword> keywordList = keywordClassifiedPivotService.findByClassified(classified.getId());
+            ClassifiedKeywordDecorator classifiedKeywordDecorator = new ClassifiedKeywordDecorator(classified);
+            classifiedKeywordDecorator.setKeywords(keywordList);
+            classifiedList.add(classifiedKeywordDecorator);
         }
+
+
+
+
 
 
         Map<Integer, Category> categoryMap = categoryService.findAll().stream()
                 .collect( Collectors.toMap( Category::getId, x -> x ) );
-        request.setAttribute( "classifieds", classifieds );
+        request.setAttribute( "classifieds", classifiedList );
         request.setAttribute( "categories", categoryMap );
         request.setAttribute("name", name);
-        request.setAttribute("keywords", keywords);
         request.getRequestDispatcher("WEB-INF/views/admin/classifieds.jsp").forward(request, response);
 
     }

@@ -10,7 +10,7 @@ public class DatabaseConnection {
     private static DatabaseConnection db;
     private static Connection connection;
 
-    private static final String who = "panos";
+    private static final String who = "dionisis";
     private static String URL = "";
     private static String User = "";
     private static String Password = "";
@@ -23,7 +23,7 @@ public class DatabaseConnection {
     private static final String Panos_User = "root";
     private static final String Panos_Password = "123456";
 
-    private static final String Dionisis_URL = "jdbc:mysql://localhost:3306/career_office_test?serverTimezone=Europe/Athens&useSSL=false";
+    private static final String Dionisis_URL = "jdbc:mysql://localhost:3306/career_office?serverTimezone=Europe/Athens&useSSL=false";
     private static final String Dionisis_User = "root";
     private static final String Dionisis_Password = "123456";
 
