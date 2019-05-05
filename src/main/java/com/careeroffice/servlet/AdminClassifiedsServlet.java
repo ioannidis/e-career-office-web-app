@@ -5,7 +5,7 @@ import com.careeroffice.service.*;
 import com.careeroffice.service.factory.ServiceEnum;
 import com.careeroffice.service.factory.ServiceFactory;
 import com.careeroffice.service.pivot.KeywordClassifiedPivotService;
-import com.careeroffice.service.student.CvService;
+import com.careeroffice.service.CvService;
 import com.careeroffice.service.student.KeywordCvService;
 import com.careeroffice.util.UrlUtil;
 

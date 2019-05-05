@@ -1,17 +1,17 @@
 package com.careeroffice.model;
 
-public class KeywordCv {
+public class KeywordCvPivot {
 
     private int keywordId;
 
-    private int CvId;
+    private int cvId;
 
-    public KeywordCv() {
+    public KeywordCvPivot() {
     }
 
-    public KeywordCv( int keywordId, int CvId ) {
+    public KeywordCvPivot( int keywordId, int cvId ) {
         this.keywordId = keywordId;
-        this.CvId = CvId;
+        this.cvId = cvId;
     }
 
     public int getKeywordId() {
@@ -23,10 +23,10 @@ public class KeywordCv {
     }
 
     public int getCvId() {
-        return CvId;
+        return cvId;
     }
 
-    public void setCvId( int classifiedId ) {
-        this.CvId = classifiedId;
+    public void setCvId( int cvId ) {
+        this.cvId = cvId;
     }
 }

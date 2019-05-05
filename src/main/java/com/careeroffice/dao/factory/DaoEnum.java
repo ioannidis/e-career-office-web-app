@@ -12,5 +12,6 @@ public enum DaoEnum {
     UserDepartmentDao,
     KeywordDao,
     KeywordCvDao,
-    KeywordClassifiedPivotDao
+    KeywordClassifiedPivotDao,
+    KeywordCvPivotDao
 }

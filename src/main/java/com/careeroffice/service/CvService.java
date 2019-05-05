@@ -1,8 +1,8 @@
-package com.careeroffice.service.student;
+package com.careeroffice.service;
 
 import com.careeroffice.dao.factory.DaoEnum;
 import com.careeroffice.dao.factory.DaoFactory;
-import com.careeroffice.dao.student.CvDao;
+import com.careeroffice.dao.CvDao;
 import com.careeroffice.model.Cv;
 import com.careeroffice.service.IPersistenceService;
 
@@ -11,9 +11,7 @@ public class CvService implements IPersistenceService<Cv> {
     private CvDao cvDao = (CvDao) DaoFactory.getDao(DaoEnum.CvDao);
 
     public Cv findOne(String username) {
-        System.out.println(111);
-        Cv fetchedCv = cvDao.findOne(username);
-        return  fetchedCv;
+        return cvDao.findOne(username);
     }
 
     public void save(String username, String file_url) {

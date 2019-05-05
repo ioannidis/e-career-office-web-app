@@ -15,5 +15,6 @@ public enum ServiceEnum {
     UserDepartmentService,
     KeywordService,
     KeywordCvService,
-    KeywordClassifiedPivotService
+    KeywordClassifiedPivotService,
+    KeywordCvPivotService
 }

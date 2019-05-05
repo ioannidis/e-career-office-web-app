@@ -2,7 +2,8 @@ package com.careeroffice.service.factory;
 
 import com.careeroffice.service.*;
 import com.careeroffice.service.pivot.KeywordClassifiedPivotService;
-import com.careeroffice.service.student.CvService;
+import com.careeroffice.service.CvService;
+import com.careeroffice.service.pivot.KeywordCvPivotService;
 import com.careeroffice.service.student.KeywordCvService;
 
 import java.util.HashMap;
@@ -70,6 +71,10 @@ public class ServiceFactory {
                 }
                 case KeywordClassifiedPivotService: {
                     serviceCache.put( serviceEnum.toString(), new KeywordClassifiedPivotService() );
+                    break;
+                }
+                case KeywordCvPivotService: {
+                    serviceCache.put( serviceEnum.toString(), new KeywordCvPivotService() );
                     break;
                 }
                 default:

@@ -1,13 +1,16 @@
 package com.careeroffice.servlet;
 
 import com.careeroffice.model.*;
+import com.careeroffice.model.decorator.UserKeywordDecorator;
 import com.careeroffice.service.AuthService;
 import com.careeroffice.service.KeywordService;
 import com.careeroffice.service.UserService;
+import com.careeroffice.service.factory.ServiceEnum;
+import com.careeroffice.service.factory.ServiceFactory;
 import com.careeroffice.service.pivot.KeywordClassifiedPivotService;
-import com.careeroffice.service.student.CvService;
+import com.careeroffice.service.CvService;
+import com.careeroffice.service.pivot.KeywordCvPivotService;
 import com.careeroffice.service.student.KeywordCvService;
-import com.careeroffice.util.UrlUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,7 +20,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringJoiner;
 
 @WebServlet({"/AdminStudentsServlet", "/adminstudents"})
 public class AdminStudentsServlet extends HttpServlet {
@@ -34,10 +36,8 @@ public class AdminStudentsServlet extends HttpServlet {
 
         AuthService authService = new AuthService(request.getSession());
         UserService userService = new UserService();
-        KeywordCvService keywordCvService = new KeywordCvService();
-        KeywordService keywordService = new KeywordService();
         CvService cvService = new CvService();
-        KeywordClassifiedPivotService keywordClassifiedPivotService = new KeywordClassifiedPivotService();
+        KeywordCvPivotService keywordCvPivotService = (KeywordCvPivotService) ServiceFactory.getService( ServiceEnum.KeywordCvPivotService );
 
         if (!authService.isLoggedIn()) {
             response.sendRedirect("login");
@@ -49,65 +49,18 @@ public class AdminStudentsServlet extends HttpServlet {
             return;
         }
 
-        String cl_id = UrlUtil.getParameterOrDefault(request, "cl_Id", "None");
         List<User> students = userService.findStudents();
-        List<String> studentKeywords = new ArrayList<>();
 
-        if (!(cl_id.equals("None"))) {
-            List<User> deleteUsers = new ArrayList<>();
-            List<Keyword> classifiedKeywords = keywordClassifiedPivotService.findByClassified(Integer.parseInt(cl_id));
-            for (User student : students
-            ) {
-                    Cv cv = cvService.findOne(student.getUsername());
-                    List<Keyword> keywordCv = keywordCvService.findByCv(cv.getId());
-                    boolean found = false;
-                    for (Keyword clKeyword : classifiedKeywords
-                    ) {
-                        for (Keyword keyword : keywordCv
-                        ) {
-                            if (clKeyword.getSlug().equals(keyword.getSlug())) {
-                                found = true;
-                                break;
-                            }
-                        }
-                    }
+        List<UserKeywordDecorator> users = new ArrayList<>();
+        for ( User student: students ) {
+            int cvId = cvService.findOne( student.getUsername() ).getId();
 
-                    if (!found) {
-                        deleteUsers.add(student);
-                    }
-
-            }
-            if (deleteUsers.size() != 0){
-                for (User student:deleteUsers
-                     ) {
-                    students.remove(student);
-                }
-            }
-
-
+            UserKeywordDecorator userKeywordDecorator = new UserKeywordDecorator( student );
+            userKeywordDecorator.setKeywords( keywordCvPivotService.findByCvId( cvId ) );
+            users.add( userKeywordDecorator );
         }
 
-        for (User student:students
-             ) {
-            List<String> keywords = new ArrayList<>();
-            StringJoiner joiner = new StringJoiner(",");
-            try {
-                Cv cv = cvService.findOne(student.getUsername());
-                List<Keyword> keywordCv = keywordCvService.findByCv(cv.getId());
-                for (Keyword keyword:keywordCv
-                     ) {
-                    joiner.add(keyword.getTitle());
-                }
-                studentKeywords.add(joiner.toString());
-            }
-            catch (NullPointerException e){
-                studentKeywords.add("None");
-            }
-        }
-
-        request.setAttribute("users",students);
-        request.setAttribute("studentKeyword",studentKeywords);
-
+        request.setAttribute("users", users);
 
         request.getRequestDispatcher("WEB-INF/views/admin/students.jsp").forward(request, response);
 

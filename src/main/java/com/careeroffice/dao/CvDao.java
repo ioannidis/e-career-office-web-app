@@ -1,4 +1,4 @@
-package com.careeroffice.dao.student;
+package com.careeroffice.dao;
 
 import com.careeroffice.dao.CrudDao;
 import com.careeroffice.database.DatabaseConnection;

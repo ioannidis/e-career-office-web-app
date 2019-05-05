@@ -16,7 +16,7 @@ import com.careeroffice.model.Cv;
 import com.careeroffice.model.User;
 import com.careeroffice.service.factory.ServiceEnum;
 import com.careeroffice.service.factory.ServiceFactory;
-import com.careeroffice.service.student.CvService;
+import com.careeroffice.service.CvService;
 
 
 

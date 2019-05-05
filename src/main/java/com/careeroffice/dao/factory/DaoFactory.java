@@ -2,7 +2,8 @@ package com.careeroffice.dao.factory;
 
 import com.careeroffice.dao.*;
 import com.careeroffice.dao.pivot.KeywordClassifiedPivotDao;
-import com.careeroffice.dao.student.CvDao;
+import com.careeroffice.dao.pivot.KeywordCvPivotDao;
+import com.careeroffice.dao.CvDao;
 import com.careeroffice.dao.student.KeywordCvDao;
 
 import java.util.HashMap;
@@ -61,6 +62,10 @@ public class DaoFactory {
                 }
                 case KeywordClassifiedPivotDao: {
                     dao.put( daoEnum.toString(), new KeywordClassifiedPivotDao() );
+                    break;
+                }
+                case KeywordCvPivotDao: {
+                    dao.put( daoEnum.toString(), new KeywordCvPivotDao() );
                     break;
                 }
                 default:

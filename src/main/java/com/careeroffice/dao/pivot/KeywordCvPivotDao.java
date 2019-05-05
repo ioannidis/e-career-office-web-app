@@ -1,8 +1,10 @@
-package com.careeroffice.dao.student;
+package com.careeroffice.dao.pivot;
 
 import com.careeroffice.dao.CrudDao;
 import com.careeroffice.database.DatabaseConnection;
+import com.careeroffice.model.KeywordClassifiedPivot;
 import com.careeroffice.model.KeywordCvPivot;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class KeywordCvDao implements CrudDao<KeywordCvPivot, Integer> {
+public class KeywordCvPivotDao implements CrudDao<KeywordCvPivot, Integer> {
     @Override
     public KeywordCvPivot findOne( Integer id ) {
         return null;
@@ -89,7 +91,7 @@ public class KeywordCvDao implements CrudDao<KeywordCvPivot, Integer> {
         }
     }
 
-    public boolean delete( KeywordCvPivot obj ) {
+    public boolean delete( KeywordClassifiedPivot obj ) {
         Connection con = null;
         PreparedStatement stmt = null;
 
@@ -100,7 +102,7 @@ public class KeywordCvDao implements CrudDao<KeywordCvPivot, Integer> {
 
             stmt = con.prepareStatement(str);
             stmt.setInt(1, obj.getKeywordId());
-            stmt.setInt(1, obj.getCvId());
+            stmt.setInt(1, obj.getClassifiedId());
 
             stmt.executeUpdate();
 
@@ -125,8 +127,8 @@ public class KeywordCvDao implements CrudDao<KeywordCvPivot, Integer> {
         return 0;
     }
 
-    public List<KeywordCvPivot> findByCv( int id) {
-        List<KeywordCvPivot> keywordCvs = new ArrayList<>();
+    public List<KeywordClassifiedPivot> findByCvId(int id) {
+        List<KeywordClassifiedPivot> keywordClassifiedPivots = new ArrayList<>();
 
         Connection con = null;
         ResultSet rs = null;
@@ -143,7 +145,7 @@ public class KeywordCvDao implements CrudDao<KeywordCvPivot, Integer> {
             rs = stmt.executeQuery();
 
             while  (rs.next()) {
-                keywordCvs.add(new KeywordCvPivot(
+                keywordClassifiedPivots.add(new KeywordClassifiedPivot(
                         rs.getInt("keyword_id"),
                         rs.getInt("cv_id")));
             }
@@ -161,8 +163,6 @@ public class KeywordCvDao implements CrudDao<KeywordCvPivot, Integer> {
 
         }
 
-        return keywordCvs;
+        return keywordClassifiedPivots;
     }
-
-
 }

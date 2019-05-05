@@ -43,31 +43,29 @@
                             <th>Username</th>
                             <th>First Name</th>
                             <th>Last Name</th>
-                            <th>Phone Number</th>
                             <th>Email</th>
-                            <th>Role</th>
                             <th>Keywords</th>
                             <th>Actions</th>
 
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${users}" var="users" varStatus="loop">
+                        <c:forEach var="student" items="${users}">
                             <tr>
-                                <td><c:out value="${users.username}" /></td>
-                                <td><c:out value="${users.name}" /></td>
-                                <td><c:out value="${users.surname}" /></td>
-                                <td><c:out value="${users.phoneNumber}" /></td>
-                                <td><c:out value="${users.email}" /></td>
-                                <td><c:out value="${users.roleId}" /></td>
+                                <td><c:out value="${student.user.username}" /></td>
+                                <td><c:out value="${student.user.name}" /></td>
+                                <td><c:out value="${student.user.surname}" /></td>
+                                <td><c:out value="${student.user.email}" /></td>
                                 <td>
-
-                                    <c:out value="${studentKeyword[loop.index]}" />
-
+                                    <c:forEach var="keyword" items="${student.keywords}">
+                                        <span class="badge badge-info">${keyword.title}</span>
+                                    </c:forEach>
                                 </td>
                                 <td>
-                                    <a class="btn btn-primary" href="adminclassifieds?name=${users.username}"><i class="fas fa-clipboard" style="margin-right:8px"></i>Assign Job</a>
-
+                                    <a class="btn btn-info" href="#"><i class="fas fa-phone" style="margin-right:8px"></i>Contact</a>
+                                    <a class="btn btn-primary" href="#"><i class="fas fa-external-link-alt" style="margin-right:8px"></i>Show</a>
+                                    <a class="btn btn-warning" href="#"><i class="far fa-edit" style="margin-right:8px"></i>Edit</a>
+                                    <a class="btn btn-danger" href="#"><i class="fas fa-times" style="margin-right:8px"></i>Delete</a>
                                 </td>
                             </tr>
                         </c:forEach>
