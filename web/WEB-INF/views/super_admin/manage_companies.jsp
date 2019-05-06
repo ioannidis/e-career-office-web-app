@@ -11,7 +11,7 @@
 <hr>
 <p>
     <strong>
-        <a href="#">
+        <a href="<c:url value="/create_company"/>">
             + Create Company
         </a>
     </strong>
@@ -38,13 +38,17 @@
             <td><c:out value="${company.email}" default="-" /></td>
             <td><c:out value="${company.website}" default="-" /></td>
             <td>
-                <a href="#">Edit</a> / <a href="#">Delete</a>
+                <a href="<c:url value="/view_company?id=${company.id}"/>">View</a>
+                /
+                <a href="<c:url value="/edit_company?id=${company.id}"/>">Edit</a>
+                /
+                <a href="<c:url value="/delete_company?id=${company.id}"/>">Delete</a>
             </td>
         </tr>
     </c:forEach>
     </tbody>
 </table>
 
-<p>Displaying <strong><c:out value="${companyCount}"/> companies</strong> in total.</p>
+<p>Displaying <strong>${companyCount} companies</strong> in total.</p>
 </body>
 </html>

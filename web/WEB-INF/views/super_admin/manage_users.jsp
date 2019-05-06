@@ -53,6 +53,6 @@
     </tbody>
 </table>
 
-<p>Displaying <strong><c:out value="${userCount}"/> users</strong> in total.</p>
+<p>Displaying <strong>${userCount} users</strong> in total.</p>
 </body>
 </html>

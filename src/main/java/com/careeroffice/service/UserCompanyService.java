@@ -6,6 +6,8 @@ import com.careeroffice.dao.factory.DaoEnum;
 import com.careeroffice.dao.factory.DaoFactory;
 import com.careeroffice.model.UserCompany;
 
+import java.util.List;
+
 public class UserCompanyService implements IPersistenceService<UserCompany> {
 
     private UserCompanyDao userCompanyDao = (UserCompanyDao) DaoFactory.getDao(DaoEnum.UserCompanyDao);
@@ -21,6 +23,14 @@ public class UserCompanyService implements IPersistenceService<UserCompany> {
         setupRelationships(userCompany);
 
         return userCompany;
+    }
+
+    public List<UserCompany> findAll() {
+        List<UserCompany> userCompanies = userCompanyDao.findAll();
+
+        userCompanies.forEach(this::setupRelationships);
+
+        return userCompanies;
     }
 
     public UserCompany save(UserCompany obj) {

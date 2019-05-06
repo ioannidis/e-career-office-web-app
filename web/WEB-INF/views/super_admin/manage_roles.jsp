@@ -9,13 +9,6 @@
 <h2>Manage Roles</h2>
 <p><a href="<c:url value="/super_admin"/>"><< Back</a></p>
 <hr>
-<p>
-    <strong>
-        <a href="#">
-            + Create Role
-        </a>
-    </strong>
-</p>
 <table>
     <thead>
     <tr>
@@ -30,7 +23,7 @@
             <td><c:out value="${role.id}" default="-"/></td>
             <td><c:out value="${role.title}" default="-"/></td>
             <td>
-                <a href="#">Edit</a> / <a href="#">Delete</a>
+                <a href="#">View</a>
             </td>
         </tr>
     </c:forEach>

@@ -30,7 +30,11 @@
             <td><c:out value="${department.id}" default="-"/></td>
             <td><c:out value="${department.title}" default="-"/></td>
             <td>
-                <a href="#">Edit</a> / <a href="#">Delete</a>
+                <a href="#">View</a>
+                /
+                <a href="#">Edit</a>
+                /
+                <a href="#">Delete</a>
             </td>
         </tr>
     </c:forEach>
