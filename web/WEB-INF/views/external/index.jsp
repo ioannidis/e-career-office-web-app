@@ -22,6 +22,11 @@
 				<li class="breadcrumb-item"><a href="/external">External</a></li>
 			</ol>
 
+			<div style="text-align:right">
+				<a href="external?action=edit" class="btn btn-warning"><i class="fas fa-pencil-alt" style="margin-right:8px"></i>Edit details</a>
+			</div>
+			<br/>
+
 			<div class="card mb-3">
 				<div class="card-header">
 					<i class="fa fa-user-circle"></i><b>External Information</b>
