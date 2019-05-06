@@ -11,7 +11,7 @@
 <hr>
 <p>
     <strong>
-        <a href="#">
+        <a href="<c:url value="/create_department"/>">
             + Create Department
         </a>
     </strong>
@@ -30,11 +30,11 @@
             <td><c:out value="${department.id}" default="-"/></td>
             <td><c:out value="${department.title}" default="-"/></td>
             <td>
-                <a href="#">View</a>
+                <a href="<c:url value="/view_department?id=${department.id}"/>">View</a>
                 /
-                <a href="#">Edit</a>
+                <a href="<c:url value="/edit_department?id=${department.id}"/>">Edit</a>
                 /
-                <a href="#">Delete</a>
+                <a href="<c:url value="/delete_department?id=${department.id}"/>">Delete</a>
             </td>
         </tr>
     </c:forEach>

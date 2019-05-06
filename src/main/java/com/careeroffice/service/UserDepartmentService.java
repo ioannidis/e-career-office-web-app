@@ -6,6 +6,8 @@ import com.careeroffice.dao.factory.DaoEnum;
 import com.careeroffice.dao.factory.DaoFactory;
 import com.careeroffice.model.UserDepartment;
 
+import java.util.List;
+
 public class UserDepartmentService implements IPersistenceService<UserDepartment> {
 
     private UserDepartmentDao userDepartmentDao = (UserDepartmentDao) DaoFactory.getDao(DaoEnum.UserDepartmentDao);
@@ -21,6 +23,14 @@ public class UserDepartmentService implements IPersistenceService<UserDepartment
         setupRelationships(userDepartment);
 
         return userDepartment;
+    }
+
+    public List<UserDepartment> findAll() {
+        List<UserDepartment> userDepartments = userDepartmentDao.findAll();
+
+        userDepartments.forEach(this::setupRelationships);
+
+        return userDepartments;
     }
 
     public UserDepartment save(UserDepartment obj) {
