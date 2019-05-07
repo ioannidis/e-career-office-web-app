@@ -15,6 +15,7 @@
 <!-- Navigation -->
 <c:import url="/WEB-INF/views/nav.jsp"></c:import>
 <%
+    request.getAttribute("id");
 %>
 <div class="content-wrapper">
     <div class="container-fluid">
@@ -24,20 +25,21 @@
             <div class="card card-register mx-auto mt-5">
                 <div class="card-header">Contact Student</div>
                 <div class="card-body">
-                    <form method="post" action="admincontact">
+                    <form method="post" action="admincontact?id=${id}">
+
                         <p>
                             <label for="classified">Job:</label>
                             <select class="form-control" name="classified" id="classified" required>
-                                <c:forEach items="${ categories }" var="category">
-                                    <option value="<c:out value="${ category.id }"/>" <c:if test="${category.id == classified.categoryId}">selected</c:if> >
-                                        <c:out value="${ category.title}" />
+                                <c:forEach items="${ classifieds }" var="classified">
+                                    <option value="<c:out value="${ classified.getClassified().title }"/>" >
+                                        <c:out value="${ classified.getClassified().title} | ${ classified.getClassified().title}" />
                                     </option>
                                 </c:forEach>
                             </select>
                         </p>
                         <div class="form-group">
                             <label for="comment">Message:</label>
-                            <textarea class="form-control" rows="4" id="comment"></textarea>
+                            <textarea class="form-control" rows="4" id="comment" required></textarea>
                         </div>
                         <input  type="submit" class="btn btn-info"  value="Contact Student">
                     </form>

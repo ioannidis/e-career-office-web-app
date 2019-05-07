@@ -62,7 +62,7 @@
                                     </c:forEach>
                                 </td>
                                 <td>
-                                    <a class="btn btn-info" href="<c:url value="/admincontact"/>"><i class="fas fa-phone" style="margin-right:8px"></i>Contact</a>
+                                    <a class="btn btn-info" href="<c:url value="admincontact?id=${student.user.username}"/>"><i class="fas fa-phone" style="margin-right:8px"></i>Contact</a>
                                     <a class="btn btn-primary" href="adminstudents?name=${student.user.username}&action=Show"><i class="fas fa-external-link-alt" style="margin-right:8px"></i>Show</a>
                                     <a class="btn btn-warning" href="adminstudents?name=${student.user.username}&action=edit"><i class="far fa-edit" style="margin-right:8px"></i>Edit</a>
                                     <form action="<c:url value="adminstudents?name=${student.user.username}&action=delete"/>" method="POST">
