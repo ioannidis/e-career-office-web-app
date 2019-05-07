@@ -28,7 +28,7 @@ public class KeywordCvPivotService implements IPersistenceService<KeywordCvPivot
         return keywordCvPivotDao.save(obj);
     }
 
-    public boolean deleteByClassifiedId(int id) {
+    public boolean deleteByCvId(int id) {
         return keywordCvPivotDao.delete(id);
     }
 }

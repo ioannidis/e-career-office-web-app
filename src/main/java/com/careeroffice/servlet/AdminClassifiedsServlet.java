@@ -62,25 +62,59 @@ public class AdminClassifiedsServlet extends HttpServlet {
 
         List<ClassifiedKeywordDecorator> classifiedList = new ArrayList<>();
 
-        for (Classified classified : classifieds
-        ) {
-            List<Keyword> keywordList = keywordClassifiedPivotService.findByClassified(classified.getId());
-            ClassifiedKeywordDecorator classifiedKeywordDecorator = new ClassifiedKeywordDecorator(classified);
-            classifiedKeywordDecorator.setKeywords(keywordList);
-            classifiedList.add(classifiedKeywordDecorator);
+        String action = UrlUtil.getParameterOrDefault(request, "action", "index");
+        Integer id = UrlUtil.getParameterOrDefault(request, "id", -1);
+
+        switch (action) {
+            case "show": {
+                Classified classified = classifiedService.findOne(id);
+
+                System.out.println(keywordClassifiedPivotService.findByClassified(classified.getId()));
+
+                request.setAttribute("classified", classified);
+                request.setAttribute("category", categoryService.findOne(classified.getCategoryId()));
+                request.setAttribute("keywords", keywordClassifiedPivotService.findByClassified(classified.getId()));
+                request.getRequestDispatcher("WEB-INF/views/admin/show_classified.jsp").forward(request, response);
+                break;
+            }
+            case "edit": {
+                Classified classified = classifiedService.findOne(id);
+                List<Keyword> keywords = keywordService.findAll();
+                Map<Integer, Keyword> selectedKeywords = keywordClassifiedPivotService.findByClassified(classified.getId()).stream()
+                        .collect(Collectors.toMap(x -> x.getId(), x -> x));
+
+                request.setAttribute("classified", classified);
+                request.setAttribute("categories", categoryService.findAll());
+                request.setAttribute("selectedKeywords", selectedKeywords);
+                request.setAttribute("allKeywords", keywords);
+                request.getRequestDispatcher("WEB-INF/views/admin/edit_classified.jsp").forward(request, response);
+                break;
+            }
+            case "delete": {
+                keywordClassifiedPivotService.deleteByClassifiedId(id);
+                classifiedService.delete(id);
+
+                response.sendRedirect("adminclassifieds");
+                break;
+            }
+            default: {
+                for (Classified classified : classifieds
+                ) {
+                    List<Keyword> keywordList = keywordClassifiedPivotService.findByClassified(classified.getId());
+                    ClassifiedKeywordDecorator classifiedKeywordDecorator = new ClassifiedKeywordDecorator(classified);
+                    classifiedKeywordDecorator.setKeywords(keywordList);
+                    classifiedList.add(classifiedKeywordDecorator);
+                }
+
+                Map<Integer, Category> categoryMap = categoryService.findAll().stream()
+                        .collect( Collectors.toMap( Category::getId, x -> x ) );
+                request.setAttribute( "classifieds", classifiedList );
+                request.setAttribute( "categories", categoryMap );
+                request.setAttribute("name", name);
+                request.getRequestDispatcher("WEB-INF/views/admin/classifieds.jsp").forward(request, response);
+            }
         }
 
-
-
-
-
-
-        Map<Integer, Category> categoryMap = categoryService.findAll().stream()
-                .collect( Collectors.toMap( Category::getId, x -> x ) );
-        request.setAttribute( "classifieds", classifiedList );
-        request.setAttribute( "categories", categoryMap );
-        request.setAttribute("name", name);
-        request.getRequestDispatcher("WEB-INF/views/admin/classifieds.jsp").forward(request, response);
 
     }
 
@@ -89,6 +123,70 @@ public class AdminClassifiedsServlet extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doGet(request,response);
+        AuthService authService = new AuthService(request.getSession());
+        ClassifiedService classifiedService = (ClassifiedService) ServiceFactory.getService(ServiceEnum.ClassifiedService);
+        KeywordClassifiedPivotService keywordClassifiedPivotService = (KeywordClassifiedPivotService) ServiceFactory.getService(ServiceEnum.KeywordClassifiedPivotService);
+
+
+        if (!authService.isLoggedIn()) {
+            response.sendRedirect("login");
+            return;
+        }
+
+        if (!authService.hasRole("admin")) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+            return;
+        }
+
+        String action = UrlUtil.getParameterOrDefault(request, "action", "index");
+        Integer id = UrlUtil.getParameterOrDefault(request, "id", -1);
+
+        switch (action) {
+            case "save": {
+                Classified classified = new Classified(
+                        request.getParameter("title"),
+                        request.getParameter("content"),
+                        request.getParameter("companyId"),
+                        Integer.parseInt(request.getParameter("categoryId"))
+                );
+
+                classified = classifiedService.save(classified);
+
+                String[] keywordArray = request.getParameterValues("keywordIds");
+
+                for ( String x: keywordArray) {
+                    keywordClassifiedPivotService.save(new KeywordClassifiedPivot(Integer.valueOf(x), classified.getId()));
+                }
+
+                response.sendRedirect("adminclassifieds");
+                break;
+            }
+            case "update": {
+                Classified classified = classifiedService.findOne(id);
+
+                classified.setTitle(UrlUtil.getParameterOrDefault(request, "title", classified.getTitle()));
+                classified.setContent(UrlUtil.getParameterOrDefault(request, "content", classified.getContent()));
+                classified.setCompanyId(UrlUtil.getParameterOrDefault(request, "companyId", classified.getCompanyId()));
+                classified.setCategoryId(UrlUtil.getParameterOrDefault(request, "categoryId", classified.getCategoryId()));
+
+                classifiedService.update(classified);
+
+                keywordClassifiedPivotService.deleteByClassifiedId( classified.getId() );
+
+                String[] keywordArray = request.getParameterValues("keywordIds");
+                for ( String x: keywordArray) {
+                    keywordClassifiedPivotService.save(new KeywordClassifiedPivot(Integer.valueOf(x), classified.getId()));
+                }
+
+                response.sendRedirect("adminclassifieds");
+                break;
+            }
+            default: {
+                doGet(request, response);
+                break;
+            }
+        }
+
+
     }
 }

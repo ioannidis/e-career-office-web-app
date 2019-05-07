@@ -22,4 +22,6 @@ public class CvService implements IPersistenceService<Cv> {
     public void update(Cv object) {
         cvDao.update(object);
     }
+
+    public void delete(String id) {cvDao.delete(id); }
 }

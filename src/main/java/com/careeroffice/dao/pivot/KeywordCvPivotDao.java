@@ -91,7 +91,7 @@ public class KeywordCvPivotDao implements CrudDao<KeywordCvPivot, Integer> {
         }
     }
 
-    public boolean delete( KeywordClassifiedPivot obj ) {
+    public boolean delete( KeywordCvPivot obj ) {
         Connection con = null;
         PreparedStatement stmt = null;
 
@@ -102,7 +102,7 @@ public class KeywordCvPivotDao implements CrudDao<KeywordCvPivot, Integer> {
 
             stmt = con.prepareStatement(str);
             stmt.setInt(1, obj.getKeywordId());
-            stmt.setInt(1, obj.getClassifiedId());
+            stmt.setInt(1, obj.getCvId());
 
             stmt.executeUpdate();
 
@@ -127,8 +127,8 @@ public class KeywordCvPivotDao implements CrudDao<KeywordCvPivot, Integer> {
         return 0;
     }
 
-    public List<KeywordClassifiedPivot> findByCvId(int id) {
-        List<KeywordClassifiedPivot> keywordClassifiedPivots = new ArrayList<>();
+    public List<KeywordCvPivot> findByCvId(int id) {
+        List<KeywordCvPivot> keywordCvPivots = new ArrayList<>();
 
         Connection con = null;
         ResultSet rs = null;
@@ -145,7 +145,7 @@ public class KeywordCvPivotDao implements CrudDao<KeywordCvPivot, Integer> {
             rs = stmt.executeQuery();
 
             while  (rs.next()) {
-                keywordClassifiedPivots.add(new KeywordClassifiedPivot(
+                keywordCvPivots.add(new KeywordCvPivot(
                         rs.getInt("keyword_id"),
                         rs.getInt("cv_id")));
             }
@@ -163,6 +163,6 @@ public class KeywordCvPivotDao implements CrudDao<KeywordCvPivot, Integer> {
 
         }
 
-        return keywordClassifiedPivots;
+        return keywordCvPivots;
     }
 }

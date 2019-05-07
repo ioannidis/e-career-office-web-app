@@ -122,8 +122,36 @@ public class CvDao implements CrudDao<Cv, String> {
 
     @Override
     public boolean delete(String id) {
-        return false;
+
+        Connection con = null;
+        PreparedStatement stmt = null;
+
+        String str = "DELETE FROM cvs WHERE cvs.username=? ";
+
+        try {
+            con = DatabaseConnection.getConnection();
+
+            stmt = con.prepareStatement(str);
+            stmt.setString(1, id);
+
+            stmt.executeUpdate();
+
+            return true;
+
+        } catch ( SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                stmt.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
+
 
     @Override
     public int count() {
