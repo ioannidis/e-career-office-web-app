@@ -11,6 +11,11 @@ public class Keyword {
     public Keyword() {
     }
 
+    public Keyword(String title, String slug ) {
+        this.title = title;
+        this.slug = slug;
+    }
+
     public Keyword( int id, String title, String slug ) {
         this.id = id;
         this.title = title;

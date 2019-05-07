@@ -67,7 +67,6 @@ public class CvDao implements CrudDao<Cv, String> {
 
             stmt = con.prepareStatement(str);
             stmt.setString(1, obj.getUsername());
-            System.out.println(obj.getFileUrl());
             stmt.setString(2, obj.getFileUrl());
 
             stmt.executeUpdate();

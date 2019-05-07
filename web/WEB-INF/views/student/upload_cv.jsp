@@ -82,22 +82,10 @@
                 <div class="form-group">
                     <label for="keywords">Keywords</label>
                     <select name="keywords" id="keywords" class="form-control" multiple data-role="tagsinput">
-                        <option value="Machine Learning">Machine Learning</option>
-                        <option value="Python">Python</option>
-                        <option value="Java">Java</option>
+                        <c:forEach items="${keywords}" var="item">
+                            <option value="${item.getTitle()}">${item.getTitle()}</option>
+                        </c:forEach>
                     </select>
-                </div>
-                <div class="form-group">
-                    <label for="availability">Availability</label>
-                    <br/>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" id="availability" type="radio" name="full_time" id="full_time" value="full_time">
-                        <label class="form-check-label" for="full_time">Full Time</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="part_time" id="part_time" value="part_time">
-                        <label class="form-check-label" for="part_time">Part Time</label>
-                    </div>
                 </div>
                 <div class="form-group">
                     <div class="input-group mb-3">
@@ -114,24 +102,9 @@
                 <input type="submit" class="btn btn-primary btn-block" value="Upload CV">
             </form>
             <div class="text-center">
-                <a class="d-block small mt-3" href="/CareerOfficeApp/student">Back to home</a>
+                <a class="d-block small mt-3" href="<c:url value="/student"/>">Back to home</a>
             </div>
         </div>
-        <%-- Error logging--%>
-<%--        <div>--%>
-<%--            <c:if test="${usernameError != null}">--%>
-<%--                <div class="alert alert-danger" role="alert">--%>
-<%--                    <c:out value="${usernameError}"/>--%>
-<%--                </div>--%>
-<%--                <c:remove var="usernameError" scope="session"/>--%>
-<%--            </c:if>--%>
-<%--            <c:if test="${emailError != null}">--%>
-<%--                <div class="alert alert-danger" role="alert">--%>
-<%--                    <c:out value="${emailError}"/>--%>
-<%--                </div>--%>
-<%--                <c:remove var="emailError" scope="session"/>--%>
-<%--            </c:if>--%>
-<%--        </div>--%>
     </div>
 </div>
 <c:import url="/WEB-INF/views/scripts.jsp"></c:import>

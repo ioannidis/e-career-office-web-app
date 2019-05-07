@@ -28,4 +28,5 @@ public KeywordCvPivot save( KeywordCvPivot obj) {
 public boolean deleteByCvId(int id) {
         return keywordCvDao.delete(id);
         }
+
 }

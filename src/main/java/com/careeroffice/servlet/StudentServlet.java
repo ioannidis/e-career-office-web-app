@@ -1,9 +1,13 @@
 package com.careeroffice.servlet;
 
+import com.careeroffice.model.Cv;
+import com.careeroffice.model.Keyword;
 import com.careeroffice.model.User;
 import com.careeroffice.service.*;
 import com.careeroffice.service.factory.ServiceEnum;
 import com.careeroffice.service.factory.ServiceFactory;
+import com.careeroffice.service.pivot.KeywordCvPivotService;
+import com.careeroffice.service.CvService;
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
 import javax.servlet.ServletException;
@@ -11,8 +15,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 
 /**
@@ -35,8 +39,17 @@ public class StudentServlet extends HttpServlet {
             throws ServletException, IOException {
 
         AuthService authService = new AuthService(request.getSession());
+        CvService cvService = (CvService) ServiceFactory.getService(ServiceEnum.CvService);
+        KeywordCvPivotService keywordCvPivotService = (KeywordCvPivotService) ServiceFactory.getService(ServiceEnum.KeywordCvPivotService);
 
-        request.setAttribute("user", authService.getUser());
+        User user = authService.getUser();
+        Cv cv = cvService.findOne(user.getUsername());
+
+        if (cv != null) {
+            List<Keyword> keywords = keywordCvPivotService.findByCvId(cv.getId());
+            request.setAttribute("keywords", keywords);
+            request.setAttribute("user", user);
+        }
 
         request.getRequestDispatcher("WEB-INF/views/student/index.jsp").forward(request, response);
 
@@ -47,23 +60,7 @@ public class StudentServlet extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        LoginService login = (LoginService) ServiceFactory.getService(ServiceEnum.LoginService);
-        HttpSession session = request.getSession();
-
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-
-        User user = login.auth(username);
-
-        if (user != null && encryptor.checkPassword(password, user.getPassword())) {
-            session.setAttribute("loggedIn", true);
-            session.setAttribute("user", user);
-
-            response.sendRedirect(user.getRoleId());
-        } else {
-            response.sendRedirect("login");
-        }
+        doGet(request,response);
 
     }
 }

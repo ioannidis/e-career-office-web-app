@@ -1,6 +1,12 @@
 package com.careeroffice.servlet;
 
+import com.careeroffice.dao.factory.DaoEnum;
+import com.careeroffice.dao.factory.DaoFactory;
 import com.careeroffice.model.User;
+import com.careeroffice.service.AuthService;
+import com.careeroffice.service.CvService;
+import com.careeroffice.service.factory.ServiceEnum;
+import com.careeroffice.service.factory.ServiceFactory;
 
 import java.io.*;
 import javax.servlet.ServletException;
@@ -29,28 +35,35 @@ public class StudentDownloadCv extends HttpServlet {
             throws ServletException, IOException {
 
         // Gets username
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
+        AuthService authService = new AuthService(request.getSession());
+        CvService cvService = (CvService) ServiceFactory.getService(ServiceEnum.CvService);
+        User user = authService.getUser();
         String username = user.getUsername();
 
-        String filePath = SAVE_DIR + File.separator + username + ".pdf";
+        if (cvService.findOne(username) != null) {
+            String filePath = SAVE_DIR + File.separator + username + ".pdf";
 
 
-        byte[] outputBytes = loadFile(filePath);
+            byte[] outputBytes = loadFile(filePath);
 
-        response.setHeader("Pragma", "no-cache");
-        response.setHeader("Cache-control", "private");
-        response.setDateHeader("Expires", 0);
-        response.setContentType("application/pdf");
-        response.setHeader("Content-Disposition", "attachment; filename=\"test.pdf\"");
+            response.setHeader("Pragma", "no-cache");
+            response.setHeader("Cache-control", "private");
+            response.setDateHeader("Expires", 0);
+            response.setContentType("application/pdf");
+            response.setHeader("Content-Disposition", "attachment; filename=\"test.pdf\"");
 
-        if (outputBytes != null) {
-            response.setContentLength(outputBytes.length);
-            ServletOutputStream out = response.getOutputStream();
-            out.write(outputBytes);
-            out.flush();
-            out.close();
+            if (outputBytes != null) {
+                response.setContentLength(outputBytes.length);
+                ServletOutputStream out = response.getOutputStream();
+                out.write(outputBytes);
+                out.flush();
+                out.close();
+            }
+        } else {
+            request.setAttribute("noCv", true);
+            request.getRequestDispatcher(user.getRoleId()).forward(request, response);
         }
+
 
     }
 
@@ -59,13 +72,7 @@ public class StudentDownloadCv extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
-        String username = user.getUsername();
-
-        String filePath = SAVE_DIR + File.separator + username + ".pdf";
-        response.setHeader("Content-Disposition", "attachment; filename="+filePath+";");
+        doGet(request, response);
 
     }
 

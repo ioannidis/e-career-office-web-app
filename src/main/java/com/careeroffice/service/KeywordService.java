@@ -21,4 +21,18 @@ public class KeywordService implements IPersistenceService<Keyword> {
         return keywordDao.findAll();
     }
 
+    public void save(String title, String slug) {
+        Keyword newKeyword = new Keyword(title, slug);
+        keywordDao.save(newKeyword);
+    }
+
+    public Keyword saveReturn(String title, String slug) {
+        Keyword newKeyword = new Keyword(title, slug);
+        return keywordDao.save(newKeyword);
+    }
+
+    public Keyword findKeywordByTitle(String title) {
+        return keywordDao.findKeywordByTitle(title);
+    }
+
 }

@@ -28,7 +28,7 @@
 	        </c:if>
 
 	        <c:if test="${ user.roleId=='p_student' || user.roleId=='u_student' }">
-				<%--<c:import url="/WEB-INF/views/nav-student.jsp"></c:import>--%>
+				<c:import url="/WEB-INF/views/nav-student.jsp"></c:import>
 	        </c:if>
 	    	
 	      </ul>
