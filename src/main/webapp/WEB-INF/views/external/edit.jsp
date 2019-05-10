@@ -59,7 +59,7 @@
 							</select>
 						</div>
 						<br />
-						<a href="externalclassifieds" class="btn btn-warning"><i class="fas fa-caret-left" style="margin-right:8px"></i>Cancel</a>
+						<a href="external" class="btn btn-warning"><i class="fas fa-caret-left" style="margin-right:8px"></i>Cancel</a>
 						<button type="submit" class="btn btn-success"><i class="far fa-save" style="margin-right:8px"></i>Update</button>
 					</form>
 				</div>

@@ -27,7 +27,7 @@
         </ol>
 
         <div style="text-align:right">
-            <a href="adminregister" class="btn btn-info"><i class="far fa-plus-square" style="margin-right:8px"></i>Register a Student</a>
+            <a href="adminregister" class="btn btn-info"><i class="far fa-plus-square" style="margin-right:8px"></i>Add Student</a>
         </div>
         <br/>
         <div class="card mb-3">

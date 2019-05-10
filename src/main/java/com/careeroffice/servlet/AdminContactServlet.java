@@ -105,6 +105,7 @@ public class AdminContactServlet extends HttpServlet {
         }
         String id = UrlUtil.getParameterOrDefault(request, "id", "None");
         String adminMessage = UrlUtil.getParameterOrDefault(request, "message", "None");
+        String classifiedTitle = UrlUtil.getParameterOrDefault(request, "classified", "None");
 
         String result;
 
@@ -114,48 +115,46 @@ public class AdminContactServlet extends HttpServlet {
         // Sender's email ID needs to be mentioned
         String from = authService.getUser().getEmail();
 
-        // Assuming you are sending email from localhost
-        String host = "localhost";
-
         // Get system properties object
-        Properties properties = System.getProperties();
+        Properties properties = new Properties();
 
         // Setup mail server
-        properties.put("mail.smtp.host", host);
+        properties.put("mail.smtp.auth", true);
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.host", "smtp.mailtrap.io");
+        properties.put("mail.smtp.port", "25");
+        properties.put("mail.smtp.ssl.trust", "smtp.mailtrap.io");
 
-        // Get the default Session object.
-        Session mailSession = Session.getDefaultInstance(properties);
+        Session session = Session.getInstance(properties, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("addbd3880f1b1a", "a4925491a740c1");
+            }
+        });
 
         try {
-            // Create a default MimeMessage object.
-            MimeMessage message = new MimeMessage(mailSession);
-
-            // Set From: header field of the header.
+            Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(from));
+            message.setRecipients(
+                    Message.RecipientType.TO, InternetAddress.parse(to));
+            message.setSubject("Job information for: " + classifiedTitle + " [CareerOfficeApp]");
 
-            // Set To: header field of the header.
-            message.addRecipient(Message.RecipientType.TO,
-                    new InternetAddress(to));
-            // Set Subject: header field
-            message.setSubject("Job Assignment");
+            MimeBodyPart mimeBodyPart = new MimeBodyPart();
+            mimeBodyPart.setContent(adminMessage, "text/html");
 
-            // Now set the actual message
-            message.setText(adminMessage);
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(mimeBodyPart);
 
-            // Send message
+            message.setContent(multipart);
+
             Transport.send(message);
-            result = "Sent message to student successfully....";
-            System.out.println(result);
         } catch (MessagingException mex) {
             mex.printStackTrace();
             result = "Error: unable to send message....";
             System.out.println(result);
         }
 
-
-
-      //  request.setAttribute("result",result);
-        response.sendRedirect("WEB-INF/views/admin/index.jsp");
+        response.sendRedirect("adminstudents");
     }
 }
 

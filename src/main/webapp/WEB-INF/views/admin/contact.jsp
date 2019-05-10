@@ -38,8 +38,8 @@
                             </select>
                         </p>
                         <div class="form-group">
-                            <label for="comment">Message:</label>
-                            <textarea class="form-control" rows="4" id="comment" required></textarea>
+                            <label for="message">Message:</label>
+                            <textarea class="form-control" rows="4" id="message" name="message" required></textarea>
                         </div>
                         <input  type="submit" class="btn btn-info"  value="Contact Student">
                     </form>
