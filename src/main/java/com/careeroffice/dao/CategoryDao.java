@@ -1,9 +1,11 @@
 package com.careeroffice.dao;
 
-import com.careeroffice.database.DatabaseConnection;
+import com.careeroffice.database.Callback;
+import com.careeroffice.database.Queries;
+import com.careeroffice.database.ResultCallback;
+import com.careeroffice.database.UpdateCallback;
 import com.careeroffice.model.Category;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,102 +14,109 @@ import java.util.List;
 
 public class CategoryDao implements CrudDao<Category, Integer> {
 
+    private static final String Find_One_Query = "SELECT * FROM categories WHERE id=?";
+    private static final String Find_All_Query = "SELECT * FROM categories";
+    private static final String Save_Query = "INSERT INTO categories(id, title, slug) VALUES (?, ?, ?)";
+    private static final String Update_Query = "UPDATE categories SET title=?, slug=? WHERE id=?";
+    private static final String Delete_Query = "DELETE FROM categories WHERE id=?";
+    private static final String Count_Query = "SELECT COUNT(*) FROM categories";
+
     @Override
-    public Category findOne( Integer id ) {
-        Connection con = null;
-        ResultSet rs = null;
-        PreparedStatement stmt = null;
+    public Category findOne(Integer id) {
 
-        String str = "SELECT * FROM categories WHERE id=?";
-
-        try {
-            con = DatabaseConnection.getConnection();
-
-            stmt = con.prepareStatement(str);
-            stmt.setInt(1, id);
-
-            rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                return new Category(
-                        rs.getInt("id"),
-                        rs.getString("title"),
-                        rs.getString("slug"));
+        return Queries.execute(Find_One_Query, new ResultCallback() {
+            @Override
+            public void setParameters(PreparedStatement statement) throws SQLException {
+                statement.setInt(1, id);
             }
 
-        } catch ( SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                rs.close();
-                stmt.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            @Override
+            public Object fetch(ResultSet resultSet) throws SQLException {
+                if (resultSet.next()) {
+                    return new Category(
+                            resultSet.getInt("id"),
+                            resultSet.getString("title"),
+                            resultSet.getString("slug"));
+                } else {
+                    return null;
+                }
             }
-        }
-
-        return null;
+        });
     }
 
     @Override
     public List<Category> findAll() {
-        List<Category> categories = new ArrayList<>();
 
-        Connection con = null;
-        ResultSet rs = null;
-        PreparedStatement stmt = null;
+        return Queries.execute(Find_All_Query, new Callback() {
+            @Override
+            public Object fetch(ResultSet resultSet) throws SQLException {
+                List<Category> items = new ArrayList<>();
 
-        String str = "SELECT c.id, c.title, c.slug FROM categories AS c ";
+                while (resultSet.next()) {
+                    items.add(new Category(
+                            resultSet.getInt("id"),
+                            resultSet.getString("title"),
+                            resultSet.getString("slug")));
+                }
 
-        try {
-            con = DatabaseConnection.getConnection();
-
-            stmt = con.prepareStatement(str);
-
-            rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                categories.add(new Category(
-                        rs.getInt("id"),
-                        rs.getString("title"),
-                        rs.getString("slug")));
+                return items;
             }
+        });
+    }
 
-        } catch ( SQLException e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            try {
-                rs.close();
-                stmt.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+    @Override
+    public Category save(Category obj) {
+
+        Queries.executeUpdate(Save_Query, new UpdateCallback() {
+            @Override
+            public void setParameters(PreparedStatement statement) throws SQLException {
+                statement.setInt(1, obj.getId());
+                statement.setString(2, obj.getTitle());
+                statement.setString(3, obj.getSlug());
             }
+        });
 
-        }
-
-        return categories;
+        return obj;
     }
 
     @Override
-    public Category save( Category obj ) {
-        return null;
+    public Category update(Category obj) {
+
+        Queries.executeUpdate(Update_Query, new UpdateCallback() {
+            @Override
+            public void setParameters(PreparedStatement statement) throws SQLException {
+                statement.setString(1, obj.getTitle());
+                statement.setString(2, obj.getSlug());
+                statement.setInt(3, obj.getId());
+            }
+        });
+
+        return obj;
     }
 
     @Override
-    public Category update( Category obj ) {
-        return null;
-    }
+    public boolean delete(Integer id) {
 
-    @Override
-    public boolean delete( Integer id ) {
-        return false;
+        return Queries.executeUpdate(Delete_Query, new UpdateCallback() {
+            @Override
+            public void setParameters(PreparedStatement statement) throws SQLException {
+                statement.setInt(1, id);
+            }
+        });
     }
 
     @Override
     public int count() {
-        return 0;
+
+        return Queries.execute(Count_Query, new Callback() {
+            @Override
+            public Object fetch(ResultSet resultSet) throws SQLException {
+                if (resultSet.next()) {
+                    return resultSet.getInt(1);
+                } else {
+                    return 0;
+                }
+            }
+        });
     }
 }
