@@ -1,8 +1,13 @@
 package com.careeroffice.service;
 
-import com.careeroffice.dao.*;
+import com.careeroffice.dao.CompanyDao;
+import com.careeroffice.dao.DepartmentDao;
+import com.careeroffice.dao.RoleDao;
+import com.careeroffice.dao.UserDao;
 import com.careeroffice.dao.factory.DaoEnum;
 import com.careeroffice.dao.factory.DaoFactory;
+import com.careeroffice.dao.pivot.UserCompanyDao;
+import com.careeroffice.dao.pivot.UserDepartmentDao;
 import com.careeroffice.model.*;
 
 import java.util.List;

@@ -1,9 +1,9 @@
 package com.careeroffice.service;
 
 import com.careeroffice.dao.CompanyDao;
-import com.careeroffice.dao.UserCompanyDao;
 import com.careeroffice.dao.factory.DaoEnum;
 import com.careeroffice.dao.factory.DaoFactory;
+import com.careeroffice.dao.pivot.UserCompanyDao;
 import com.careeroffice.model.UserCompany;
 
 import java.util.List;

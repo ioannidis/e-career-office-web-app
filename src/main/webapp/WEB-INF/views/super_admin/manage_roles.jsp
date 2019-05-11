@@ -14,7 +14,6 @@
     <tr>
         <td>ID</td>
         <td>Title</td>
-        <td>Actions</td>
     </tr>
     </thead>
     <tbody>
@@ -22,9 +21,6 @@
         <tr>
             <td><c:out value="${role.id}" default="-"/></td>
             <td><c:out value="${role.title}" default="-"/></td>
-            <td>
-                <a href="#">View</a>
-            </td>
         </tr>
     </c:forEach>
     </tbody>

@@ -1,10 +1,11 @@
-package com.careeroffice.dao;
+package com.careeroffice.dao.pivot;
 
+import com.careeroffice.dao.CrudDao;
 import com.careeroffice.database.Callback;
 import com.careeroffice.database.Queries;
 import com.careeroffice.database.ResultCallback;
 import com.careeroffice.database.UpdateCallback;
-import com.careeroffice.model.UserDepartment;
+import com.careeroffice.model.UserCompany;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,17 +13,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDepartmentDao implements CrudDao<UserDepartment, String> {
+public class UserCompanyDao implements CrudDao<UserCompany, String> {
 
-    private static final String Find_One_Query = "SELECT * FROM user_department WHERE username=?";
-    private static final String Find_All_Query = "SELECT * FROM user_department";
-    private static final String Save_Query = "INSERT INTO user_department(username, department_id) VALUES (?, ?)";
-    private static final String Update_Query = "UPDATE user_department SET department_id=? WHERE username=?";
-    private static final String Delete_Query = "DELETE FROM user_department WHERE username=?";
-    private static final String Count_Query = "SELECT COUNT(*) FROM user_department";
+    private static final String Find_One_Query = "SELECT * FROM user_company WHERE username=?";
+    private static final String Find_All_Query = "SELECT * FROM user_company";
+    private static final String Save_Query = "INSERT INTO user_company(username, company_id) VALUES (?, ?)";
+    private static final String Update_Query = "UPDATE user_company SET company_id=? WHERE username=?";
+    private static final String Delete_Query = "DELETE FROM user_company WHERE username=?";
+    private static final String Count_Query = "SELECT COUNT(*) FROM user_company";
 
     @Override
-    public UserDepartment findOne(String id) {
+    public UserCompany findOne(String id) {
 
         return Queries.execute(Find_One_Query, new ResultCallback() {
             @Override
@@ -33,9 +34,9 @@ public class UserDepartmentDao implements CrudDao<UserDepartment, String> {
             @Override
             public Object fetch(ResultSet resultSet) throws SQLException {
                 if (resultSet.next()) {
-                    return new UserDepartment(
+                    return new UserCompany(
                             resultSet.getString("username"),
-                            resultSet.getString("department_id")
+                            resultSet.getString("company_id")
                     );
                 } else {
                     return null;
@@ -45,17 +46,17 @@ public class UserDepartmentDao implements CrudDao<UserDepartment, String> {
     }
 
     @Override
-    public List<UserDepartment> findAll() {
+    public List<UserCompany> findAll() {
 
         return Queries.execute(Find_All_Query, new Callback() {
             @Override
             public Object fetch(ResultSet resultSet) throws SQLException {
-                List<UserDepartment> items = new ArrayList<>();
+                List<UserCompany> items = new ArrayList<>();
 
                 while (resultSet.next()) {
-                    items.add(new UserDepartment(
+                    items.add(new UserCompany(
                             resultSet.getString("username"),
-                            resultSet.getString("department_id")
+                            resultSet.getString("company_id")
                     ));
                 }
 
@@ -65,13 +66,13 @@ public class UserDepartmentDao implements CrudDao<UserDepartment, String> {
     }
 
     @Override
-    public UserDepartment save( UserDepartment obj) {
+    public UserCompany save( UserCompany obj) {
 
         Queries.executeUpdate(Save_Query, new UpdateCallback() {
             @Override
             public void setParameters(PreparedStatement statement) throws SQLException {
                 statement.setString(1, obj.getUsername());
-                statement.setString(2, obj.getDepartmentId());
+                statement.setString(2, obj.getCompanyId());
             }
         });
 
@@ -79,12 +80,12 @@ public class UserDepartmentDao implements CrudDao<UserDepartment, String> {
     }
 
     @Override
-    public UserDepartment update( UserDepartment obj) {
+    public UserCompany update(UserCompany obj) {
 
         Queries.executeUpdate(Update_Query, new UpdateCallback() {
             @Override
             public void setParameters(PreparedStatement statement) throws SQLException {
-                statement.setString(1, obj.getDepartmentId());
+                statement.setString(1, obj.getCompanyId());
                 statement.setString(2, obj.getUsername());
             }
         });
