@@ -1,152 +1,122 @@
 package com.careeroffice.dao;
 
-import com.careeroffice.database.DatabaseConnection;
+import com.careeroffice.database.*;
 import com.careeroffice.model.Keyword;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 public class KeywordDao implements CrudDao<Keyword, Integer> {
 
+    private static final String Find_One_Query = "SELECT * FROM keywords WHERE id=?";
+    private static final String Find_All_Query = "SELECT * FROM keywords";
+    private static final String Save_Query = "INSERT INTO keywords(title, slug) VALUES (?, ?)";
+    private static final String Update_Query = "UPDATE keywords SET title=?, slug=? WHERE id=?";
+    private static final String Delete_Query = "DELETE FROM keywords WHERE id=?";
+    private static final String Count_Query = "SELECT COUNT(*) FROM keywords";
+
     @Override
-    public Keyword findOne( Integer id ) {
-        Connection con = null;
-        ResultSet rs = null;
-        PreparedStatement stmt = null;
+    public Keyword findOne(Integer id) {
 
-        String str = "SELECT k.id, k.title, k.slug FROM keywords AS k WHERE k.id=?";
-
-        try {
-            con = DatabaseConnection.getConnection();
-
-            stmt = con.prepareStatement(str);
-            stmt.setInt(1, id);
-
-            rs = stmt.executeQuery();
-
-            if  (rs.next()) {
-                return new Keyword(
-                        rs.getInt("id"),
-                        rs.getString("title"),
-                        rs.getString("slug"));
+        return Queries.execute(Find_One_Query, new ResultCallback() {
+            @Override
+            public void setParameters(PreparedStatement statement) throws SQLException {
+                statement.setInt(1, id);
             }
 
-        } catch ( SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                rs.close();
-                stmt.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            @Override
+            public Object fetch(ResultSet resultSet) throws SQLException {
+                if (resultSet.next()) {
+                    return new Keyword(
+                            resultSet.getInt("id"),
+                            resultSet.getString("title"),
+                            resultSet.getString("slug"));
+
+                } else {
+                    return null;
+                }
             }
-
-        }
-
-        return null;
+        });
     }
 
     @Override
     public List<Keyword> findAll() {
-        List<Keyword> keywords = new ArrayList<>();
 
-        Connection con = null;
-        ResultSet rs = null;
-        PreparedStatement stmt = null;
+        return Queries.execute(Find_All_Query, new Callback() {
+            @Override
+            public Object fetch(ResultSet resultSet) throws SQLException {
+                List<Keyword> keywords = new ArrayList<>();
 
-        String str =
-                "SELECT k.id, k.title, k.slug FROM keywords AS k ";
+                while (resultSet.next()) {
+                    keywords.add(new Keyword(
+                            resultSet.getInt("id"),
+                            resultSet.getString("title"),
+                            resultSet.getString("slug")));
+                }
 
-        try {
-            con = DatabaseConnection.getConnection();
-
-            stmt = con.prepareStatement(str);
-
-
-            rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                keywords.add(new Keyword(
-                        rs.getInt("id"),
-                        rs.getString("title"),
-                        rs.getString("slug")));
+                return keywords;
             }
-
-        } catch ( SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                rs.close();
-                stmt.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-        }
-
-        return keywords;
+        });
     }
 
     @Override
-    public Keyword save( Keyword obj ) {
-        Connection con = null;
-        ResultSet rs = null;
-        PreparedStatement stmt = null;
+    public Keyword save(Keyword obj) {
 
-        String str =
-                "INSERT INTO keywords (title, slug) VALUES (?, ?)";
-
-        try {
-            con = DatabaseConnection.getConnection();
-
-            stmt = con.prepareStatement(str, Statement.RETURN_GENERATED_KEYS);
-            stmt.setString(1, obj.getTitle());
-            stmt.setString(2, obj.getSlug());
-
-            stmt.executeUpdate();
-
-            rs = stmt.getGeneratedKeys();
-
-            if (rs.next()){
-                obj.setId(rs.getInt(1));
+        int id = Queries.executeUpdateAutoInc(Save_Query, new UpdateCallback() {
+            @Override
+            public void setParameters(PreparedStatement statement) throws SQLException {
+                statement.setString(1, obj.getTitle());
+                statement.setString(2, obj.getSlug());
             }
+        });
 
-            return obj;
-
-        } catch ( SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                stmt.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return null;
+        obj.setId(id);
+        return obj;
     }
 
     @Override
-    public Keyword update( Keyword obj ) {
-        return null;
+    public Keyword update(Keyword obj) {
+
+        Queries.executeUpdate(Update_Query, new UpdateCallback() {
+            @Override
+            public void setParameters(PreparedStatement statement) throws SQLException {
+                statement.setString(1, obj.getTitle());
+                statement.setString(2, obj.getSlug());
+                statement.setInt(3, obj.getId());
+            }
+        });
+
+        return obj;
     }
 
     @Override
-    public boolean delete( Integer id ) {
-        return false;
+    public boolean delete(Integer id) {
+
+        return Queries.executeUpdate(Delete_Query, new UpdateCallback() {
+            @Override
+            public void setParameters(PreparedStatement statement) throws SQLException {
+                statement.setInt(1, id);
+            }
+        });
     }
 
     @Override
     public int count() {
-        return 0;
+
+        return Queries.execute(Count_Query, new Callback() {
+            @Override
+            public Object fetch(ResultSet resultSet) throws SQLException {
+                if (resultSet.next()) {
+                    return resultSet.getInt(1);
+                } else {
+                    return 0;
+                }
+            }
+        });
     }
 
     public Keyword findKeywordByTitle(String title) {
@@ -164,14 +134,14 @@ public class KeywordDao implements CrudDao<Keyword, Integer> {
 
             rs = stmt.executeQuery();
 
-            if  (rs.next()) {
+            if (rs.next()) {
                 return new Keyword(
                         rs.getInt("id"),
                         rs.getString("title"),
                         rs.getString("slug"));
             }
 
-        } catch ( SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             try {

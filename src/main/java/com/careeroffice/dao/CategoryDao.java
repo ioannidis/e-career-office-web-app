@@ -16,7 +16,7 @@ public class CategoryDao implements CrudDao<Category, Integer> {
 
     private static final String Find_One_Query = "SELECT * FROM categories WHERE id=?";
     private static final String Find_All_Query = "SELECT * FROM categories";
-    private static final String Save_Query = "INSERT INTO categories(id, title, slug) VALUES (?, ?, ?)";
+    private static final String Save_Query = "INSERT INTO categories(title, slug) VALUES (?, ?)";
     private static final String Update_Query = "UPDATE categories SET title=?, slug=? WHERE id=?";
     private static final String Delete_Query = "DELETE FROM categories WHERE id=?";
     private static final String Count_Query = "SELECT COUNT(*) FROM categories";
@@ -67,15 +67,15 @@ public class CategoryDao implements CrudDao<Category, Integer> {
     @Override
     public Category save(Category obj) {
 
-        Queries.executeUpdate(Save_Query, new UpdateCallback() {
+        int id = Queries.executeUpdateAutoInc(Save_Query, new UpdateCallback() {
             @Override
             public void setParameters(PreparedStatement statement) throws SQLException {
-                statement.setInt(1, obj.getId());
-                statement.setString(2, obj.getTitle());
-                statement.setString(3, obj.getSlug());
+                statement.setString(1, obj.getTitle());
+                statement.setString(2, obj.getSlug());
             }
         });
 
+        obj.setId(id);
         return obj;
     }
 
