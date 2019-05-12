@@ -22,12 +22,14 @@ public class SuperAdminServlet extends HttpServlet {
         RoleService roleService = (RoleService) ServiceFactory.getService(ServiceEnum.RoleService);
         CompanyService companyService = (CompanyService) ServiceFactory.getService(ServiceEnum.CompanyService);
         DepartmentService departmentService = (DepartmentService) ServiceFactory.getService(ServiceEnum.DepartmentService);
+        CategoryService categoryService = (CategoryService) ServiceFactory.getService(ServiceEnum.CategoryService);
 
         request.setAttribute("user", authService.getUser());
         request.setAttribute("userCount", userService.count());
         request.setAttribute("roleCount", roleService.count());
         request.setAttribute("companyCount", companyService.count());
         request.setAttribute("departmentCount", departmentService.count());
+        request.setAttribute("categoryCount", categoryService.count());
 
         request.getRequestDispatcher("WEB-INF/views/super_admin/index.jsp").forward(request, response);
     }

@@ -10,11 +10,13 @@
 <hr>
 <p><strong>What would you like to do?</strong></p>
 <ul>
-    <li><a href="<c:url value="/manage_users"/>">Manage Users (<c:out value="${userCount}"/> users)</a></li>
-    <li><a href="<c:url value="/manage_roles"/>">Manage Roles (<c:out value="${roleCount}"/> roles)</a></li>
-    <li><a href="<c:url value="/manage_companies"/>">Manage Companies (<c:out value="${companyCount}"/> companies)</a></li>
-    <li><a href="<c:url value="/manage_departments"/>">Manage Departments (<c:out value="${departmentCount}"/> departments)</a></li>
-    <li><a href="#">Manage Classifieds</a></li>
+    <li><a href="<c:url value="/manage_users"/>">Manage Users (${userCount} users)</a></li>
+    <li><a href="<c:url value="/manage_roles"/>">Manage Roles (${roleCount} roles)</a></li>
+    <li><a href="<c:url value="/manage_companies"/>">Manage Companies (${companyCount} companies)</a></li>
+    <li><a href="<c:url value="/manage_departments"/>">Manage Departments (${departmentCount} departments)</a></li>
+    <li><a href="<c:url value="/manage_categories"/>">Manage Categories (${categoryCount} categories)</a></li>
+    <li>Manage Keywords</li>
+    <li>Manage Classifieds</li>
     <li><a href="<c:url value="/logout"/>">Log Out</a></li>
 </ul>
 </body>
