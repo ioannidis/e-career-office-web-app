@@ -20,6 +20,7 @@ public class SuperAdminServlet extends HttpServlet {
     private static final DepartmentService departmentService = (DepartmentService) ServiceFactory.getService(ServiceEnum.DepartmentService);
     private static final CategoryService categoryService = (CategoryService) ServiceFactory.getService(ServiceEnum.CategoryService);
     private static final KeywordService keywordService = (KeywordService) ServiceFactory.getService(ServiceEnum.KeywordService);
+    private static final ClassifiedService classifiedService = (ClassifiedService) ServiceFactory.getService(ServiceEnum.ClassifiedService);
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -32,6 +33,7 @@ public class SuperAdminServlet extends HttpServlet {
         request.setAttribute("departmentCount", departmentService.count());
         request.setAttribute("categoryCount", categoryService.count());
         request.setAttribute("keywordCount", keywordService.count());
+        request.setAttribute("classifiedCount", classifiedService.count());
 
         request.getRequestDispatcher("WEB-INF/views/super_admin/index.jsp").forward(request, response);
     }

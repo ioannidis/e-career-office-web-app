@@ -63,7 +63,11 @@ public class ClassifiedService implements IPersistenceService<Classified> {
     }
 
     public Classified findOne(Integer id) {
-        return classifiedDao.findOne(id);
+        Classified classified =  classifiedDao.findOne(id);
+
+        setupRelationships(classified);
+
+        return classified;
     }
 
     public Classified save(Classified obj) {
@@ -78,4 +82,7 @@ public class ClassifiedService implements IPersistenceService<Classified> {
         return classifiedDao.delete(id);
     }
 
+    public int count() {
+        return classifiedDao.count();
+    }
 }

@@ -16,7 +16,7 @@
     <li><a href="<c:url value="/manage_departments"/>">Manage Departments (${departmentCount} departments)</a></li>
     <li><a href="<c:url value="/manage_categories"/>">Manage Categories (${categoryCount} categories)</a></li>
     <li><a href="<c:url value="/manage_keywords"/>">Manage Keywords (${keywordCount} keywords)</a></li>
-    <li>Manage Classifieds</li>
+    <li><a href="<c:url value="/manage_classifieds"/>">Manage Classifieds (${classifiedCount} classifieds)</a></li>
     <li><a href="<c:url value="/logout"/>">Log Out</a></li>
 </ul>
 </body>

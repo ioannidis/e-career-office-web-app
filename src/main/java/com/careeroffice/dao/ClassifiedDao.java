@@ -2,16 +2,18 @@ package com.careeroffice.dao;
 
 import com.careeroffice.database.*;
 import com.careeroffice.model.Classified;
-import com.careeroffice.model.User;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClassifiedDao implements CrudDao <Classified, Integer> {
+public class ClassifiedDao implements CrudDao<Classified, Integer> {
 
     @Override
-    public Classified findOne( Integer id ) {
+    public Classified findOne(Integer id) {
 
         final String str = "SELECT cl.id, cl.title, cl.content, cl.company_id, cl.category_id  FROM classifieds AS cl WHERE cl.id=?";
 
@@ -23,7 +25,7 @@ public class ClassifiedDao implements CrudDao <Classified, Integer> {
 
             @Override
             public Object fetch(ResultSet resultSet) throws SQLException {
-                if  (resultSet.next()) {
+                if (resultSet.next()) {
                     return new Classified(
                             resultSet.getInt("id"),
                             resultSet.getString("title"),
@@ -68,7 +70,7 @@ public class ClassifiedDao implements CrudDao <Classified, Integer> {
     }
 
 
-    public String findClassifiedSkills(int id,String type) {
+    public String findClassifiedSkills(int id, String type) {
         Connection con = null;
         ResultSet rs = null;
         PreparedStatement stmt = null;
@@ -86,7 +88,7 @@ public class ClassifiedDao implements CrudDao <Classified, Integer> {
         try {
             con = DatabaseConnection.getConnection();
             stmt = con.prepareStatement(str);
-            stmt.setString(1,String.valueOf(id));
+            stmt.setString(1, String.valueOf(id));
             rs = stmt.executeQuery();
 
             StringBuilder skills = new StringBuilder();
@@ -94,7 +96,7 @@ public class ClassifiedDao implements CrudDao <Classified, Integer> {
             StringBuilder slug = new StringBuilder();
             slug.append("None");
 
-            if (rs.next()){
+            if (rs.next()) {
                 skills = new StringBuilder();
                 skills.append(rs.getString("skills"));
                 slug = new StringBuilder();
@@ -102,10 +104,10 @@ public class ClassifiedDao implements CrudDao <Classified, Integer> {
             }
 
             while (rs.next()) {
-                skills.append(", "+rs.getString("skills"));
-                slug.append(", "+rs.getString("slug"));
+                skills.append(", " + rs.getString("skills"));
+                slug.append(", " + rs.getString("slug"));
             }
-            if (type.equals("slug")){
+            if (type.equals("slug")) {
                 return slug.toString();
             }
             return skills.toString();
@@ -125,7 +127,7 @@ public class ClassifiedDao implements CrudDao <Classified, Integer> {
     }
 
     @Override
-    public Classified save( Classified obj ) {
+    public Classified save(Classified obj) {
 
         final String str = "INSERT INTO classifieds(title,content,company_id,category_id) VALUES (?,?,?,?)";
 
@@ -144,7 +146,7 @@ public class ClassifiedDao implements CrudDao <Classified, Integer> {
     }
 
     @Override
-    public Classified update( Classified obj ) {
+    public Classified update(Classified obj) {
 
         final String str = "UPDATE classifieds SET title=?, content=?, company_id=?, category_id=? WHERE id=?";
 
@@ -163,7 +165,7 @@ public class ClassifiedDao implements CrudDao <Classified, Integer> {
     }
 
     @Override
-    public boolean delete( Integer id ) {
+    public boolean delete(Integer id) {
 
         String str = "DELETE FROM classifieds WHERE id=?";
 
@@ -177,10 +179,19 @@ public class ClassifiedDao implements CrudDao <Classified, Integer> {
 
     @Override
     public int count() {
-        return 0;
+        return Queries.execute("SELECT COUNT(*) FROM classifieds", new Callback() {
+            @Override
+            public Object fetch(ResultSet resultSet) throws SQLException {
+                if (resultSet.next()) {
+                    return resultSet.getInt(1);
+                } else {
+                    return 0;
+                }
+            }
+        });
     }
 
-    public List<Classified> findAllByCompany( String companyId) {
+    public List<Classified> findAllByCompany(String companyId) {
         List<Classified> classifieds = new ArrayList<>();
 
         Connection con = null;
@@ -211,7 +222,7 @@ public class ClassifiedDao implements CrudDao <Classified, Integer> {
                         rs.getInt("category_id")));
             }
 
-        } catch ( SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             try {
