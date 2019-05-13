@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet({"/delete_company"})
-public class SuperAdminDeleteCompany extends HttpServlet {
+public class SuperAdminDeleteCompanyServlet extends HttpServlet {
 
     private CompanyService companyService = (CompanyService) ServiceFactory.getService(ServiceEnum.CompanyService);
     private static final UserCompanyService userCompanyService = (UserCompanyService) ServiceFactory.getService(ServiceEnum.UserCompanyService);

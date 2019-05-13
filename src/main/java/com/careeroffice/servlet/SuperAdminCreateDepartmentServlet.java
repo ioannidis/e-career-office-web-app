@@ -12,32 +12,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet({"/edit_department"})
-public class SuperAdminEditDepartment extends HttpServlet {
+@WebServlet({"/create_department"})
+public class SuperAdminCreateDepartmentServlet extends HttpServlet {
 
     private DepartmentService departmentService = (DepartmentService) ServiceFactory.getService(ServiceEnum.DepartmentService);
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        String id = request.getParameter("id");
-        Department department = departmentService.findOne(id);
-
-        request.setAttribute("department", department);
-        request.getRequestDispatcher("WEB-INF/views/super_admin/edit_department.jsp").forward(request, response);
+        request.getRequestDispatcher("WEB-INF/views/super_admin/create_department.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        String id = request.getParameter("id");
-        Department department = departmentService.findOne(id);
-
+        String id = request.getParameter("department_id");
         String title = request.getParameter("title");
 
-        department.setTitle(title);
+        Department department = new Department(id, title);
 
-        departmentService.update(department);
+        departmentService.save(department);
 
         response.sendRedirect("view_department?id=" + department.getId());
     }

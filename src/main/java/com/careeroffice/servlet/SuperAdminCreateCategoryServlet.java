@@ -1,6 +1,6 @@
 package com.careeroffice.servlet;
 
-import com.careeroffice.service.AuthService;
+import com.careeroffice.model.Category;
 import com.careeroffice.service.CategoryService;
 import com.careeroffice.service.factory.ServiceEnum;
 import com.careeroffice.service.factory.ServiceFactory;
@@ -12,19 +12,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet({"/manage_categories"})
-public class SuperAdminManageCategories extends HttpServlet {
+@WebServlet({"/create_category"})
+public class SuperAdminCreateCategoryServlet extends HttpServlet {
 
     private static final CategoryService categoryService = (CategoryService) ServiceFactory.getService(ServiceEnum.CategoryService);
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("WEB-INF/views/super_admin/create_category.jsp").forward(request, response);
+    }
 
-        AuthService authService = new AuthService(request.getSession());
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String title = request.getParameter("title");
+        String slug = request.getParameter("slug");
 
-        request.setAttribute("user", authService.getUser());
-        request.setAttribute("categories", categoryService.findAll());
-        request.setAttribute("categoryCount", categoryService.count());
+        Category category = new Category(-1, title, slug);
+        category = categoryService.save(category);
 
-        request.getRequestDispatcher("WEB-INF/views/super_admin/manage_categories.jsp").forward(request, response);
+        response.sendRedirect("view_category?id=" + category.getId());
     }
 }

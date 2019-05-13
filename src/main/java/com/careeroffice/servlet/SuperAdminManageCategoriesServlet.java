@@ -1,6 +1,6 @@
 package com.careeroffice.servlet;
 
-import com.careeroffice.model.Category;
+import com.careeroffice.service.AuthService;
 import com.careeroffice.service.CategoryService;
 import com.careeroffice.service.factory.ServiceEnum;
 import com.careeroffice.service.factory.ServiceFactory;
@@ -12,19 +12,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet({"/view_category"})
-public class SuperAdminViewCategory extends HttpServlet {
+@WebServlet({"/manage_categories"})
+public class SuperAdminManageCategoriesServlet extends HttpServlet {
 
     private static final CategoryService categoryService = (CategoryService) ServiceFactory.getService(ServiceEnum.CategoryService);
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        int id = Integer.parseInt(request.getParameter("id"));
+        AuthService authService = new AuthService(request.getSession());
 
-        Category category = categoryService.findOne(id);
+        request.setAttribute("user", authService.getUser());
+        request.setAttribute("categories", categoryService.findAll());
+        request.setAttribute("categoryCount", categoryService.count());
 
-        request.setAttribute("category", category);
-
-        request.getRequestDispatcher("WEB-INF/views/super_admin/view_category.jsp").forward(request, response);
+        request.getRequestDispatcher("WEB-INF/views/super_admin/manage_categories.jsp").forward(request, response);
     }
 }

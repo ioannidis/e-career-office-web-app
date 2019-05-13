@@ -2,6 +2,7 @@ package com.careeroffice.servlet;
 
 import com.careeroffice.model.Category;
 import com.careeroffice.service.CategoryService;
+import com.careeroffice.service.ClassifiedService;
 import com.careeroffice.service.factory.ServiceEnum;
 import com.careeroffice.service.factory.ServiceFactory;
 
@@ -12,9 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet({"/edit_category"})
-public class SuperAdminEditCategory extends HttpServlet {
+@WebServlet({"/delete_category"})
+public class SuperAdminDeleteCategoryServlet extends HttpServlet {
 
+    private static final ClassifiedService classifiedService = (ClassifiedService) ServiceFactory.getService(ServiceEnum.ClassifiedService);
     private static final CategoryService categoryService = (CategoryService) ServiceFactory.getService(ServiceEnum.CategoryService);
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -23,21 +25,19 @@ public class SuperAdminEditCategory extends HttpServlet {
 
         request.setAttribute("category", category);
 
-        request.getRequestDispatcher("WEB-INF/views/super_admin/edit_category.jsp").forward(request, response);
+        request.getRequestDispatcher("WEB-INF/views/super_admin/delete_category.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        Category category = categoryService.findOne(id);
 
-        String title = request.getParameter("title");
-        String slug = request.getParameter("slug");
+        classifiedService.findAll().forEach(classified -> {
+            if (classified.getCategoryId() == id) {
+                classifiedService.delete(classified.getId());
+            }
+        });
 
-        category.setTitle(title);
-        category.setSlug(slug);
-
-        categoryService.update(category);
-
-        response.sendRedirect("view_category?id=" + category.getId());
+        categoryService.delete(id);
+        response.sendRedirect("manage_categories");
     }
 }
