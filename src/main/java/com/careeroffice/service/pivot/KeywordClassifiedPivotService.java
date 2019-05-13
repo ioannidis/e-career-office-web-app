@@ -13,13 +13,13 @@ import java.util.stream.Collectors;
 
 public class KeywordClassifiedPivotService implements IPersistenceService<KeywordClassifiedPivot> {
 
-    KeywordDao keywordDao = (KeywordDao) DaoFactory.getDao( DaoEnum.KeywordDao );
-    KeywordClassifiedPivotDao keywordClassifiedPivotDao = (KeywordClassifiedPivotDao) DaoFactory.getDao( DaoEnum.KeywordClassifiedPivotDao );
+    private KeywordDao keywordDao = (KeywordDao) DaoFactory.getDao(DaoEnum.KeywordDao);
+    private KeywordClassifiedPivotDao keywordClassifiedPivotDao = (KeywordClassifiedPivotDao) DaoFactory.getDao(DaoEnum.KeywordClassifiedPivotDao);
 
-    public List<Keyword> findByClassified( int id) {
+    public List<Keyword> findByClassified(int id) {
         return keywordClassifiedPivotDao.findByClassified(id).stream()
-                .map( x -> keywordDao.findOne(x.getKeywordId()) )
-                .collect( Collectors.toList() );
+                .map(x -> keywordDao.findOne(x.getKeywordId()))
+                .collect(Collectors.toList());
     }
 
     public KeywordClassifiedPivot save(KeywordClassifiedPivot obj) {

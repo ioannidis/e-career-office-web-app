@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class KeywordClassifiedPivotDao implements CrudDao<KeywordClassifiedPivot, Integer> {
+
     @Override
     public KeywordClassifiedPivot findOne( Integer id ) {
         return null;
