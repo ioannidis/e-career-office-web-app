@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Admin  |Student Registration</title>
+    <title>Admin | Student Registration</title>
     <c:import url="/WEB-INF/views/styles.jsp"></c:import>
 </head>
 <body class="bg-dark">

@@ -63,6 +63,8 @@ public class AdminStudentsServlet extends HttpServlet {
         String action = UrlUtil.getParameterOrDefault(request, "action", "index");
         String name = UrlUtil.getParameterOrDefault(request, "name", "None");
 
+        String filter = UrlUtil.getParameterOrDefault(request, "filter", "None");
+
         switch (action) {
             case "delete": {
                 User student = userService.findOne(name);
@@ -101,18 +103,49 @@ public class AdminStudentsServlet extends HttpServlet {
             }
             default: {
 
-                for (User student : students) {
-                    int cvId = cvService.findOne(student.getUsername()).getId();
+                if (!(filter.equals( "None"))) {
 
-                    UserKeywordDecorator userKeywordDecorator = new UserKeywordDecorator(student);
-                    userKeywordDecorator.setKeywords(keywordCvPivotService.findByCvId(cvId));
-                    users.add(userKeywordDecorator);
+
+                    Integer id = Integer.parseInt(filter);
+                    KeywordClassifiedPivotService keywordClassifiedPivotService = new KeywordClassifiedPivotService();
+                    List<Keyword> filterKeywords = keywordClassifiedPivotService.findByClassified(id);
+                    for (User student : students) {
+                        int cvId = cvService.findOne(student.getUsername()).getId();
+
+                        UserKeywordDecorator userKeywordDecorator = new UserKeywordDecorator(student);
+                        userKeywordDecorator.setKeywords(keywordCvPivotService.findByCvId(cvId));
+                        boolean found = false;
+                        for (Keyword keyword:userKeywordDecorator.getKeywords()
+                             ) {
+                            for (Keyword clKeyword:filterKeywords
+                                 ) {
+                                if (keyword.getSlug().equals(clKeyword.getSlug())&&(!found)){
+                                    users.add(userKeywordDecorator);
+                                    found = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                }
+                else {
+                    for (User student : students) {
+                        int cvId = cvService.findOne(student.getUsername()).getId();
+
+                        UserKeywordDecorator userKeywordDecorator = new UserKeywordDecorator(student);
+                        userKeywordDecorator.setKeywords(keywordCvPivotService.findByCvId(cvId));
+                        users.add(userKeywordDecorator);
+                    }
                 }
 
-                request.setAttribute("users", users);
+                    request.setAttribute("users", users);
 
-                request.getRequestDispatcher("WEB-INF/views/admin/students.jsp").forward(request, response);
-            }
+                    request.getRequestDispatcher("WEB-INF/views/admin/students.jsp").forward(request, response);
+                }
+
+
+
         }
     }
 

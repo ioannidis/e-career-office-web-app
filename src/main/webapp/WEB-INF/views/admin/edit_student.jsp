@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>Classified | Edit classified</title>
+    <title>Classified | Edit Student</title>
     <c:import url="/WEB-INF/views/styles.jsp"></c:import>
 </head>
 <body class="fixed-nav sticky-footer bg-dark" id="page-top" cz-shortcut-listen="true">
@@ -19,8 +19,8 @@
     <div class="container-fluid">
 
         <ol class="breadcrumb">
-            <li class="breadcrumb-item text-primary"><a href="external" >Admin</a></li>
-            <li class="breadcrumb-item text-primary"><a href="externalclassifieds" >Students</a></li>
+            <li class="breadcrumb-item text-primary"><a href="admin" >Admin</a></li>
+            <li class="breadcrumb-item text-primary"><a href="adminstudents" >Students</a></li>
             <li class="breadcrumb-item text-primary"><c:out value="${student.username}" /></li>
             <li class="breadcrumb-item active">Edit</li>
         </ol>

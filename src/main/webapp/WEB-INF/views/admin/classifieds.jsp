@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>Admin | Home</title>
+    <title>Admin | Classifieds</title>
     <c:import url="/WEB-INF/views/styles.jsp"></c:import>
 </head>
 <body class="fixed-nav sticky-footer bg-dark" id="page-top"
@@ -56,7 +56,7 @@
                                 </td>
 
                                 <td>
-                                    <a class="btn btn-info" href="adminstudents?cl_id=${classifieds.classified.id}"><i class="fas fa-user" style="margin-right:8px"></i>Assign Job</a>
+                                    <a class="btn btn-info" href="adminstudents?filter=${classifieds.classified.id}"><i class="fas fa-user" style="margin-right:8px"></i>Assign Job</a>
                                     <a class="btn btn-primary" href="adminclassifieds?id=${classifieds.classified.id}&action=show"><i class="fas fa-external-link-alt" style="margin-right:8px"></i>Show</a>
                                     <a class="btn btn-warning" href="adminclassifieds?id=${classifieds.classified.id}&action=edit"><i class="far fa-edit" style="margin-right:8px"></i>Edit</a>
                                     <a class="btn btn-danger" href="adminclassifieds?id=${classifieds.classified.id}&action=delete"><i class="fas fa-times" style="margin-right:8px"></i>Delete</a>

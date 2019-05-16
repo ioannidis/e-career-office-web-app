@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Admin  |Keyword Creation</title>
+    <title>Admin | Keyword Creation</title>
     <c:import url="/WEB-INF/views/styles.jsp"></c:import>
 </head>
 <body class="bg-dark">
@@ -24,10 +24,12 @@
                     <input id="slug" class="form-control" type="text" name="slug" placeholder="Slug" required />
                 </div>
                 <br/>
-                <input  type="submit" class="btn btn-primary btn-block" value="Create">
+                <div class="text-center">
+                <input  type="submit" class="btn btn-info" style="align-self: center"  value="Create">
+                </div>
             </form>
             <div class="text-center">
-                <a class="d-block small mt-3" href="adminkeywords">Cancel</a>
+                <a class="btn btn-danger" href="adminkeywords">Cancel</a>
             </div>
         </div>
     </div>
