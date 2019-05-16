@@ -33,5 +33,13 @@
 				</span>
             </a>
         </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="" data-original-title="Manage Keywords">
+            <a class="nav-link" href="<c:url value="/adminkeywords"/>">
+				<span class="nav-link-text">
+					<i class="fa fa-fw fa-eye"></i>
+                    Keywords
+				</span>
+            </a>
+        </li>
     </ul>
 </li>

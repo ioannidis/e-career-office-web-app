@@ -19,8 +19,8 @@
     <div class="container-fluid">
 
         <ol class="breadcrumb">
-            <li class="breadcrumb-item text-primary"><a href="external" >Admin</a></li>
-            <li class="breadcrumb-item text-primary"><a href="externalclassifieds" >Classifieds</a></li>
+            <li class="breadcrumb-item text-primary"><a href="admin" >Admin</a></li>
+            <li class="breadcrumb-item text-primary"><a href="adminclassifieds" >Classifieds</a></li>
             <li class="breadcrumb-item text-primary"><c:out value="${classified.title}" /></li>
             <li class="breadcrumb-item active">Edit</li>
         </ol>

@@ -64,6 +64,22 @@ public class AdminStudentsServlet extends HttpServlet {
         String name = UrlUtil.getParameterOrDefault(request, "name", "None");
 
         switch (action) {
+            case "delete": {
+                User student = userService.findOne(name);
+                if (student.getUserCompany() != null) {
+                    userCompanyService.delete(student.getUsername());
+                }
+
+                if (student.getUserDepartment() != null) {
+                    userDepartmentService.delete(student.getUsername());
+                }
+                keywordCvPivotService.deleteByCvId(cvService.findOne(name).getId());
+                cvService.delete(name);
+                userService.delete(name);
+
+                response.sendRedirect("adminstudents");
+                break;
+            }
             case "show": {
                 User student = userService.findOne(name);
                 request.setAttribute("student", student);
@@ -111,22 +127,7 @@ public class AdminStudentsServlet extends HttpServlet {
         String name = UrlUtil.getParameterOrDefault(request, "name", "None");
 
         switch (action) {
-            case "delete": {
-                User student = userService.findOne(name);
-                if (student.getUserCompany() != null) {
-                    userCompanyService.delete(student.getUsername());
-                }
 
-                if (student.getUserDepartment() != null) {
-                    userDepartmentService.delete(student.getUsername());
-                }
-                keywordCvPivotService.deleteByCvId(cvService.findOne(name).getId());
-                cvService.delete(name);
-                userService.delete(name);
-
-                response.sendRedirect("adminclassifieds");
-                break;
-            }
             case "update": {
                 User student = userService.findOne(name);
 
