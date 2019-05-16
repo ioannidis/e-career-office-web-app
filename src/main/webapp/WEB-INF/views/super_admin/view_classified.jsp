@@ -8,9 +8,9 @@
 <body>
 <h2>View: ${classified.title}</h2>
 <p>
-    <a href="#">Edit</a>
+    <a href="<c:url value="/edit_classified?id=${classified.id}"/>">Edit</a>
     /
-    <a href="#">Delete</a>
+    <a href="<c:url value="/delete_classified?id=${classified.id}"/>">Delete</a>
 </p>
 <p><a href="<c:url value="/manage_classifieds"/>"><< Back</a></p>
 <hr>

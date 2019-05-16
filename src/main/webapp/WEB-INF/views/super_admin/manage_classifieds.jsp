@@ -38,9 +38,9 @@
             <td>
                 <a href="<c:url value="/view_classified?id=${classified.id}"/>">View</a>
                 /
-                <a href="#">Edit</a>
+                <a href="<c:url value="/edit_classified?id=${classified.id}"/>">Edit</a>
                 /
-                <a href="#">Delete</a>
+                <a href="<c:url value="/delete_classified?id=${classified.id}"/>">Delete</a>
             </td>
         </tr>
     </c:forEach>
