@@ -1,7 +1,5 @@
 package com.careeroffice.servlet;
 
-import com.careeroffice.dao.factory.DaoEnum;
-import com.careeroffice.dao.factory.DaoFactory;
 import com.careeroffice.model.Cv;
 import com.careeroffice.model.User;
 import com.careeroffice.service.AuthService;

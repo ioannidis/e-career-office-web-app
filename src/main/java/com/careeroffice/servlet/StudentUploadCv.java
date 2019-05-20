@@ -56,19 +56,6 @@ public class StudentUploadCv extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        CvService cvService = (CvService) ServiceFactory.getService(ServiceEnum.CvService);
-//        KeywordCvPivotService keywordCvPivotService = (KeywordCvPivotService) ServiceFactory.getService(ServiceEnum.KeywordCvPivotService);
-//
-//        HttpSession session = request.getSession();
-//        User user = (User) session.getAttribute("user");
-//        Cv cv = cvService.findOne(user.getUsername());
-//
-//        if (cv != null) {
-//            List<Keyword> keywords = keywordCvPivotService.findByCvId(cv.getId());
-//            request.setAttribute("keywords", keywords);
-//            request.setAttribute("user", user);
-//        }
-
         KeywordService keywordService = (KeywordService) ServiceFactory.getService(ServiceEnum.KeywordService);
         List<Keyword> keywords = keywordService.findAll();
 

@@ -8,7 +8,6 @@ import com.careeroffice.service.factory.ServiceEnum;
 import com.careeroffice.service.factory.ServiceFactory;
 import com.careeroffice.service.pivot.KeywordCvPivotService;
 import com.careeroffice.service.CvService;
-import org.jasypt.util.password.StrongPasswordEncryptor;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,7 +29,6 @@ public class StudentServlet extends HttpServlet {
      */
     private static final long serialVersionUID = 1L;
 
-    private StrongPasswordEncryptor encryptor = new StrongPasswordEncryptor();
 
     /**
      * Handles all GET requests.
