@@ -41,7 +41,7 @@ public class StudentDownloadCv extends HttpServlet {
 
         Cv cv = cvService.findOne(username);
 
-        if (cv != null) {
+        if (cv != null && !cv.getFileUrl().isEmpty()) {
             String fileUrl = cv.getFileUrl();
 
 

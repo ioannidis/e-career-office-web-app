@@ -17,6 +17,14 @@
 				</span>
 			</a>
 		</li>
+		<li class="nav-item" data-toggle="tooltip" data-placement="right" title="" data-original-title="Home">
+			<a class="nav-link" href="<c:url value="/student_crud"/>">
+				<span class="nav-link-text">
+					<i class="fas fa-home"></i>
+					Edit Information
+				</span>
+			</a>
+		</li>
 		<li class="nav-item" data-toggle="tooltip" data-placement="right" title="" data-original-title="Upload CV">
 			<a class="nav-link" href="<c:url value="/upload_cv"/>">
 				<i class="fas fa-upload"></i>

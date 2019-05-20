@@ -54,4 +54,24 @@ public class Keyword {
                 ", slug='" + slug + '\'' +
                 '}';
     }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+
+        if (!Keyword.class.isAssignableFrom(obj.getClass())) {
+            return false;
+        }
+
+        final Keyword other = (Keyword) obj;
+        if (this.id != other.getId()) {
+            return false;
+        }
+
+        return true;
+    }
+
 }

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -13,10 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import javax.sql.DataSource;
 
-import com.careeroffice.model.Cv;
-import com.careeroffice.model.Keyword;
-import com.careeroffice.model.KeywordCvPivot;
-import com.careeroffice.model.User;
+import com.careeroffice.model.*;
 import com.careeroffice.service.AuthService;
 import com.careeroffice.service.KeywordService;
 import com.careeroffice.service.factory.ServiceEnum;
@@ -56,11 +54,48 @@ public class StudentUploadCv extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         KeywordService keywordService = (KeywordService) ServiceFactory.getService(ServiceEnum.KeywordService);
+        KeywordCvPivotService keywordCvPivotService = (KeywordCvPivotService) ServiceFactory.getService(ServiceEnum.KeywordCvPivotService);
+        AuthService authService = new AuthService(request.getSession());
+        CvService cvService = (CvService) ServiceFactory.getService(ServiceEnum.CvService);
+
+        User user = authService.getUser();
+        String username = user.getUsername();
+        Cv cv = cvService.findOne(username);
+
         List<Keyword> keywords = keywordService.findAll();
+
+        if (cv != null && !cv.getFileUrl().isEmpty()) {
+            List<Keyword> checkedKeywords = keywordCvPivotService.findByCvId(cv.getId());
+            if (checkedKeywords == null) {
+                request.setAttribute("keywords", keywords);
+                request.getRequestDispatcher("WEB-INF/views/student/upload_cv.jsp").forward(request, response);
+                return;
+            }
+
+            List<CheckedUserKeyword> pivotTable = new ArrayList<>();
+
+            for (Keyword keyword: keywords) {
+                if (checkedKeywords.contains(keyword)) {
+                    pivotTable.add(new CheckedUserKeyword(keyword.getTitle(), keyword.getSlug(), true));
+                } else {
+                    pivotTable.add(new CheckedUserKeyword(keyword.getTitle(), keyword.getSlug(), false));
+                }
+
+            }
+            request.setAttribute("pivotTable", pivotTable);
+            request.getRequestDispatcher("WEB-INF/views/student/upload_cv.jsp").forward(request, response);
+            return;
+        }
+
+
 
         request.setAttribute("keywords", keywords);
         request.getRequestDispatcher("WEB-INF/views/student/upload_cv.jsp").forward(request, response);
+
+
+
 
     }
 
