@@ -2,6 +2,7 @@ package com.careeroffice.servlet;
 
 import com.careeroffice.dao.factory.DaoEnum;
 import com.careeroffice.dao.factory.DaoFactory;
+import com.careeroffice.model.Cv;
 import com.careeroffice.model.User;
 import com.careeroffice.service.AuthService;
 import com.careeroffice.service.CvService;
@@ -40,17 +41,19 @@ public class StudentDownloadCv extends HttpServlet {
         User user = authService.getUser();
         String username = user.getUsername();
 
-        if (cvService.findOne(username) != null) {
-            String filePath = SAVE_DIR + File.separator + username + ".pdf";
+        Cv cv = cvService.findOne(username);
+
+        if (cv != null) {
+            String fileUrl = cv.getFileUrl();
 
 
-            byte[] outputBytes = loadFile(filePath);
+            byte[] outputBytes = loadFile(fileUrl);
 
             response.setHeader("Pragma", "no-cache");
             response.setHeader("Cache-control", "private");
             response.setDateHeader("Expires", 0);
             response.setContentType("application/pdf");
-            response.setHeader("Content-Disposition", "attachment; filename=\"test.pdf\"");
+            response.setHeader("Content-Disposition", "attachment; filename=" + fileUrl);
 
             if (outputBytes != null) {
                 response.setContentLength(outputBytes.length);

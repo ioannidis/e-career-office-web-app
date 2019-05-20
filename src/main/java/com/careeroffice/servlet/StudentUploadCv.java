@@ -56,19 +56,23 @@ public class StudentUploadCv extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        CvService cvService = (CvService) ServiceFactory.getService(ServiceEnum.CvService);
-        KeywordCvPivotService keywordCvPivotService = (KeywordCvPivotService) ServiceFactory.getService(ServiceEnum.KeywordCvPivotService);
+//        CvService cvService = (CvService) ServiceFactory.getService(ServiceEnum.CvService);
+//        KeywordCvPivotService keywordCvPivotService = (KeywordCvPivotService) ServiceFactory.getService(ServiceEnum.KeywordCvPivotService);
+//
+//        HttpSession session = request.getSession();
+//        User user = (User) session.getAttribute("user");
+//        Cv cv = cvService.findOne(user.getUsername());
+//
+//        if (cv != null) {
+//            List<Keyword> keywords = keywordCvPivotService.findByCvId(cv.getId());
+//            request.setAttribute("keywords", keywords);
+//            request.setAttribute("user", user);
+//        }
 
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
-        Cv cv = cvService.findOne(user.getUsername());
+        KeywordService keywordService = (KeywordService) ServiceFactory.getService(ServiceEnum.KeywordService);
+        List<Keyword> keywords = keywordService.findAll();
 
-        if (cv != null) {
-            List<Keyword> keywords = keywordCvPivotService.findByCvId(cv.getId());
-            request.setAttribute("keywords", keywords);
-            request.setAttribute("user", user);
-        }
-
+        request.setAttribute("keywords", keywords);
         request.getRequestDispatcher("WEB-INF/views/student/upload_cv.jsp").forward(request, response);
 
     }
@@ -82,15 +86,30 @@ public class StudentUploadCv extends HttpServlet {
         CvService cvService = (CvService) ServiceFactory.getService(ServiceEnum.CvService);
         KeywordService keywordService = (KeywordService) ServiceFactory.getService(ServiceEnum.KeywordService);
         KeywordCvPivotService keywordCvPivotService = (KeywordCvPivotService) ServiceFactory.getService(ServiceEnum.KeywordCvPivotService);
-
-        // Retrieves the CV keyword tags
-        String[] keywords = request.getParameterValues("keywords");
-        // Retrieves the uploaded CV <input type="file" name="file">
-        Part part = request.getPart("file");
-
         AuthService authService = new AuthService(request.getSession());
+
         User user = authService.getUser();
         String username = user.getUsername();
+
+        String[] keywords = request.getParameterValues("keywords");
+        Part part = request.getPart("file");
+
+        boolean hasError = false;
+
+        if (keywords == null) {
+            request.getSession().setAttribute("keywordsError", true);
+            hasError = true;
+        }
+
+        if (part.getSubmittedFileName() == "") {
+            request.getSession().setAttribute("cvError", true);
+            hasError = true;
+        }
+
+        if (hasError) {
+            doGet(request, response);
+            return;
+        }
 
         String fileUrl = savedPathCalculator(username).toString();
 
@@ -103,18 +122,11 @@ public class StudentUploadCv extends HttpServlet {
         writeFileToDisk(part, username);
 
         int cvId = cvService.findOne(user.getUsername()).getId();
-
-        // Erase keyword - cv table rows for specific user
         keywordCvPivotService.deleteByCvId(cvId);
 
         for (String keyword: keywords) {
-            if (keywordService.findKeywordByTitle(keyword) != null) {
-                int keywordId = keywordService.findKeywordByTitle(keyword).getId();
-                keywordCvPivotService.save(new KeywordCvPivot(keywordId, cvId));
-            } else {
-                int keywordId = keywordService.saveReturn(keyword, keyword).getId();
-                keywordCvPivotService.save(new KeywordCvPivot(keywordId, cvId));
-            }
+            int keywordId = keywordService.findKeywordByTitle(keyword).getId();
+            keywordCvPivotService.save(new KeywordCvPivot(keywordId, cvId));
         }
 
         request.getRequestDispatcher(user.getRoleId()).forward(request, response);
