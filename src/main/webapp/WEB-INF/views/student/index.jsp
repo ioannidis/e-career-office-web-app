@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Home - Student</title>
+    <title>Student | Home</title>
     <meta charset="UTF-8">
     <c:import url="/WEB-INF/views/styles.jsp"></c:import>
 </head>
