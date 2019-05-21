@@ -24,10 +24,6 @@
             <div class="card-body">
                 <form method="post" action="student_crud">
                     <div class="form-group">
-                        <label for="password">Password</label>
-                        <input id="password" class="form-control" type="password" name="password" placeholder="Password" required />
-                    </div>
-                    <div class="form-group">
                         <label for="firstname">First Name</label>
                         <input id="firstname" class="form-control" type="text" name="firstname" placeholder="First name" value="${user.getName()}" required />
                     </div>
@@ -46,18 +42,26 @@
                     <div class="form-group">
                         <label for="phone">Role</label>
                         <br/>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="role" id="roleRadio1" value="u_student">
-                            <label class="form-check-label" for="roleRadio1">Undergraduate student</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="role" id="roleRadio2" value="p_student">
-                            <label class="form-check-label" for="roleRadio2">Postgraduate student</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="role" id="roleRadio3" value="external">
-                            <label class="form-check-label" for="roleRadio3">External</label>
-                        </div>
+                        <c:if test="${ user.getRoleId() == 'u_student'}">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="role" id="roleRadio1" value="u_student" checked>
+                                <label class="form-check-label" for="roleRadio1">Undergraduate student</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="role" id="roleRadio2" value="p_student">
+                                <label class="form-check-label" for="roleRadio2">Postgraduate student</label>
+                            </div>
+                        </c:if>
+                        <c:if test="${ user.getRoleId() == 'p_student'}">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="role" id="roleRadio1" value="u_student">
+                                <label class="form-check-label" for="roleRadio1">Undergraduate student</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="role" id="roleRadio2" value="p_student" checked>
+                                <label class="form-check-label" for="roleRadio2">Postgraduate student</label>
+                            </div>
+                        </c:if>
                     </div>
                     <br/>
                     <input  type="submit" class="btn btn-primary btn-block" value="Update">

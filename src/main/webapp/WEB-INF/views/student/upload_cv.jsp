@@ -51,7 +51,10 @@
                                 <span class="input-group-text">Upload</span>
                             </div>
                             <div class="custom-file">
-                                <label for="file" class="custom-file-label">Choose your cv</label>
+                                <label for="file" class="custom-file-label">
+                                    <c:if test="${cvName != null}">${cvName}</c:if>
+                                    <c:if test="${cvName == null}">Choose your cv!</c:if>
+                                </label>
                                 <input name="file" id="file" type="file" size="60" accept="application/pdf" class="form-control custom-file-input" >
                             </div>
                         </div>
@@ -66,7 +69,7 @@
             </c:if>
             <c:if test="${cvError != null}">
                 <div class="alert alert-danger" role="alert">
-                    You must upload your CV in pdf format!
+                    You must upload your CV in pdf format first!
                 </div>
                 <c:remove var="cvError" scope="session" />
             </c:if>
@@ -76,5 +79,11 @@
 </div>
 <c:import url="/WEB-INF/views/footer.jsp"></c:import>
 <c:import url="/WEB-INF/views/scripts.jsp"></c:import>
+<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
+<script>
+    $(document).ready(function () {
+        bsCustomFileInput.init()
+    })
+</script>
 </body>
 </html>

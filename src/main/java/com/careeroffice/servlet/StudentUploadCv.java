@@ -84,6 +84,7 @@ public class StudentUploadCv extends HttpServlet {
                 }
 
             }
+            request.setAttribute("cvName", cv.getUsername() + ".pdf");
             request.setAttribute("pivotTable", pivotTable);
             request.getRequestDispatcher("WEB-INF/views/student/upload_cv.jsp").forward(request, response);
             return;
@@ -118,38 +119,34 @@ public class StudentUploadCv extends HttpServlet {
 
         boolean hasError = false;
 
-        if (keywords == null) {
-            request.getSession().setAttribute("keywordsError", true);
-            hasError = true;
-        }
-
-        if (part.getSubmittedFileName() == "") {
-            request.getSession().setAttribute("cvError", true);
-            hasError = true;
-        }
-
-        if (hasError) {
-            doGet(request, response);
-            return;
-        }
-
-        String fileUrl = savedPathCalculator(username).toString();
-
-        // If CV doesn't exist
-        if (cvService.findOne(username) == null) {
-            cvService.save(username, fileUrl);
+        if (!isFirstTime(username) && part.getSubmittedFileName() == "") {
+            eraseKeywords(user);
+            saveKeywords(keywords, user);
         } else {
-            cvService.update(new Cv(username, fileUrl));
-        }
-        writeFileToDisk(part, username);
+            if (part.getSubmittedFileName() == "") {
+                request.getSession().setAttribute("cvError", true);
+                hasError = true;
+            }
 
-        int cvId = cvService.findOne(user.getUsername()).getId();
-        keywordCvPivotService.deleteByCvId(cvId);
+            if (hasError) {
+                doGet(request, response);
+                return;
+            }
 
-        for (String keyword: keywords) {
-            int keywordId = keywordService.findKeywordByTitle(keyword).getId();
-            keywordCvPivotService.save(new KeywordCvPivot(keywordId, cvId));
+            String fileUrl = savedPathCalculator(username).toString();
+
+            if (cvService.findOne(username) == null) {
+                cvService.save(username, fileUrl);
+            } else {
+                cvService.update(new Cv(username, fileUrl));
+            }
+
+            writeFileToDisk(part, username);
+
+            eraseKeywords(user);
+            saveKeywords(keywords, user);
         }
+
 
         request.getRequestDispatcher(user.getRoleId()).forward(request, response);
     }
@@ -176,5 +173,34 @@ public class StudentUploadCv extends HttpServlet {
     private Path savedPathCalculator(String username) {
         String fileName = username + ".pdf";
         return new File(SAVE_DIR, fileName).toPath();
+    }
+
+    private boolean isFirstTime(String username) {
+        CvService cvService = (CvService) ServiceFactory.getService(ServiceEnum.CvService);
+        if (cvService.findOne(username) == null) {
+            return true;
+        }
+        return false;
+    }
+
+    private void saveKeywords(String[] keywords, User user) {
+        KeywordService keywordService = (KeywordService) ServiceFactory.getService(ServiceEnum.KeywordService);
+        KeywordCvPivotService keywordCvPivotService = (KeywordCvPivotService) ServiceFactory.getService(ServiceEnum.KeywordCvPivotService);
+        CvService cvService = (CvService) ServiceFactory.getService(ServiceEnum.CvService);
+
+        if (keywords != null) {
+            for (String keyword: keywords) {
+                int keywordId = keywordService.findKeywordByTitle(keyword).getId();
+                keywordCvPivotService.save(new KeywordCvPivot(keywordId, cvService.findOne(user.getUsername()).getId()));
+            }
+        }
+    }
+
+    private void eraseKeywords(User user) {
+        KeywordCvPivotService keywordCvPivotService = (KeywordCvPivotService) ServiceFactory.getService(ServiceEnum.KeywordCvPivotService);
+        CvService cvService = (CvService) ServiceFactory.getService(ServiceEnum.CvService);
+
+        int cvId = cvService.findOne(user.getUsername()).getId();
+        keywordCvPivotService.deleteByCvId(cvId);
     }
 }

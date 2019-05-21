@@ -105,11 +105,11 @@
     <c:import url="/WEB-INF/views/scripts.jsp"></c:import>
 
     <c:if test="${noCv}">
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $('.modal').modal('show');
-        });
-    </script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('.modal').modal('show');
+            });
+        </script>
     </c:if>
 </body>
 </html>

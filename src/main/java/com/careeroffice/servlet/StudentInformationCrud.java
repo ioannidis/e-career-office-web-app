@@ -2,11 +2,10 @@ package com.careeroffice.servlet;
 
 import com.careeroffice.model.User;
 import com.careeroffice.service.AuthService;
-import com.careeroffice.service.RegistrationService;
+
 import com.careeroffice.service.UserService;
 import com.careeroffice.service.factory.ServiceEnum;
 import com.careeroffice.service.factory.ServiceFactory;
-import org.jasypt.util.password.StrongPasswordEncryptor;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,7 +20,7 @@ import java.io.IOException;
 @WebServlet({"/StudentInformationCrud", "/student_crud"})
 public class StudentInformationCrud extends HttpServlet {
 
-    private StrongPasswordEncryptor encryptor = new StrongPasswordEncryptor();
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -43,19 +42,18 @@ public class StudentInformationCrud extends HttpServlet {
 
         User user = authService.getUser();
 
-        String password     = request.getParameter("password");
         String firstName    = request.getParameter("firstname");
         String lastName     = request.getParameter("lastname");
         String email        = request.getParameter("email");
         String phone        = request.getParameter("phone");
         String role         = request.getParameter("role");
 
-        User newUser = new User(user.getUsername(), encryptor.encryptPassword(password), firstName, lastName,
+        User newUser = new User(user.getUsername(), user.getPassword(), firstName, lastName,
                 phone, email, role);
 
         userService.update(user);
         session.removeAttribute("user");
         session.setAttribute("user", newUser);
-        request.getRequestDispatcher("WEB-INF/views/student/index.jsp").forward(request, response);
+        response.sendRedirect(user.getRoleId());
     }
 }
