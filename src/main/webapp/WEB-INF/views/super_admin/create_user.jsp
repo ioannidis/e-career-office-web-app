@@ -4,92 +4,133 @@
 <head>
     <title>Super Admin | Create User</title>
     <meta charset="UTF-8">
+    <c:import url="/WEB-INF/views/styles.jsp"></c:import>
 </head>
-<body>
-<h2>Create User</h2>
-<p><a href="<c:url value="/manage_users"/>"><< Back</a></p>
-<hr>
-<form action="<c:url value="/create_user"/>" method="POST">
-    <p>
-        <strong><label for="username">Username</label></strong>
-        <br>
-        <input type="text" name="username" id="username" required>
-    </p>
+<body class="fixed-nav sticky-footer bg-dark">
+<c:import url="/WEB-INF/views/nav.jsp"></c:import>
 
-    <p>
-        <strong><label for="password">Password</label></strong>
-        <br>
-        <input type="password" name="password" id="password" required>
-    </p>
+<div class="content-wrapper">
+    <div class="container-fluid">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="<c:url value="/super_admin"/>">
+                    Super Admin
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="<c:url value="/manage_users"/>">
+                    Users
+                </a>
+            </li>
+            <li class="breadcrumb-item active">
+                Create User
+            </li>
+        </ol>
 
-    <p>
-        <strong><label for="first_name">First Name</label></strong>
-        <br>
-        <input type="text" name="first_name" id="first_name" required>
-    </p>
+        <div class="card mb-3">
+            <div class="card-header d-flex flex-row align-items-center">
+                <i class="fa fa-users-cog mr-2"></i>
+                <strong>Create User</strong>
+            </div>
+            <div class="card-body">
+                <form action="<c:url value="/create_user"/>" method="POST" id="create_user_form">
+                    <div class="form-row">
+                        <div class="form-group col-3">
+                            <strong><label for="username">Username</label></strong>
+                            <input class="form-control" type="text" name="username" id="username" required>
+                        </div>
+                    </div>
 
-    <p>
-        <strong><label for="last_name">Last Name</label></strong>
-        <br>
-        <input type="text" name="last_name" id="last_name" required>
-    </p>
+                    <div class="form-row">
+                        <div class="form-group col-3">
+                            <strong><label for="password">Password</label></strong>
+                            <input class="form-control" type="password" name="password" id="password" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-3">
+                            <strong><label for="first_name">First Name</label></strong>
+                            <input class="form-control" type="text" name="first_name" id="first_name" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-3">
+                            <strong><label for="last_name">Last Name</label></strong>
+                            <input class="form-control" type="text" name="last_name" id="last_name" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-3">
+                            <strong><label for="phone_number">Phone Number</label></strong>
+                            <input class="form-control" type="text" name="phone_number" id="phone_number" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-3">
+                            <strong><label for="email">Email</label></strong>
+                            <input class="form-control" type="email" name="email" id="email" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-3">
+                            <strong><label for="role">Select Role</label></strong>
 
-    <p>
-        <strong><label for="phone_number">Phone Number</label></strong>
-        <br>
-        <input type="text" name="phone_number" id="phone_number" required>
-    </p>
+                            <select class="form-control" name="role" id="role">
+                                <c:forEach items="${roles}" var="role">
+                                    <option value="${role.id}">${role.title}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-3">
+                            <strong><label for="company">Select Company</label></strong>
 
-    <p>
-        <strong><label for="email">Email</label></strong>
-        <br>
-        <input type="email" name="email" id="email" required>
-    </p>
+                            <select class="form-control" name="company" id="company">
+                                <option value="nothing" selected>-</option>
 
-    <p>
-        <strong><label for="role">Select Role</label></strong>
-        <br>
-        <select name="role" id="role">
-            <c:forEach items="${roles}" var="role">
-                <option value="${role.id}">${role.title}</option>
-            </c:forEach>
-        </select>
-    </p>
+                                <c:forEach items="${companies}" var="company">
 
-    <p>
-        <strong><label for="company">Select Company</label></strong>
-        <br>
-        <select name="company" id="company">
-            <option value="nothing" selected>-</option>
+                                    <option value="${company.id}">
+                                            ${company.title}
+                                    </option>
 
-            <c:forEach items="${companies}" var="company">
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-3">
+                            <strong><label for="department">Select Department</label></strong>
 
-                <option value="${company.id}">
-                        ${company.title}
-                </option>
+                            <select class="form-control" name="department" id="department">
+                                <option value="nothing" selected>-</option>
 
-            </c:forEach>
-        </select>
-    </p>
+                                <c:forEach items="${departments}" var="department">
 
-    <p>
-        <strong><label for="department">Select Department</label></strong>
-        <br>
-        <select name="department" id="department">
-            <option value="nothing" selected>-</option>
+                                    <option value="${department.id}">
+                                            ${department.title}
+                                    </option>
 
-            <c:forEach items="${departments}" var="department">
-
-                <option value="${department.id}">
-                        ${department.title}
-                </option>
-
-            </c:forEach>
-        </select>
-    </p>
-
-    <input type="submit" value="Create User">
-</form>
-
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer d-flex flex-row align-items-center justify-content-end">
+                <button class="btn btn-primary d-flex flex-row align-items-center mr-3" form="create_user_form">
+                    <i class="fa fa-plus-circle mr-2"></i>
+                    Create User
+                </button>
+                <a class="btn btn-danger" href="<c:url value="/manage_users"/>">
+                    Cancel
+                </a>
+            </div>
+        </div>
+    </div>
+    <c:import url="/WEB-INF/views/footer.jsp"></c:import>
+</div>
+<c:import url="/WEB-INF/views/scripts.jsp"></c:import>
 </body>
 </html>
