@@ -4,70 +4,133 @@
 <head>
     <title>Super Admin | Edit User</title>
     <meta charset="UTF-8">
+    <c:import url="/WEB-INF/views/styles.jsp"></c:import>
 </head>
-<body>
-<h2>Edit: ${user.fullName}</h2>
-<p><a href="<c:url value="/manage_users"/>"><< Back</a></p>
-<hr>
-<form action="<c:url value="/edit_user?id=${user.username}"/>" method="POST">
-    <p>
-        <strong><label for="first_name">First Name</label></strong>
-        <br>
-        <input type="text" name="first_name" id="first_name" value="${user.name}" required>
-    </p>
+<body class="fixed-nav sticky-footer bg-dark">
+<c:import url="/WEB-INF/views/nav.jsp"></c:import>
 
-    <p>
-        <strong><label for="last_name">Last Name</label></strong>
-        <br>
-        <input type="text" name="last_name" id="last_name" value="${user.surname}" required>
-    </p>
+<div class="content-wrapper">
+    <div class="container-fluid">
 
-    <p>
-        <strong><label for="phone_number">Phone Number</label></strong>
-        <br>
-        <input type="text" name="phone_number" id="phone_number" value="${user.phoneNumber}" required>
-    </p>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="<c:url value="/super_admin"/>">
+                    Super Admin
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="<c:url value="/manage_users"/>">
+                    Users
+                </a>
+            </li>
+            <li class="breadcrumb-item active">
+                Edit User
+            </li>
+        </ol>
 
-    <p>
-        <strong><label for="email">Email</label></strong>
-        <br>
-        <input type="email" name="email" id="email" value="${user.email}" required>
-    </p>
+        <div class="card mb-3">
+            <div class="card-header d-flex flex-row align-items-center">
+                <i class="fa fa-users-cog mr-2"></i>
+                <strong>Edit User</strong>
+            </div>
+            <div class="card-body">
+                <form action="<c:url value="/edit_user?id=${user.username}"/>" method="POST" id="edit_user_form">
+                    <div class="form-row">
+                        <div class="form-group col-3">
+                            <strong><label for="first_name">First Name</label></strong>
+                            <input class="form-control"
+                                   type="text"
+                                   name="first_name"
+                                   id="first_name"
+                                   value="${user.name}" required>
+                        </div>
+                    </div>
 
-    <p>
-        <strong><label for="company">Company</label></strong>
-        <br>
-        <select name="company" id="company">
-            <option value="nothing" ${user.userCompany == null ? "selected" : ""}>-</option>
+                    <div class="form-row">
+                        <div class="form-group col-3">
+                            <strong><label for="last_name">Last Name</label></strong>
+                            <input class="form-control"
+                                   type="text"
+                                   name="last_name"
+                                   id="last_name"
+                                   value="${user.surname}" required>
+                        </div>
+                    </div>
 
-            <c:forEach items="${companies}" var="company">
+                    <div class="form-row">
+                        <div class="form-group col-3">
+                            <strong><label for="phone_number">Phone Number</label></strong>
+                            <input class="form-control"
+                                   type="text"
+                                   name="phone_number"
+                                   id="phone_number"
+                                   value="${user.phoneNumber}" required>
+                        </div>
+                    </div>
 
-                <option value="<c:out value="${company.id}" />" ${company.id == user.userCompany.companyId ? "selected" : ""}>
-                    ${company.title}
-                </option>
 
-            </c:forEach>
-        </select>
-    </p>
+                    <div class="form-row">
+                        <div class="form-group col-3">
+                            <strong><label for="email">Email</label></strong>
+                            <input class="form-control"
+                                   type="email"
+                                   name="email"
+                                   id="email"
+                                   value="${user.email}" required>
+                        </div>
+                    </div>
 
-    <p>
-        <strong><label for="department">Department</label></strong>
-        <br>
-        <select name="department" id="department">
-            <option value="nothing" ${user.userDepartment == null ? "selected" : ""}>-</option>
+                    <div class="form-row">
+                        <div class="form-group col-3">
+                            <strong><label for="company">Company</label></strong>
+                            <select class="form-control" name="company" id="company">
+                                <option value="nothing" ${user.userCompany == null ? "selected" : ""}>-</option>
 
-            <c:forEach items="${departments}" var="department">
+                                <c:forEach items="${companies}" var="company">
 
-                <option value="${department.id}" ${department.id == user.userDepartment.departmentId ? "selected" : ""}>
-                    ${department.title}
-                </option>
+                                    <option value="<c:out value="${company.id}" />"
+                                        ${company.id == user.userCompany.companyId ? "selected" : ""}>
+                                            ${company.title}
+                                    </option>
 
-            </c:forEach>
-        </select>
-    </p>
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </div>
 
-    <input type="submit" value="Save Changes">
-</form>
+                    <div class="form-row">
+                        <div class="form-group col-3">
+                            <strong><label for="department">Department</label></strong>
+                            <select class="form-control" name="department" id="department">
+                                <option value="nothing" ${user.userDepartment == null ? "selected" : ""}>-</option>
+
+                                <c:forEach items="${departments}" var="department">
+
+                                    <option value="${department.id}"
+                                        ${department.id == user.userDepartment.departmentId ? "selected" : ""}>
+                                            ${department.title}
+                                    </option>
+
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer d-flex flex-row align-items-center justify-content-end">
+                <button class="btn btn-primary d-flex flex-row align-items-center mr-3" form="edit_user_form">
+                    <i class="fa fa-save mr-2"></i>
+                    Save Changes
+                </button>
+                <a class="btn btn-danger" href="<c:url value="/manage_users"/>">
+                    Cancel
+                </a>
+            </div>
+        </div>
+        <c:import url="/WEB-INF/views/footer.jsp"></c:import>
+    </div>
+</div>
+<c:import url="/WEB-INF/views/scripts.jsp"></c:import>
 
 </body>
 </html>
