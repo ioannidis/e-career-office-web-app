@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<li class="nav-item ${fn:contains(pageContext.request.requestURI, '/super_admin') ? 'active' : ''}">
+<li class="nav-item ${fn:endsWith(pageContext.request.requestURI, '/super_admin') ? 'active' : ''}">
     <a class="nav-link d-flex flex-row align-items-center" href="<c:url value="/super_admin"/>">
         <i class="fas fa-home mr-2"></i>
         <div>Home</div>

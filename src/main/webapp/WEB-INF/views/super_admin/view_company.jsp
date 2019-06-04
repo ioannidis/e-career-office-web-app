@@ -4,31 +4,92 @@
 <head>
     <title>Super Admin | View Company</title>
     <meta charset="UTF-8">
+    <c:import url="/WEB-INF/views/styles.jsp"></c:import>
 </head>
-<body>
-<h2>View: ${company.title}</h2>
-<p>
-    <a href="<c:url value="/edit_company?id=${company.id}"/>">Edit</a>
-    /
-    <a href="<c:url value="/delete_company?id=${company.id}"/>">Delete</a>
-</p>
-<p><a href="<c:url value="/manage_companies"/>"><< Back</a></p>
-<hr>
-
-<h4>Title</h4>
-<p>${company.title}</p>
-
-<h4>Address</h4>
-<p>${company.address}</p>
-
-<h4>Phone Number</h4>
-<p>${company.phoneNumber}</p>
-
-<h4>Email</h4>
-<p><a href="mailto:${company.email}">${company.email}</a></p>
-
-<h4>Website</h4>
-<p><a href="${company.website}" target="_blank">${company.website}</a></p>
-
+<body class="fixed-nav sticky-footer bg-dark">
+<c:import url="/WEB-INF/views/nav.jsp"></c:import>
+<div class="content-wrapper">
+    <div class="container-fluid">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="<c:url value="/super_admin"/>">
+                    Super Admin
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="<c:url value="/manage_companies"/>">
+                    Companies
+                </a>
+            </li>
+            <li class="breadcrumb-item active">
+                View Company
+            </li>
+        </ol>
+        <div class="card mb-3">
+            <div class="card-header d-flex flex-row align-items-center">
+                <i class="fa fa-briefcase mr-2"></i>
+                <strong class="mr-auto">View Company</strong>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
+                        <tbody>
+                        <tr>
+                            <td>
+                                <strong>Title</strong>
+                            </td>
+                            <td>
+                                ${company.title}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Address</strong>
+                            </td>
+                            <td>
+                                ${company.address}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Phone Number</strong>
+                            </td>
+                            <td>
+                                ${company.phoneNumber}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Email</strong>
+                            </td>
+                            <td>
+                                <a href="mailto:${company.email}">${company.email}</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Website</strong>
+                            </td>
+                            <td>
+                                <a href="http://${company.website}" target="_blank">${company.website}</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer d-flex flex-row align-items-center justify-content-end">
+                <a class="btn btn-primary mr-3" href="<c:url value="/edit_company?id=${company.id}"/>">
+                    Edit
+                </a>
+                <a class="btn btn-danger" href="<c:url value="/delete_company?id=${company.id}"/>">
+                    Delete
+                </a>
+            </div>
+        </div>
+        <c:import url="/WEB-INF/views/footer.jsp"></c:import>
+    </div>
+</div>
+<c:import url="/WEB-INF/views/scripts.jsp"></c:import>
 </body>
 </html>
