@@ -5,7 +5,6 @@
     <title>Super Admin | Delete User</title>
     <meta charset="UTF-8">
     <c:import url="/WEB-INF/views/styles.jsp"></c:import>
-
 </head>
 <body class="fixed-nav sticky-footer bg-dark">
 <c:import url="/WEB-INF/views/nav.jsp"></c:import>

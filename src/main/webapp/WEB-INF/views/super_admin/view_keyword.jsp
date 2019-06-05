@@ -63,12 +63,17 @@
                 </div>
             </div>
             <div class="card-footer d-flex flex-row align-items-center justify-content-end">
-                <a class="btn btn-primary mr-3" href="<c:url value="/edit_keyword?id=${keyword.id}"/>">
-                    Edit
-                </a>
-                <a class="btn btn-danger" href="<c:url value="/delete_keyword?id=${keyword.id}"/>">
-                    Delete
-                </a>
+                <div class="btn-group">
+                    <a class="btn btn-outline-primary" href="<c:url value="/manage_keywords"/>">
+                        View All
+                    </a>
+                    <a class="btn btn-outline-primary" href="<c:url value="/edit_keyword?id=${keyword.id}"/>">
+                        Edit
+                    </a>
+                    <a class="btn btn-outline-primary" href="<c:url value="/delete_keyword?id=${keyword.id}"/>">
+                        Delete
+                    </a>
+                </div>
             </div>
         </div>
         <c:import url="/WEB-INF/views/footer.jsp"></c:import>

@@ -74,13 +74,18 @@
                     </table>
                 </div>
             </div>
-            <div class="card-footer d-flex flex-row align-items-center justify-content-end">
-                <a class="btn btn-primary mr-3" href="<c:url value="/edit_user?id=${user.username}"/>">
-                    Edit
-                </a>
-                <a class="btn btn-danger" href="<c:url value="/delete_user?id=${user.username}"/>">
-                    Delete
-                </a>
+            <div class="card-footer d-flex flex-row align-items-end justify-content-end">
+                <div class="btn-group">
+                    <a class="btn btn-outline-primary" href="<c:url value="/manage_users"/>">
+                        View All
+                    </a>
+                    <a class="btn btn-outline-primary" href="<c:url value="/edit_user?id=${user.username}"/>">
+                        Edit
+                    </a>
+                    <a class="btn btn-outline-primary" href="<c:url value="/delete_user?id=${user.username}"/>">
+                        Delete
+                    </a>
+                </div>
             </div>
         </div>
         <c:import url="/WEB-INF/views/footer.jsp"></c:import>

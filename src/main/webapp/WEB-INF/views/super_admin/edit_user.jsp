@@ -11,7 +11,6 @@
 
 <div class="content-wrapper">
     <div class="container-fluid">
-
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a href="<c:url value="/super_admin"/>">
@@ -27,7 +26,6 @@
                 Edit User
             </li>
         </ol>
-
         <div class="card mb-3">
             <div class="card-header d-flex flex-row align-items-center">
                 <i class="fa fa-users-cog mr-2"></i>

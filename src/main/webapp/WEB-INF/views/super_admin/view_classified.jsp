@@ -72,12 +72,17 @@
                 </div>
             </div>
             <div class="card-footer d-flex flex-row align-items-center justify-content-end">
-                <a class="btn btn-primary mr-3" href="<c:url value="/edit_classified?id=${classified.id}"/>">
-                    Edit
-                </a>
-                <a class="btn btn-danger" href="<c:url value="/delete_classified?id=${classified.id}"/>">
-                    Delete
-                </a>
+                <div class="btn-group">
+                    <a class="btn btn-outline-primary" href="<c:url value="/manage_classifieds"/>">
+                        View All
+                    </a>
+                    <a class="btn btn-outline-primary" href="<c:url value="/edit_classified?id=${classified.id}"/>">
+                        Edit
+                    </a>
+                    <a class="btn btn-outline-primary" href="<c:url value="/delete_classified?id=${classified.id}"/>">
+                        Delete
+                    </a>
+                </div>
             </div>
         </div>
         <c:import url="/WEB-INF/views/footer.jsp"></c:import>
