@@ -21,6 +21,17 @@ $(document).ready(function() {
 	  e.preventDefault()
 	  $(this).tab('show')
 	});
+
+    $('input[name=role]').on('change', function(e) {
+        if (e.target.value == 'p_student' || e.target.value == 'u_student') {
+            $('.company').css("display", "none");
+            $('.department').css("display", "block");
+        }
+        else {
+            $('.company').css("display", "block");
+            $('.department').css("display", "none");
+        }
+    });
         
     
 } );

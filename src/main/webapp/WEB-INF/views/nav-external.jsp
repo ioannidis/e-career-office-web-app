@@ -15,21 +15,13 @@
 				</span>
 			</a>
 		</li>
-		<%--<li class="nav-item" data-toggle="tooltip" data-placement="right" title="" data-original-title="View Assigned Courses">--%>
-			<%--<a class="nav-link" href="<c:url value="/classifieds"/>">--%>
-				<%--<span class="nav-link-text">--%>
-					<%--<i class="fas fa-graduation-cap"></i>--%>
-					<%--View Courses--%>
-				<%--</span>--%>
-			<%--</a>--%>
-		<%--</li>--%>
-		<%--<li class="nav-item" data-toggle="tooltip" data-placement="right" title="" data-original-title="Grade Students">--%>
-			<%--<a class="nav-link" href="<c:url value="/gradestudents"/>">--%>
-				<%--<span class="nav-link-text">--%>
-					<%--<i class="fas fa-edit"></i>--%>
-					<%--Grade Students--%>
-				<%--</span>--%>
-			<%--</a>--%>
-		<%--</li>--%>
+		<li class="nav-item" data-toggle="tooltip" data-placement="right" title="" data-original-title="Index page">
+			<a class="nav-link" href="<c:url value="/externalclassifieds"/>">
+				<span class="nav-link-text">
+					<i class="fa fa-fw fa-clipboard-list"></i>
+					Classifieds
+				</span>
+			</a>
+		</li>
 	</ul>
 </li>

@@ -11,6 +11,7 @@
 </head>
 <body class="bg-dark">
  	<div class="container">
+		<h2 class="text-center mt-5" style="color:#fff">Career Office App</h2>
 		<div class="card card-login mx-auto mt-5">
 			<div class="card-header">Login</div>
 	        <div class="card-body">

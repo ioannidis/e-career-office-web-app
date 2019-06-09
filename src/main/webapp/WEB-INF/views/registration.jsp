@@ -11,6 +11,7 @@
 </head>
 <body class="bg-dark">
  	<div class="container">
+		<h2 class="text-center mt-5" style="color:#fff">Career Office App</h2>
 		<div class="card card-register mx-auto mt-5">
 			<div class="card-header">Registration</div>
 	        <div class="card-body">
@@ -54,6 +55,26 @@
 								<input class="form-check-input" type="radio" name="role" id="roleRadio3" value="external">
 								<label class="form-check-label" for="roleRadio3">External</label>
 							</div>
+						<div class="form-group company" style="display: none">
+							<label for="company">Company</label>
+							<select class="form-control" name="company" id="company" required>
+								<%--<c:forEach items="${ companies }" var="company">--%>
+									<%--<option value="<c:out value="${ company.id }"/>" <c:if test="${company.id == userCompany.companyId}">selected</c:if> >--%>
+										<%--<c:out value="${ company.title}" />--%>
+									<%--</option>--%>
+								<%--</c:forEach>--%>
+							</select>
+						</div>
+						<div class="form-group department" style="display: none">
+							<label for="department">Department</label>
+							<select class="form-control" name="department" id="department" required>
+								<%--<c:forEach items="${ companies }" var="company">--%>
+									<%--<option value="<c:out value="${ company.id }"/>" <c:if test="${company.id == userCompany.companyId}">selected</c:if> >--%>
+										<%--<c:out value="${ company.title}" />--%>
+									<%--</option>--%>
+								<%--</c:forEach>--%>
+							</select>
+						</div>
 					</div>
 					<br/>
 					<input  type="submit" class="btn btn-primary btn-block" value="Register">
@@ -81,5 +102,6 @@
   </div>
 
 	<c:import url="/WEB-INF/views/scripts.jsp"></c:import>
+
 </body>
 </html>
