@@ -19,7 +19,9 @@ import java.util.List;
 
 
 /**
- * Handles login requests and responses.
+ * A successful student login is forwared to this servlet
+ * StudentServlet serves the main portal for students, showing their
+ * main information, keywords
  */
 @WebServlet({"/StudentServlet", "/student", "/p_student", "/u_student"})
 public class StudentServlet extends HttpServlet {
@@ -28,7 +30,6 @@ public class StudentServlet extends HttpServlet {
      * Java related serial version UID.
      */
     private static final long serialVersionUID = 1L;
-
 
     /**
      * Handles all GET requests.
@@ -43,6 +44,9 @@ public class StudentServlet extends HttpServlet {
         User user = authService.getUser();
         Cv cv = cvService.findOne(user.getUsername());
 
+        /**
+         * If a use has uploaded his CV, retrive the related keywords
+         */
         if (cv != null) {
             List<Keyword> keywords = keywordCvPivotService.findByCvId(cv.getId());
             request.setAttribute("keywords", keywords);
@@ -50,7 +54,6 @@ public class StudentServlet extends HttpServlet {
         }
 
         request.getRequestDispatcher("WEB-INF/views/student/index.jsp").forward(request, response);
-
     }
 
     /**
@@ -59,6 +62,5 @@ public class StudentServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         doGet(request,response);
-
     }
 }

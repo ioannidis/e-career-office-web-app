@@ -24,7 +24,7 @@ import com.careeroffice.service.CvService;
 
 
 /**
- * Handles login requests and responses.
+ * Handles CV, Keywords uploads
  */
 @WebServlet({"/StudentUploadCv", "/upload_cv"})
 @MultipartConfig(fileSizeThreshold=1024*1024*2, // 2MB
@@ -54,16 +54,25 @@ public class StudentUploadCv extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        /**
+         * Initializing the needed services
+         */
         KeywordService keywordService = (KeywordService) ServiceFactory.getService(ServiceEnum.KeywordService);
         KeywordCvPivotService keywordCvPivotService = (KeywordCvPivotService) ServiceFactory.getService(ServiceEnum.KeywordCvPivotService);
         AuthService authService = new AuthService(request.getSession());
         CvService cvService = (CvService) ServiceFactory.getService(ServiceEnum.CvService);
 
+        /**
+         * Gets the username and the CV of the user
+         * The CV could be null, if it isn't uploaded
+         */
         User user = authService.getUser();
         String username = user.getUsername();
         Cv cv = cvService.findOne(username);
 
+        /**
+         * Gets the keywords of the user, could be null
+         */
         List<Keyword> keywords = keywordService.findAll();
 
         if (cv != null && !cv.getFileUrl().isEmpty()) {
@@ -76,6 +85,9 @@ public class StudentUploadCv extends HttpServlet {
 
             List<CheckedUserKeyword> pivotTable = new ArrayList<>();
 
+            /**
+             * If keywords exist
+             */
             for (Keyword keyword: keywords) {
                 if (checkedKeywords.contains(keyword)) {
                     pivotTable.add(new CheckedUserKeyword(keyword.getTitle(), keyword.getSlug(), true));
@@ -84,20 +96,15 @@ public class StudentUploadCv extends HttpServlet {
                 }
 
             }
+
             request.setAttribute("cvName", cv.getUsername() + ".pdf");
             request.setAttribute("pivotTable", pivotTable);
             request.getRequestDispatcher("WEB-INF/views/student/upload_cv.jsp").forward(request, response);
             return;
         }
 
-
-
         request.setAttribute("keywords", keywords);
         request.getRequestDispatcher("WEB-INF/views/student/upload_cv.jsp").forward(request, response);
-
-
-
-
     }
 
     /**
@@ -105,15 +112,20 @@ public class StudentUploadCv extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         CvService cvService = (CvService) ServiceFactory.getService(ServiceEnum.CvService);
         KeywordService keywordService = (KeywordService) ServiceFactory.getService(ServiceEnum.KeywordService);
         KeywordCvPivotService keywordCvPivotService = (KeywordCvPivotService) ServiceFactory.getService(ServiceEnum.KeywordCvPivotService);
         AuthService authService = new AuthService(request.getSession());
 
+        /**
+         * Gets the username
+         */
         User user = authService.getUser();
         String username = user.getUsername();
 
+        /**
+         * Receives FORM data
+         */
         String[] keywords = request.getParameterValues("keywords");
         Part part = request.getPart("file");
 
@@ -146,11 +158,13 @@ public class StudentUploadCv extends HttpServlet {
             eraseKeywords(user);
             saveKeywords(keywords, user);
         }
-
-
         request.getRequestDispatcher(user.getRoleId()).forward(request, response);
     }
 
+    /**
+     * This method receives a user object and erase all its keywords
+     * @param part The data received from the multipart/form-data POST request. The pdf data
+     */
     private void writeFileToDisk(Part part, String username)
             throws IOException{
 
@@ -159,22 +173,36 @@ public class StudentUploadCv extends HttpServlet {
         // Creates the save directory if it does not exists
         File fileSavedDir = new File(SAVE_DIR);
 
+        /**
+         * Creates a directory for the uploaded files
+         */
         if (!fileSavedDir.exists()) {
             fileSavedDir.mkdir();
         }
 
         try (InputStream input = part.getInputStream()) {
+            /**
+             * Overwrites the pdf file if already exists
+             */
             Files.deleteIfExists(savePath);
             Files.copy(input, savePath);
-
         }
     }
 
+    /**
+     * Calculates the final path to the saved .pdf
+     * The name of the file is username.pdf
+     */
     private Path savedPathCalculator(String username) {
         String fileName = username + ".pdf";
         return new File(SAVE_DIR, fileName).toPath();
     }
 
+    /**
+     * Checks if a user has uploaded a CV
+     * @param username
+     * @return True if a user has uploaded a CV
+     */
     private boolean isFirstTime(String username) {
         CvService cvService = (CvService) ServiceFactory.getService(ServiceEnum.CvService);
         if (cvService.findOne(username) == null) {
@@ -183,11 +211,19 @@ public class StudentUploadCv extends HttpServlet {
         return false;
     }
 
+    /**
+     * This method receives a user object and erase all its keywords
+     * @param keywords The list of keywords to associate with a specific User's CV
+     * @param user A user object from the class User
+     */
     private void saveKeywords(String[] keywords, User user) {
         KeywordService keywordService = (KeywordService) ServiceFactory.getService(ServiceEnum.KeywordService);
         KeywordCvPivotService keywordCvPivotService = (KeywordCvPivotService) ServiceFactory.getService(ServiceEnum.KeywordCvPivotService);
         CvService cvService = (CvService) ServiceFactory.getService(ServiceEnum.CvService);
 
+        /**
+         * If keywords have been supplied, save them
+         */
         if (keywords != null) {
             for (String keyword: keywords) {
                 int keywordId = keywordService.findKeywordByTitle(keyword).getId();
@@ -196,6 +232,10 @@ public class StudentUploadCv extends HttpServlet {
         }
     }
 
+    /**
+     * This method receives a user object and erase all its keywords
+     * @param user A user object from the class User
+     */
     private void eraseKeywords(User user) {
         KeywordCvPivotService keywordCvPivotService = (KeywordCvPivotService) ServiceFactory.getService(ServiceEnum.KeywordCvPivotService);
         CvService cvService = (CvService) ServiceFactory.getService(ServiceEnum.CvService);
