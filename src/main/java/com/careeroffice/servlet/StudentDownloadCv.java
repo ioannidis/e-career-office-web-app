@@ -25,15 +25,15 @@ public class StudentDownloadCv extends HttpServlet {
      */
     private static final long serialVersionUID = 1L;
 
-    private static final String SAVE_DIR = System.getProperty("user.home") + "/Desktop/uploads";
 
     /**
      * Handles all GET requests.
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        // Gets username
+        /**
+         * Initializing the needed services
+         */
         AuthService authService = new AuthService(request.getSession());
         CvService cvService = (CvService) ServiceFactory.getService(ServiceEnum.CvService);
         User user = authService.getUser();
@@ -41,6 +41,9 @@ public class StudentDownloadCv extends HttpServlet {
 
         Cv cv = cvService.findOne(username);
 
+        /**
+         * If a CV exists
+         */
         if (cv != null && !cv.getFileUrl().isEmpty()) {
             String fileUrl = cv.getFileUrl();
 
@@ -77,6 +80,10 @@ public class StudentDownloadCv extends HttpServlet {
 
     }
 
+    /**
+     * This method reads into a FileInputStream the PDF file
+     * @param sourcePath The path of the PDF
+     */
     private static byte[] loadFile(String sourcePath) throws IOException
     {
         InputStream inputStream = null;

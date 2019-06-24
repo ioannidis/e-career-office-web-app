@@ -75,8 +75,14 @@ public class StudentUploadCv extends HttpServlet {
          */
         List<Keyword> keywords = keywordService.findAll();
 
+        /**
+         * If a CV exists
+         */
         if (cv != null && !cv.getFileUrl().isEmpty()) {
             List<Keyword> checkedKeywords = keywordCvPivotService.findByCvId(cv.getId());
+            /**
+             * If a CV exists and keywords are empty
+             */
             if (checkedKeywords == null) {
                 request.setAttribute("keywords", keywords);
                 request.getRequestDispatcher("WEB-INF/views/student/upload_cv.jsp").forward(request, response);
@@ -86,7 +92,8 @@ public class StudentUploadCv extends HttpServlet {
             List<CheckedUserKeyword> pivotTable = new ArrayList<>();
 
             /**
-             * If keywords exist
+             * If a CV exists and keywords are not empty
+             * Show the both the checked and the unckecked keywords
              */
             for (Keyword keyword: keywords) {
                 if (checkedKeywords.contains(keyword)) {
@@ -96,7 +103,6 @@ public class StudentUploadCv extends HttpServlet {
                 }
 
             }
-
             request.setAttribute("cvName", cv.getUsername() + ".pdf");
             request.setAttribute("pivotTable", pivotTable);
             request.getRequestDispatcher("WEB-INF/views/student/upload_cv.jsp").forward(request, response);
@@ -112,6 +118,9 @@ public class StudentUploadCv extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        /**
+         * Initializing the needed services
+         */
         CvService cvService = (CvService) ServiceFactory.getService(ServiceEnum.CvService);
         KeywordService keywordService = (KeywordService) ServiceFactory.getService(ServiceEnum.KeywordService);
         KeywordCvPivotService keywordCvPivotService = (KeywordCvPivotService) ServiceFactory.getService(ServiceEnum.KeywordCvPivotService);

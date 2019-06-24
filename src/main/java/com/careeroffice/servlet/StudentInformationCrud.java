@@ -23,7 +23,9 @@ public class StudentInformationCrud extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        /**
+         * Gets the needed Services
+         */
         AuthService authService = new AuthService(request.getSession());
         User user = authService.getUser();
         request.setAttribute("user", user);
@@ -36,6 +38,9 @@ public class StudentInformationCrud extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        /**
+         * Gets the needed Services
+         */
         UserService userService = (UserService) ServiceFactory.getService(ServiceEnum.UserService);
         AuthService authService = new AuthService(request.getSession());
         HttpSession session = request.getSession();
