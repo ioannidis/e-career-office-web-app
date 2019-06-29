@@ -42,7 +42,7 @@
                         <input type="text" class="form-control"  name="companyId" id="companyId" value="${company.id}" readonly/>
                     </div>
                     <div class="form-group">
-                        <label for="categoryId"><strong>Categoty</strong></label>
+                        <label for="categoryId"><strong>Category</strong></label>
                         <select class="form-control" name="categoryId" id="categoryId" required>
                         <c:forEach items="${ categories }" var="category">
                             <option value="<c:out value="${ category.id }"/>" >

@@ -1,5 +1,9 @@
 package com.careeroffice.servlet;
 
+import com.careeroffice.model.Company;
+import com.careeroffice.model.Department;
+import com.careeroffice.service.CompanyService;
+import com.careeroffice.service.DepartmentService;
 import com.careeroffice.service.RegistrationService;
 import com.careeroffice.service.factory.ServiceEnum;
 import com.careeroffice.service.factory.ServiceFactory;
@@ -11,6 +15,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Handles student requests and responses.
@@ -30,6 +36,12 @@ public class RegistrationServlet extends HttpServlet {
      */
     @Override
     protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
+        CompanyService companyService = (CompanyService) ServiceFactory.getService(ServiceEnum.CompanyService);
+        DepartmentService departmentService = (DepartmentService) ServiceFactory.getService(ServiceEnum.DepartmentService);
+
+        request.setAttribute("companies", companyService.findAll());
+        request.setAttribute("departments", departmentService.findAll());
+
         request.getRequestDispatcher("WEB-INF/views/registration.jsp").forward(request, response);
     }
 
@@ -47,6 +59,8 @@ public class RegistrationServlet extends HttpServlet {
         String email        = request.getParameter("email");
         String phone        = request.getParameter("phone");
         String role         = request.getParameter("role");
+        String companyId    = request.getParameter("company");
+        String departmentId = request.getParameter("department");
 
         boolean hasError = false;
         if (registrationService.searchUserBy(username, "username")) {
@@ -64,7 +78,10 @@ public class RegistrationServlet extends HttpServlet {
             return;
         }
 
-        registrationService.createUser( username, encryptor.encryptPassword( password ), firstName, lastName, phone, email, role );
+        if (role.equals("u_student") || role.equals("p_student"))
+            registrationService.createUserStudent( username, encryptor.encryptPassword( password ), firstName, lastName, phone, email, role,  departmentId);
+        else
+            registrationService.createUserExternal( username, encryptor.encryptPassword( password ), firstName, lastName, phone, email, role, companyId );
 
         response.sendRedirect("login");
     }

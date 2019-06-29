@@ -97,7 +97,9 @@ public class ExternalClassifiedsServlet extends HttpServlet {
                 break;
             }
             default: {
-                List<Classified> classifieds = classifiedService.findAllByCompany("ibm");
+                UserCompanyService userCompanyService = (UserCompanyService) ServiceFactory.getService( ServiceEnum.UserCompanyService );
+
+                List<Classified> classifieds = classifiedService.findAllByCompany(userCompanyService.findOne( authService.getUser().getUsername() ).getCompany().getId());
 
                 Map<Integer, Category> categoryMap = categoryService.findAll().stream()
                         .collect(Collectors.toMap(Category::getId, x -> x));
