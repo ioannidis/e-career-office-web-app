@@ -26,6 +26,18 @@ public class SuperAdminCreateUserServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        AuthService authService = new AuthService(request.getSession());
+        if (!authService.isLoggedIn()) {
+            response.sendRedirect("login");
+            return;
+        }
+
+        if (!authService.hasRole("super_admin")) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+            return;
+        }
+
         RoleService roleService = (RoleService) ServiceFactory.getService(ServiceEnum.RoleService);
         CompanyService companyService = (CompanyService) ServiceFactory.getService(ServiceEnum.CompanyService);
         DepartmentService departmentService = (DepartmentService) ServiceFactory.getService(ServiceEnum.DepartmentService);

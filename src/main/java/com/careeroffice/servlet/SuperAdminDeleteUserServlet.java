@@ -1,6 +1,7 @@
 package com.careeroffice.servlet;
 
 import com.careeroffice.model.User;
+import com.careeroffice.service.AuthService;
 import com.careeroffice.service.UserCompanyService;
 import com.careeroffice.service.UserDepartmentService;
 import com.careeroffice.service.UserService;
@@ -22,6 +23,17 @@ public class SuperAdminDeleteUserServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        AuthService authService = new AuthService(request.getSession());
+        if (!authService.isLoggedIn()) {
+            response.sendRedirect("login");
+            return;
+        }
+
+        if (!authService.hasRole("super_admin")) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+            return;
+        }
 
         String username = request.getParameter("id");
 

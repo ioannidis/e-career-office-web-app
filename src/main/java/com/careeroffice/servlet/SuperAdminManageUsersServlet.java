@@ -17,8 +17,20 @@ public class SuperAdminManageUsersServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         AuthService authService = new AuthService(request.getSession());
         UserService userService = (UserService) ServiceFactory.getService(ServiceEnum.UserService);
+
+        if (!authService.isLoggedIn()) {
+            response.sendRedirect("login");
+            return;
+        }
+
+        if (!authService.hasRole("super_admin")) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+            return;
+        }
+
 
         request.setAttribute("user", authService.getUser());
         request.setAttribute("users", userService.findAll());

@@ -1,6 +1,7 @@
 package com.careeroffice.servlet;
 
 import com.careeroffice.model.Category;
+import com.careeroffice.service.AuthService;
 import com.careeroffice.service.CategoryService;
 import com.careeroffice.service.factory.ServiceEnum;
 import com.careeroffice.service.factory.ServiceFactory;
@@ -18,6 +19,17 @@ public class SuperAdminViewCategoryServlet extends HttpServlet {
     private static final CategoryService categoryService = (CategoryService) ServiceFactory.getService(ServiceEnum.CategoryService);
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        AuthService authService = new AuthService(request.getSession());
+        if (!authService.isLoggedIn()) {
+            response.sendRedirect("login");
+            return;
+        }
+
+        if (!authService.hasRole("super_admin")) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+            return;
+        }
 
         int id = Integer.parseInt(request.getParameter("id"));
 

@@ -19,6 +19,16 @@ public class SuperAdminManageCompaniesServlet extends HttpServlet {
             throws ServletException, IOException {
 
         AuthService authService = new AuthService(request.getSession());
+        if (!authService.isLoggedIn()) {
+            response.sendRedirect("login");
+            return;
+        }
+
+        if (!authService.hasRole("super_admin")) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+            return;
+        }
+
         CompanyService companyService = (CompanyService) ServiceFactory.getService(ServiceEnum.CompanyService);
 
         request.setAttribute("user", authService.getUser());
