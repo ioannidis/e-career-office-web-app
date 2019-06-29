@@ -59,12 +59,12 @@
                                 </td>
                                 <td>
                                     <div class="btn-group">
-                                        <a class="btn btn-outline-primary"
-                                           href="<c:url value="/view_classified?id=${classified.id}"/>">View</a>
-                                        <a class="btn btn-outline-primary"
-                                           href="<c:url value="/edit_classified?id=${classified.id}"/>">Edit</a>
-                                        <a class="btn btn-outline-primary"
-                                           href="<c:url value="/delete_classified?id=${classified.id}"/>">Delete</a>
+                                        <a class="btn btn-primary"
+                                           href="<c:url value="/view_classified?id=${classified.id}"/>"><i class="fas fa-external-link-alt" style="margin-right:8px"></i>Show</a>
+                                        <a class="btn btn-warning"
+                                           href="<c:url value="/edit_classified?id=${classified.id}"/>"><i class="far fa-edit" style="margin-right:8px"></i>Edit</a>
+                                        <a class="btn btn-danger"
+                                           href="<c:url value="/delete_classified?id=${classified.id}"/>"><i class="fas fa-times" style="margin-right:8px"></i>Delete</a>
                                     </div>
                                 </td>
                             </tr>

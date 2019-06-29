@@ -25,8 +25,9 @@
             <div class="card-header d-flex flex-row align-items-center">
                 <i class="fa fa-briefcase mr-2"></i>
                 <strong class="mr-auto">Companies</strong>
-                <a class="btn btn-primary d-flex flex-row align-items-center" href="<c:url value="/create_company" />">
-                    <i class="fa fa-plus-circle mr-2"></i>
+                <a class="btn btn-info"
+                   href="<c:url value="/create_company" />">
+                    <i class="far fa-plus-square" style="margin-right:8px"></i>
                     Create Company
                 </a>
             </div>
@@ -55,12 +56,12 @@
                                 <td><c:out value="${company.website}" default="-"/></td>
                                 <td>
                                     <div class="btn-group">
-                                        <a class="btn btn-outline-primary"
-                                           href="<c:url value="/view_company?id=${company.id}"/>">View</a>
-                                        <a class="btn btn-outline-primary"
-                                           href="<c:url value="/edit_company?id=${company.id}"/>">Edit</a>
-                                        <a class="btn btn-outline-primary"
-                                           href="<c:url value="/delete_company?id=${company.id}"/>">Delete</a>
+                                        <a class="btn btn-primary"
+                                           href="<c:url value="/view_company?id=${company.id}"/>"><i class="fas fa-external-link-alt" style="margin-right:8px"></i>Show</a>
+                                        <a class="btn btn-warning"
+                                           href="<c:url value="/edit_company?id=${company.id}"/>"><i class="far fa-edit" style="margin-right:8px"></i>Edit</a>
+                                        <a class="btn btn-danger"
+                                           href="<c:url value="/delete_company?id=${company.id}"/>"><i class="fas fa-times" style="margin-right:8px"></i>Delete</a>
                                     </div>
                                 </td>
                             </tr>

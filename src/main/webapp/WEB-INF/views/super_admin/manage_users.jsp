@@ -26,8 +26,9 @@
             <div class="card-header d-flex flex-row align-items-center">
                 <i class="fa fa-users-cog mr-2"></i>
                 <strong class="mr-auto">Registered Users</strong>
-                <a class="btn btn-primary d-flex flex-row align-items-center" href="<c:url value="/create_user" />">
-                    <i class="fa fa-plus-circle mr-2"></i>
+                <a class="btn btn-info"
+                   href="<c:url value="/create_user" />">
+                    <i class="far fa-plus-square" style="margin-right:8px"></i>
                     Create User
                 </a>
             </div>
@@ -60,12 +61,12 @@
                                 <td><c:out value="${otherUser.userDepartment.department.title}" default="-"/></td>
                                 <td>
                                     <div class="btn-group">
-                                        <a class="btn btn-outline-primary"
-                                           href="<c:url value="/view_user?id=${otherUser.username}"/>">View</a>
-                                        <a class="btn btn-outline-primary"
-                                           href="<c:url value="/edit_user?id=${otherUser.username}"/>">Edit</a>
-                                        <a class="btn btn-outline-primary"
-                                           href="<c:url value="/delete_user?id=${otherUser.username}"/>">Delete</a>
+                                        <a class="btn btn-primary"
+                                           href="<c:url value="/view_user?id=${otherUser.username}"/>"><i class="fas fa-external-link-alt" style="margin-right:8px"></i>Show</a>
+                                        <a class="btn btn-warning"
+                                           href="<c:url value="/edit_user?id=${otherUser.username}"/>"><i class="far fa-edit" style="margin-right:8px"></i>Edit</a>
+                                        <a class="btn btn-danger"
+                                           href="<c:url value="/delete_user?id=${otherUser.username}"/>"><i class="fas fa-times" style="margin-right:8px"></i>Delete</a>
                                     </div>
                                 </td>
                             </tr>

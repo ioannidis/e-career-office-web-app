@@ -78,19 +78,15 @@
                     </table>
                 </div>
             </div>
-            <div class="card-footer d-flex flex-row align-items-center justify-content-end">
-                <div class="btn-group">
-                    <a class="btn btn-outline-primary" href="<c:url value="/manage_companies"/>">
-                        View All
-                    </a>
-                    <a class="btn btn-outline-primary" href="<c:url value="/edit_company?id=${company.id}"/>">
-                        Edit
-                    </a>
-                    <a class="btn btn-outline-primary" href="<c:url value="/delete_company?id=${company.id}"/>">
-                        Delete
-                    </a>
-                </div>
+            <div class="card-footer flex-row align-items-center text-right">
+                <a class="btn btn-primary"
+                   href="<c:url value="/manage_companies"/>"><i class="fas fa-caret-left" style="margin-right:8px"></i>Back</a>
+                <a class="btn btn-warning"
+                   href="<c:url value="/edit_company?id=${company.id}"/>"><i class="far fa-edit" style="margin-right:8px"></i>Edit</a>
+                <a class="btn btn-danger"
+                   href="<c:url value="/delete_company?id=${company.id}"/>"><i class="fas fa-times" style="margin-right:8px"></i>Delete</a>
             </div>
+
         </div>
         <c:import url="/WEB-INF/views/footer.jsp"></c:import>
     </div>

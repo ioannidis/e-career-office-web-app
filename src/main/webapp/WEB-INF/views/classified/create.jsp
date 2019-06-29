@@ -28,7 +28,7 @@
             <div class="card-header">
                 <i class="fa fa-table"></i><b>Create classified</b></div>
             <div class="card-body">
-                <form action="externalclassifieds?action=save" method="POST">
+                <form action="externalclassifieds?action=save" method="POST" id="create_classified">
                     <div class="form-group">
                         <label for="title"><strong>Title</strong></label>
                         <input type="text" class="form-control"  name="title" id="title" value="" required />
@@ -60,10 +60,11 @@
                             </div>
                         </c:forEach>
                     </div>
-                    <br />
-                    <a href="externalclassifieds" class="btn btn-warning"><i class="fas fa-caret-left" style="margin-right:8px"></i>Cancel</a>
-                    <button type="submit" class="btn btn-success"><i class="far fa-save" style="margin-right:8px"></i>Save</button>
                 </form>
+            </div>
+            <div class="card-footer flex-row align-items-center text-right">
+                <a href="externalclassifieds" class="btn btn-warning"><i class="fas fa-caret-left" style="margin-right:8px"></i>Cancel</a>
+                <button type="submit" class="btn btn-success" form="create_classified"><i class="far fa-save" style="margin-right:8px"></i>Save</button>
             </div>
         </div>
     </div>

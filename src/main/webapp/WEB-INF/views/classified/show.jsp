@@ -59,17 +59,14 @@
                                 </c:forEach>
                             </td>
                         </tr>
-                        <tr>
-                            <td><b>Actions</b></td>
-                            <td>
-                                <a class="btn btn-primary" href="externalclassifieds" class="btn"><i class="fas fa-caret-left" style="margin-right:8px"></i>Back</a>
-                                <a class="btn btn-warning" href="externalclassifieds?id=${classified.id}&action=edit" class="btn"><i class="far fa-edit" style="margin-right:8px"></i>Edit</a>
-                                <a class="btn btn-danger" href="externalclassifieds?id=${classified.id}&action=delete" class="btn"><i class="fas fa-times" style="margin-right:8px"></i>Delete</a>
-                            </td>
-                        </tr>
                         </tbody>
                     </table>
                 </div>
+            </div>
+            <div class="card-footer flex-row align-items-center text-right">
+                <a class="btn btn-primary" href="externalclassifieds" class="btn"><i class="fas fa-caret-left" style="margin-right:8px"></i>Back</a>
+                <a class="btn btn-warning" href="externalclassifieds?id=${classified.id}&action=edit" class="btn"><i class="far fa-edit" style="margin-right:8px"></i>Edit</a>
+                <a class="btn btn-danger" href="externalclassifieds?id=${classified.id}&action=delete" class="btn"><i class="fas fa-times" style="margin-right:8px"></i>Delete</a>
             </div>
         </div>
     </div>

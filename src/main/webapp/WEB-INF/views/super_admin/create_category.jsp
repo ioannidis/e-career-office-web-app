@@ -33,28 +33,19 @@
             </div>
             <div class="card-body">
                 <form action="<c:url value="/create_category"/>" method="POST" id="create_category_form">
-                    <div class="form-row">
-                        <div class="form-group col-3">
-                            <strong><label for="title">Title</label></strong>
-                            <input class="form-control" type="text" name="title" id="title" required>
-                        </div>
+                    <div class="form-group">
+                        <strong><label for="title">Title</label></strong>
+                        <input class="form-control" type="text" name="title" id="title" required>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group col-3">
+                    <div class="form-group">
                         <strong><label for="slug">Slug</label></strong>
                         <input class="form-control" type="text" name="slug" id="slug" required>
-                        </div>
                     </div>
                 </form>
             </div>
-            <div class="card-footer d-flex flex-row align-items-center justify-content-end">
-                <button class="btn btn-primary d-flex flex-row align-items-center mr-3" form="create_category_form">
-                    <i class="fa fa-plus-circle mr-2"></i>
-                    Create Category
-                </button>
-                <a class="btn btn-danger" href="<c:url value="/manage_categories"/>">
-                    Cancel
-                </a>
+            <div class="card-footer flex-row align-items-center text-right">
+                <a href="/manage_categories" class="btn btn-warning"><i class="fas fa-caret-left" style="margin-right:8px"></i>Cancel</a>
+                <button type="submit" class="btn btn-success" form="create_category_form"><i class="far fa-save" style="margin-right:8px"></i>Save</button>
             </div>
         </div>
         <c:import url="/WEB-INF/views/footer.jsp"></c:import>

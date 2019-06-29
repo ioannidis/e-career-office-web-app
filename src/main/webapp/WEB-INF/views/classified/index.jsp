@@ -30,7 +30,13 @@
         <div class="card mb-3">
 
             <div class="card-header">
-                <i class="fa fa-table"></i><b>Classifieds Table</b></div>
+                <i class="fa fa-table"></i><strong>Classifieds Table</strong>
+                <a class="btn btn-info"
+                   href="externalclassifieds?action=create">
+                    <i class="far fa-plus-square" style="margin-right:8px"></i>
+                    Add classified
+                </a>
+            </div>
             <div class="card-body">
 
                 <div class="table-responsive">
@@ -52,9 +58,11 @@
                                 <td><c:out value="${classified.companyId}" /></td>
                                 <td><c:out value="${categories[classified.categoryId].title}" /></td>
                                 <td>
-                                    <a class="btn btn-primary" href="externalclassifieds?id=${classified.id}&action=show"><i class="fas fa-external-link-alt" style="margin-right:8px"></i>Show</a>
-                                    <a class="btn btn-warning" href="externalclassifieds?id=${classified.id}&action=edit"><i class="far fa-edit" style="margin-right:8px"></i>Edit</a>
-                                    <a class="btn btn-danger" href="externalclassifieds?id=${classified.id}&action=delete"><i class="fas fa-times" style="margin-right:8px"></i>Delete</a>
+                                    <div class="btn-group">
+                                        <a class="btn btn-primary" href="externalclassifieds?id=${classified.id}&action=show"><i class="fas fa-external-link-alt" style="margin-right:8px"></i>Show</a>
+                                        <a class="btn btn-warning" href="externalclassifieds?id=${classified.id}&action=edit"><i class="far fa-edit" style="margin-right:8px"></i>Edit</a>
+                                        <a class="btn btn-danger" href="externalclassifieds?id=${classified.id}&action=delete"><i class="fas fa-times" style="margin-right:8px"></i>Delete</a>
+                                    </div>
                                 </td>
                             </tr>
                         </c:forEach>

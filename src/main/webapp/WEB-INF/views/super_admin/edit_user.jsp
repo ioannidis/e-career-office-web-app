@@ -33,97 +33,81 @@
             </div>
             <div class="card-body">
                 <form action="<c:url value="/edit_user?id=${user.username}"/>" method="POST" id="edit_user_form">
-                    <div class="form-row">
-                        <div class="form-group col-3">
-                            <strong><label for="first_name">First Name</label></strong>
-                            <input class="form-control"
-                                   type="text"
-                                   name="first_name"
-                                   id="first_name"
-                                   value="${user.name}" required>
-                        </div>
+                    <div class="form-group ">
+                        <strong><label for="first_name">First Name</label></strong>
+                        <input class="form-control"
+                               type="text"
+                               name="first_name"
+                               id="first_name"
+                               value="${user.name}" required>
                     </div>
 
-                    <div class="form-row">
-                        <div class="form-group col-3">
-                            <strong><label for="last_name">Last Name</label></strong>
-                            <input class="form-control"
-                                   type="text"
-                                   name="last_name"
-                                   id="last_name"
-                                   value="${user.surname}" required>
-                        </div>
+                    <div class="form-group ">
+                        <strong><label for="last_name">Last Name</label></strong>
+                        <input class="form-control"
+                               type="text"
+                               name="last_name"
+                               id="last_name"
+                               value="${user.surname}" required>
                     </div>
 
-                    <div class="form-row">
-                        <div class="form-group col-3">
-                            <strong><label for="phone_number">Phone Number</label></strong>
-                            <input class="form-control"
-                                   type="text"
-                                   name="phone_number"
-                                   id="phone_number"
-                                   value="${user.phoneNumber}" required>
-                        </div>
+                    <div class="form-group ">
+                        <strong><label for="phone_number">Phone Number</label></strong>
+                        <input class="form-control"
+                               type="text"
+                               name="phone_number"
+                               id="phone_number"
+                               value="${user.phoneNumber}" required>
                     </div>
 
 
-                    <div class="form-row">
-                        <div class="form-group col-3">
-                            <strong><label for="email">Email</label></strong>
-                            <input class="form-control"
-                                   type="email"
-                                   name="email"
-                                   id="email"
-                                   value="${user.email}" required>
-                        </div>
+                    <div class="form-group ">
+                        <strong><label for="email">Email</label></strong>
+                        <input class="form-control"
+                               type="email"
+                               name="email"
+                               id="email"
+                               value="${user.email}" required>
                     </div>
 
-                    <div class="form-row">
-                        <div class="form-group col-3">
-                            <strong><label for="company">Company</label></strong>
-                            <select class="form-control" name="company" id="company">
-                                <option value="nothing" ${user.userCompany == null ? "selected" : ""}>-</option>
+                    <div class="form-group ">
+                        <strong><label for="company">Company</label></strong>
+                        <select class="form-control" name="company" id="company">
+                            <option value="nothing" ${user.userCompany == null ? "selected" : ""}>-</option>
 
-                                <c:forEach items="${companies}" var="company">
+                            <c:forEach items="${companies}" var="company">
 
-                                    <option value="<c:out value="${company.id}" />"
-                                        ${company.id == user.userCompany.companyId ? "selected" : ""}>
-                                            ${company.title}
-                                    </option>
+                                <option value="<c:out value="${company.id}" />"
+                                    ${company.id == user.userCompany.companyId ? "selected" : ""}>
+                                        ${company.title}
+                                </option>
 
-                                </c:forEach>
-                            </select>
-                        </div>
+                            </c:forEach>
+                        </select>
                     </div>
 
-                    <div class="form-row">
-                        <div class="form-group col-3">
-                            <strong><label for="department">Department</label></strong>
-                            <select class="form-control" name="department" id="department">
-                                <option value="nothing" ${user.userDepartment == null ? "selected" : ""}>-</option>
+                    <div class="form-group ">
+                        <strong><label for="department">Department</label></strong>
+                        <select class="form-control" name="department" id="department">
+                            <option value="nothing" ${user.userDepartment == null ? "selected" : ""}>-</option>
 
-                                <c:forEach items="${departments}" var="department">
+                            <c:forEach items="${departments}" var="department">
 
-                                    <option value="${department.id}"
-                                        ${department.id == user.userDepartment.departmentId ? "selected" : ""}>
-                                            ${department.title}
-                                    </option>
+                                <option value="${department.id}"
+                                    ${department.id == user.userDepartment.departmentId ? "selected" : ""}>
+                                        ${department.title}
+                                </option>
 
-                                </c:forEach>
-                            </select>
-                        </div>
+                            </c:forEach>
+                        </select>
                     </div>
                 </form>
             </div>
-            <div class="card-footer d-flex flex-row align-items-center justify-content-end">
-                <button class="btn btn-primary d-flex flex-row align-items-center mr-3" form="edit_user_form">
-                    <i class="fa fa-save mr-2"></i>
-                    Save Changes
-                </button>
-                <a class="btn btn-danger" href="<c:url value="/manage_users"/>">
-                    Cancel
-                </a>
+            <div class="card-footer flex-row align-items-center text-right">
+                <a href="/manage_users" class="btn btn-warning"><i class="fas fa-caret-left" style="margin-right:8px"></i>Cancel</a>
+                <button type="submit" class="btn btn-success" form="edit_user_form"><i class="far fa-save" style="margin-right:8px"></i>Update</button>
             </div>
+
         </div>
         <c:import url="/WEB-INF/views/footer.jsp"></c:import>
     </div>

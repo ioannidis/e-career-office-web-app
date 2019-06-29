@@ -29,7 +29,7 @@
             <div class="card-header">
                 <i class="fa fa-table"></i><b>Edit classified</b></div>
             <div class="card-body">
-                <form action="externalclassifieds?id=${classified.id}&action=update" method="POST">
+                <form action="externalclassifieds?id=${classified.id}&action=update" method="POST" id="edit_classified">
                     <div class="form-group">
                         <label for="title"><strong>Id</strong></label>
                         <input type="text" class="form-control"  name="title" id="id" value="${classified.id}" disabled/>
@@ -65,9 +65,10 @@
                             </div>
                         </c:forEach>
                     </div>
-                    <br />
-                    <a href="externalclassifieds" class="btn btn-warning"><i class="fas fa-caret-left" style="margin-right:8px"></i>Cancel</a>
-                    <button type="submit" class="btn btn-success"><i class="far fa-save" style="margin-right:8px"></i>Update</button>
+                    <div class="card-footer flex-row align-items-center text-right">
+                        <a href="externalclassifieds" class="btn btn-warning"><i class="fas fa-caret-left" style="margin-right:8px"></i>Cancel</a>
+                        <button type="submit" class="btn btn-success" form="edit_classified"><i class="far fa-save" style="margin-right:8px"></i>Save</button>
+                    </div>
                 </form>
             </div>
         </div>
