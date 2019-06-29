@@ -62,19 +62,15 @@
                     </table>
                 </div>
             </div>
-            <div class="card-footer d-flex flex-row align-items-center justify-content-end">
-                <div class="btn-group">
-                    <a class="btn btn-outline-primary" href="<c:url value="/manage_keywords"/>">
-                        View All
-                    </a>
-                    <a class="btn btn-outline-primary" href="<c:url value="/edit_keyword?id=${keyword.id}"/>">
-                        Edit
-                    </a>
-                    <a class="btn btn-outline-primary" href="<c:url value="/delete_keyword?id=${keyword.id}"/>">
-                        Delete
-                    </a>
-                </div>
+            <div class="card-footer flex-row align-items-center text-right">
+                <a class="btn btn-primary"
+                   href="<c:url value="/manage_keywords"/>"><i class="fas fa-caret-left" style="margin-right:8px"></i>Back</a>
+                <a class="btn btn-warning"
+                   href="<c:url value="/edit_keyword?id=${keyword.id}"/>"><i class="far fa-edit" style="margin-right:8px"></i>Edit</a>
+                <a class="btn btn-danger"
+                   href="<c:url value="/delete_keyword?id=${keyword.id}"/>"><i class="fas fa-times" style="margin-right:8px"></i>Delete</a>
             </div>
+
         </div>
         <c:import url="/WEB-INF/views/footer.jsp"></c:import>
     </div>

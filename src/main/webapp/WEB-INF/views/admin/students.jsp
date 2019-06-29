@@ -65,7 +65,7 @@
                                     <a class="btn btn-info" href="<c:url value="admincontact?id=${student.user.username}"/>"><i class="fas fa-phone" style="margin-right:8px"></i>Contact</a>
                                     <a class="btn btn-primary" href="adminstudents?name=${student.user.username}&action=show"><i class="fas fa-external-link-alt" style="margin-right:8px"></i>Show</a>
                                     <a class="btn btn-warning" href="adminstudents?name=${student.user.username}&action=edit"><i class="far fa-edit" style="margin-right:8px"></i>Edit</a>
-                                    <a class="btn btn-danger" href="adminstudents?name=${student.user.username}&action=delete"><i class="far fa-times" style="margin-right:8px"></i>Delete</a>
+                                    <a class="btn btn-danger" href="adminstudents?name=${student.user.username}&action=delete"><i class="fas fa-times" style="margin-right:8px"></i>Delete</a>
 
                                 </td>
                             </tr>

@@ -55,7 +55,7 @@
                                 <td>
                                     <a class="btn btn-primary" href="adminkeywords?action=show&id=${keyword.id}"><i class="fas fa-external-link-alt" style="margin-right:8px"></i>Show</a>
                                     <a class="btn btn-warning" href="adminkeywords?action=edit&id=${keyword.id}"><i class="far fa-edit" style="margin-right:8px"></i>Edit</a>
-                                    <a class="btn btn-danger" href="adminkeywords?action=delete&id=${keyword.id}"><i class="far fa-times" style="margin-right:8px"></i>Delete</a>
+                                    <a class="btn btn-danger" href="adminkeywords?action=delete&id=${keyword.id}"><i class="fas fa-times" style="margin-right:8px"></i>Delete</a>
 
                                 </td>
                             </tr>
