@@ -23,13 +23,9 @@
             <li class="breadcrumb-item text-primary"><a href="externalclassifieds" >Classifieds</a></li>
         </ol>
 
-        <div style="text-align:right">
-            <a href="externalclassifieds?action=create" class="btn btn-info"><i class="far fa-plus-square" style="margin-right:8px"></i>Add classified</a>
-        </div>
-        <br/>
         <div class="card mb-3">
 
-            <div class="card-header">
+            <div class="card-header d-flex flex-row align-items-center">
                 <i class="fa fa-table"></i><strong>Classifieds Table</strong>
                 <a class="btn btn-info"
                    href="externalclassifieds?action=create">

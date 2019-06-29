@@ -53,8 +53,7 @@
                                 <td>
                                     <c:forEach items="${classified.keywordClassifiedPivotList}" var="rel"
                                                varStatus="status">
-                                        ${rel.keyword.title}
-                                        <c:if test="${!status.last}">,</c:if>
+                                        <span class="badge badge-info">${rel.keyword.title}</span>
                                     </c:forEach>
                                 </td>
                                 <td>
