@@ -25,14 +25,16 @@
             <li class="breadcrumb-item"><a href="adminkeywords">Keywords</a></li>
         </ol>
 
-        <div style="text-align:right">
-            <a href="adminkeywords?action=create" class="btn btn-info"><i class="far fa-plus-square" style="margin-right:8px"></i>Create Keyword</a>
-        </div>
-        <br/>
         <div class="card mb-3">
 
-            <div class="card-header">
-                <i class="fa fa-table"></i><b>Keywords Table</b></div>
+            <div class="card-header d-flex flex-row align-items-center">
+                <strong class="mr-auto">Keywords</strong>
+                <a class="btn btn-info"
+                   href="<c:url value="/adminkeywords?action=create" />">
+                    <i class="far fa-plus-square" style="margin-right:8px"></i>
+                    Create Keyword
+                </a>
+            </div>
             <div class="card-body">
 
                 <div class="table-responsive">
@@ -53,10 +55,11 @@
                                 <td><c:out value="${keyword.title}" default="-" /></td>
                                 <td><c:out value="${keyword.slug}" default="-" /></td>
                                 <td>
-                                    <a class="btn btn-primary" href="adminkeywords?action=show&id=${keyword.id}"><i class="fas fa-external-link-alt" style="margin-right:8px"></i>Show</a>
-                                    <a class="btn btn-warning" href="adminkeywords?action=edit&id=${keyword.id}"><i class="far fa-edit" style="margin-right:8px"></i>Edit</a>
-                                    <a class="btn btn-danger" href="adminkeywords?action=delete&id=${keyword.id}"><i class="fas fa-times" style="margin-right:8px"></i>Delete</a>
-
+                                    <div class="btn-group">
+                                        <a class="btn btn-primary" href="adminkeywords?action=show&id=${keyword.id}"><i class="fas fa-external-link-alt" style="margin-right:8px"></i>Show</a>
+                                        <a class="btn btn-warning" href="adminkeywords?action=edit&id=${keyword.id}"><i class="far fa-edit" style="margin-right:8px"></i>Edit</a>
+                                        <a class="btn btn-danger" href="adminkeywords?action=delete&id=${keyword.id}"><i class="fas fa-times" style="margin-right:8px"></i>Delete</a>
+                                    </div>
                                 </td>
                             </tr>
                         </c:forEach>

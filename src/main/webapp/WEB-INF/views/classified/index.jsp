@@ -26,7 +26,7 @@
         <div class="card mb-3">
 
             <div class="card-header d-flex flex-row align-items-center">
-                <i class="fa fa-table"></i><strong>Classifieds Table</strong>
+                <i class="fa fa-table"></i><strong class="mr-auto">Classifieds Table</strong>
                 <a class="btn btn-info"
                    href="externalclassifieds?action=create">
                     <i class="far fa-plus-square" style="margin-right:8px"></i>

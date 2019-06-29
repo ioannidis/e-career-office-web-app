@@ -26,7 +26,7 @@
             <li class="breadcrumb-item"><a href="admin">Admin</a></li>
             <li class="breadcrumb-item"><a href="adminclassifieds">Classifieds</a></li>
         </ol>
-            <div class="card-header">
+            <div class="card-header d-flex flex-row align-items-center">
                 <i class="fa fa-table"></i><b>Available Classifieds</b></div>
             <div class="card-body">
 
@@ -56,10 +56,12 @@
                                 </td>
 
                                 <td>
-                                    <a class="btn btn-info" href="adminstudents?filter=${classifieds.classified.id}"><i class="fas fa-user" style="margin-right:8px"></i>Assign Job</a>
-                                    <a class="btn btn-primary" href="adminclassifieds?id=${classifieds.classified.id}&action=show"><i class="fas fa-external-link-alt" style="margin-right:8px"></i>Show</a>
-                                    <a class="btn btn-warning" href="adminclassifieds?id=${classifieds.classified.id}&action=edit"><i class="far fa-edit" style="margin-right:8px"></i>Edit</a>
-                                    <a class="btn btn-danger" href="adminclassifieds?id=${classifieds.classified.id}&action=delete"><i class="fas fa-times" style="margin-right:8px"></i>Delete</a>
+                                    <div class="btn-group">
+                                        <a class="btn btn-info" href="adminstudents?filter=${classifieds.classified.id}"><i class="fas fa-user" style="margin-right:8px"></i>Assign Job</a>
+                                        <a class="btn btn-primary" href="adminclassifieds?id=${classifieds.classified.id}&action=show"><i class="fas fa-external-link-alt" style="margin-right:8px"></i>Show</a>
+                                        <a class="btn btn-warning" href="adminclassifieds?id=${classifieds.classified.id}&action=edit"><i class="far fa-edit" style="margin-right:8px"></i>Edit</a>
+                                        <a class="btn btn-danger" href="adminclassifieds?id=${classifieds.classified.id}&action=delete"><i class="fas fa-times" style="margin-right:8px"></i>Delete</a>
+                                    </div>
                                 </td>
                             </tr>
                         </c:forEach>

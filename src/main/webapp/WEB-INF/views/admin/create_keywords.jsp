@@ -1,40 +1,56 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-         pageEncoding="ISO-8859-1"%>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
+    <title>Super Admin | Create Keyword</title>
     <meta charset="UTF-8">
-    <title>Admin | Keyword Creation</title>
     <c:import url="/WEB-INF/views/styles.jsp"></c:import>
 </head>
-<body class="bg-dark">
-<div class="container">
-    <div class="card card-register mx-auto mt-5">
-        <div class="card-header">Admin Create Keyword</div>
-        <div class="card-body">
-            <form method="post" action="adminkeywords?action=save">
-                <div class="form-group">
-                    <label for="title">Title</label>
-                    <input id="title" class="form-control" type="text" name="title" placeholder="Title" required />
-                </div>
-                <div class="form-group">
-                    <label for="slug">Slug</label>
-                    <input id="slug" class="form-control" type="text" name="slug" placeholder="Slug" required />
-                </div>
-                <br/>
-                <div class="text-center">
-                <input  type="submit" class="btn btn-info" style="align-self: center"  value="Create">
-                </div>
-            </form>
-            <div class="text-center">
-                <a class="btn btn-danger" href="adminkeywords">Cancel</a>
+<body class="fixed-nav sticky-footer bg-dark">
+<c:import url="/WEB-INF/views/nav.jsp"></c:import>
+
+<div class="content-wrapper">
+    <div class="container-fluid">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="<c:url value="/admin"/>">
+                    Admin
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="<c:url value="/adminkeywords"/>">
+                    Keywords
+                </a>
+            </li>
+            <li class="breadcrumb-item active">
+                Create Keyword
+            </li>
+        </ol>
+        <div class="card mb-3">
+            <div class="card-header d-flex flex-row align-items-center">
+                <i class="fa fa-tags mr-2"></i>
+                <strong>Create Keyword</strong>
+            </div>
+            <div class="card-body">
+                <form action="<c:url value="/adminkeywords?action=save"/>" method="POST" id="create_keyword_form">
+                    <div class="form-group">
+                        <strong><label for="title">Title</label></strong>
+                        <input class="form-control" type="text" name="title" id="title" required>
+                    </div>
+                    <div class="form-group">
+                        <strong><label for="slug">Slug</label></strong>
+                        <input class="form-control" type="text" name="slug" id="slug" required>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer flex-row align-items-center text-right">
+                <a href="/manage_keywords" class="btn btn-warning"><i class="fas fa-caret-left" style="margin-right:8px"></i>Cancel</a>
+                <button type="submit" class="btn btn-success" form="create_keyword_form"><i class="far fa-save" style="margin-right:8px"></i>Save</button>
             </div>
         </div>
+        <c:import url="/WEB-INF/views/footer.jsp"></c:import>
     </div>
+    <c:import url="/WEB-INF/views/scripts.jsp"></c:import>
 </div>
-
-<c:import url="/WEB-INF/views/scripts.jsp"></c:import>
 </body>
 </html>

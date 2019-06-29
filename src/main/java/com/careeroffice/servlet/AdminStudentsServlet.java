@@ -131,11 +131,13 @@ public class AdminStudentsServlet extends HttpServlet {
                 }
                 else {
                     for (User student : students) {
-                        int cvId = cvService.findOne(student.getUsername()).getId();
+                        if (cvService.findOne(student.getUsername()) != null) {
+                            int cvId = cvService.findOne(student.getUsername()).getId();
 
-                        UserKeywordDecorator userKeywordDecorator = new UserKeywordDecorator(student);
-                        userKeywordDecorator.setKeywords(keywordCvPivotService.findByCvId(cvId));
-                        users.add(userKeywordDecorator);
+                            UserKeywordDecorator userKeywordDecorator = new UserKeywordDecorator(student);
+                            userKeywordDecorator.setKeywords(keywordCvPivotService.findByCvId(cvId));
+                            users.add(userKeywordDecorator);
+                        }
                     }
                 }
 

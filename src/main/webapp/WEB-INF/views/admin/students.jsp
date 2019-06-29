@@ -26,14 +26,17 @@
             <li class="breadcrumb-item"><a href="adminstudents">Students</a></li>
         </ol>
 
-        <div style="text-align:right">
-            <a href="adminregister" class="btn btn-info"><i class="far fa-plus-square" style="margin-right:8px"></i>Add Student</a>
-        </div>
-        <br/>
         <div class="card mb-3">
 
-            <div class="card-header">
-                <i class="fa fa-table"></i><b>Students Table</b></div>
+            <div class="card-header d-flex flex-row align-items-center">
+                <i class="fa fa-table"></i>
+                <strong class="mr-auto">Students</strong>
+                <a class="btn btn-info"
+                   href="<c:url value="/adminregister" />">
+                    <i class="far fa-plus-square" style="margin-right:8px"></i>
+                    Create Student
+                </a>
+            </div>
             <div class="card-body">
 
                 <div class="table-responsive">
@@ -62,11 +65,12 @@
                                     </c:forEach>
                                 </td>
                                 <td>
-                                    <a class="btn btn-info" href="<c:url value="admincontact?id=${student.user.username}"/>"><i class="fas fa-phone" style="margin-right:8px"></i>Contact</a>
-                                    <a class="btn btn-primary" href="adminstudents?name=${student.user.username}&action=show"><i class="fas fa-external-link-alt" style="margin-right:8px"></i>Show</a>
-                                    <a class="btn btn-warning" href="adminstudents?name=${student.user.username}&action=edit"><i class="far fa-edit" style="margin-right:8px"></i>Edit</a>
-                                    <a class="btn btn-danger" href="adminstudents?name=${student.user.username}&action=delete"><i class="fas fa-times" style="margin-right:8px"></i>Delete</a>
-
+                                    <div class="btn-group">
+                                        <a class="btn btn-info" href="<c:url value="admincontact?id=${student.user.username}"/>"><i class="fas fa-phone" style="margin-right:8px"></i>Contact</a>
+                                        <a class="btn btn-primary" href="adminstudents?name=${student.user.username}&action=show"><i class="fas fa-external-link-alt" style="margin-right:8px"></i>Show</a>
+                                        <a class="btn btn-warning" href="adminstudents?name=${student.user.username}&action=edit"><i class="far fa-edit" style="margin-right:8px"></i>Edit</a>
+                                        <a class="btn btn-danger" href="adminstudents?name=${student.user.username}&action=delete"><i class="fas fa-times" style="margin-right:8px"></i>Delete</a>
+                                    </div>
                                 </td>
                             </tr>
                         </c:forEach>

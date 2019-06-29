@@ -36,7 +36,7 @@
                     </div>
                     <div class="form-group">
                         <label for="slug"><strong>Slug</strong></label>
-                        <input type="text" class="form-control"  name="slug" id="slug" value="${keyword.slug}" required />
+                        <input type="text" class="form-control"  name="slug" id="slug" value="${keyword.slug}" readonly />
                     </div>
                     <a href="adminkeywords" class="btn btn-warning"><i class="fas fa-caret-left" style="margin-right:8px"></i>Cancel</a>
                     <button type="submit" class="btn btn-success"><i class="far fa-save" style="margin-right:8px"></i>Update</button>
