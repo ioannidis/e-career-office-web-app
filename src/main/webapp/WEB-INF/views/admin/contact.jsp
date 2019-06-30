@@ -26,13 +26,8 @@
                     Admin
                 </a>
             </li>
-            <li class="breadcrumb-item">
-                <a href="<c:url value="/admincontact"/>">
-                    Keywords
-                </a>
-            </li>
             <li class="breadcrumb-item active">
-                Create Keyword
+                Contact
             </li>
         </ol>
         <div class="card mb-3">
@@ -59,7 +54,7 @@
                 </form>
             </div>
             <div class="card-footer flex-row align-items-center text-right">
-                <a href="/adminstudents" class="btn btn-warning"><i class="fas fa-caret-left" style="margin-right:8px"></i>Cancel</a>
+                <a href="adminstudents" class="btn btn-warning"><i class="fas fa-caret-left" style="margin-right:8px"></i>Cancel</a>
                 <button type="submit" class="btn btn-success" form="contact_student"><i class="far fa-save" style="margin-right:8px"></i>Send</button>
             </div>
         </div>
