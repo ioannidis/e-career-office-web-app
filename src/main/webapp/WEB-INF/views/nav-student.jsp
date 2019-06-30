@@ -17,27 +17,27 @@
 				</span>
 			</a>
 		</li>
-		<li class="nav-item" data-toggle="tooltip" data-placement="right" title="" data-original-title="Home">
-			<a class="nav-link" href="<c:url value="/student_crud"/>">
-				<span class="nav-link-text">
-					<i class="fas fa-user-edit"></i>
-					Edit Information
-				</span>
-			</a>
-		</li>
+		<%--<li class="nav-item" data-toggle="tooltip" data-placement="right" title="" data-original-title="Home">--%>
+			<%--<a class="nav-link" href="<c:url value="/student_edit_details"/>">--%>
+				<%--<span class="nav-link-text">--%>
+					<%--<i class="fas fa-user-edit"></i>--%>
+					<%--Edit Information--%>
+				<%--</span>--%>
+			<%--</a>--%>
+		<%--</li>--%>
 		<li class="nav-item" data-toggle="tooltip" data-placement="right" title="" data-original-title="Upload CV">
 			<a class="nav-link" href="<c:url value="/upload_cv"/>">
 				<i class="fas fa-upload"></i>
-				<span class="nav-link-text">Edit your CV Details</span>
+				<span class="nav-link-text">CV Details</span>
 			</a>
 		</li>
-		<li class="nav-item" data-toggle="tooltip" data-placement="right" title="" data-original-title="Get your CV">
-			<a class="nav-link" href="<c:url value="/get_cv"/>">
-				<span class="nav-link-text">
-					<i class="fas fa-download"></i>
-					Get your CV
-				</span>
-			</a>
-		</li>
+		<%--<li class="nav-item" data-toggle="tooltip" data-placement="right" title="" data-original-title="Get your CV">--%>
+			<%--<a class="nav-link" href="<c:url value="/get_cv"/>">--%>
+				<%--<span class="nav-link-text">--%>
+					<%--<i class="fas fa-download"></i>--%>
+					<%--Get your CV--%>
+				<%--</span>--%>
+			<%--</a>--%>
+		<%--</li>--%>
 	</ul>
 </li>

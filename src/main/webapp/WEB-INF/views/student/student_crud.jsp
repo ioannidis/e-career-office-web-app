@@ -20,9 +20,9 @@
 
         <div class="card mb-3">
             <div class="card-header">
-                <i class="fas fa-user-edit"></i>Update your personal information</div>
+                <i class="fas fa-user-edit"></i>Edit person details</div>
             <div class="card-body">
-                <form method="post" action="student_crud">
+                <form method="post" action="<c:url value="/student_edit_details"/>" id="edit-student-details">
                     <div class="form-group">
                         <label for="firstname">First Name</label>
                         <input id="firstname" class="form-control" type="text" name="firstname" placeholder="First name" value="${user.getName()}" required />
@@ -63,9 +63,11 @@
                             </div>
                         </c:if>
                     </div>
-                    <br/>
-                    <input  type="submit" class="btn btn-primary btn-block" value="Update">
                 </form>
+            </div>
+            <div class="card-footer flex-row align-items-center text-right">
+                <a href="${ user.getRoleId()}" class="btn btn-warning"><i class="fas fa-caret-left" style="margin-right:8px"></i>Cancel</a>
+                <button type="submit" class="btn btn-success" form="edit-student-details"><i class="far fa-save" style="margin-right:8px"></i>Update</button>
             </div>
         </div>
 

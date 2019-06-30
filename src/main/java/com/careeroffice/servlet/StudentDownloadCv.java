@@ -25,6 +25,8 @@ public class StudentDownloadCv extends HttpServlet {
      */
     private static final long serialVersionUID = 1L;
 
+    private static final String SAVE_DIR = System.getProperty("user.home") + "/Desktop/uploads/";
+
 
     /**
      * Handles all GET requests.
@@ -39,14 +41,15 @@ public class StudentDownloadCv extends HttpServlet {
         User user = authService.getUser();
         String username = user.getUsername();
 
-        Cv cv = cvService.findOne(username);
+//        Cv cv = cvService.findOne(username);
 
         /**
          * If a CV exists
          */
-        if (cv != null && !cv.getFileUrl().isEmpty()) {
-            String fileUrl = cv.getFileUrl();
+        if (cvService.findOne(username) != null) {
+            Cv cv = cvService.findOne(username);
 
+            String fileUrl = SAVE_DIR + cv.getFileUrl();
 
             byte[] outputBytes = loadFile(fileUrl);
 
@@ -54,7 +57,7 @@ public class StudentDownloadCv extends HttpServlet {
             response.setHeader("Cache-control", "private");
             response.setDateHeader("Expires", 0);
             response.setContentType("application/pdf");
-            response.setHeader("Content-Disposition", "attachment; filename=" + fileUrl);
+            response.setHeader("Content-Disposition", "attachment; filename=" + cv.getFileUrl());
 
             if (outputBytes != null) {
                 response.setContentLength(outputBytes.length);

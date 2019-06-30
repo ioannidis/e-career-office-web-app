@@ -17,7 +17,19 @@
 
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="<c:url value="/student"/>">Student</a></li>
+            <li class="breadcrumb-item"><a href="<c:url value="/upload_cv"/>">CV Details</a></li>
         </ol>
+
+        <c:if test="${cvName != ''}">
+            <div class="text-right">
+                <a href="<c:url value="/get_cv"/>" class="btn btn-info">
+                    <i class="fas fa-download"></i>
+                    Download CV
+                </a>
+            </div>
+            <br>
+        </c:if>
+
         <form method="post" action="upload_cv" enctype="multipart/form-data">
             <div class="card mb-3">
                 <div class="card-header">
@@ -67,13 +79,13 @@
                 </div>
                 <c:remove var="keywordsError" scope="session" />
             </c:if>
-            <c:if test="${cvError != null}">
-                <div class="alert alert-danger" role="alert">
-                    You must upload your CV in pdf format first!
+            <c:if test="${cvName == ''}">
+                <div class="alert alert-warning" role="alert">
+                    Help us connect you with a company by uploading your CV!
                 </div>
                 <c:remove var="cvError" scope="session" />
             </c:if>
-            <input type="submit" class="btn btn-primary btn-block" value="Upload CV">
+            <input type="submit" class="btn btn-primary btn-block" value="Save">
         </form>
     </div>
 </div>
