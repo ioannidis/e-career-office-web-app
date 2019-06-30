@@ -32,7 +32,10 @@ insert into companies values ( 'ms', 'Microsoft', 'Syggrou Str.', '2119854122', 
 insert into user_company values ( 'steve_rogers', 'ibm' );
 
 # CV
-insert into cvs( username, file_url) values ( 'bruce_banner', 'mplamplampla/mycv.pdf' );
+insert into cvs( username, file_url) values ( 'bruce_banner', '' );
+insert into cvs( username, file_url) values ( 'peter_parker', '' );
+insert into cvs( username, file_url) values ( 'thor_odinson', '' );
+
 
 #Keywords
 insert into keywords(title, slug) values( 'Java', 'java' );
