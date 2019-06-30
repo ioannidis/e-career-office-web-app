@@ -93,7 +93,7 @@
                             <td><b>Keywords</b></td>
                             <td>
                                 <c:forEach items="${keywords}" var="item">
-                                    <span class="badge badge-danger">${item.getTitle()}</span>
+                                    <span class="badge badge-info">${item.getTitle()}</span>
                                 </c:forEach>
                             </td>
                         </tr>

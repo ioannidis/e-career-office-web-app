@@ -19,7 +19,7 @@
 		<div class="container-fluid">
 
 			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a href="/external">External</a></li>
+				<li class="breadcrumb-item"><a href="external">External</a></li>
 			</ol>
 
 			<div class="card mb-3">
@@ -27,7 +27,7 @@
 					<i class="fa fa-user-circle"></i><b>Edit user details</b>
 				</div>
 				<div class="card-body">
-					<form method="post" action="external?action=update">
+					<form method="post" action="external?action=update" id="edit_external_form">
 						<div class="form-group">
 							<label for="username">Username</label>
 							<input id="username" class="form-control" type="text" name="username" placeholder="Username" value="${user.username}" readonly />
@@ -58,10 +58,11 @@
 								</c:forEach>
 							</select>
 						</div>
-						<br />
-						<a href="external" class="btn btn-warning"><i class="fas fa-caret-left" style="margin-right:8px"></i>Cancel</a>
-						<button type="submit" class="btn btn-success"><i class="far fa-save" style="margin-right:8px"></i>Update</button>
 					</form>
+				</div>
+				<div class="card-footer flex-row align-items-center text-right">
+					<a href="external" class="btn btn-warning"><i class="fas fa-caret-left" style="margin-right:8px"></i>Cancel</a>
+					<button type="submit" class="btn btn-success" form="edit_external_form"><i class="far fa-save" style="margin-right:8px"></i>Update</button>
 				</div>
 			</div>
 		</div>

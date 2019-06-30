@@ -19,7 +19,7 @@
 		<div class="container-fluid">
 
 			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a href="/external">External</a></li>
+				<li class="breadcrumb-item"><a href="external">External</a></li>
 			</ol>
 
 			<div style="text-align:right">
