@@ -37,6 +37,17 @@ public class StudentDownloadCv extends HttpServlet {
          * Initializing the needed services
          */
         AuthService authService = new AuthService(request.getSession());
+
+        if (!authService.isLoggedIn()) {
+            response.sendRedirect("login");
+            return;
+        }
+
+        if (!authService.hasRole("u_student") && !authService.hasRole("p_student")) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+            return;
+        }
+
         CvService cvService = (CvService) ServiceFactory.getService(ServiceEnum.CvService);
         User user = authService.getUser();
         String username = user.getUsername();

@@ -38,6 +38,17 @@ public class StudentServlet extends HttpServlet {
             throws ServletException, IOException {
 
         AuthService authService = new AuthService(request.getSession());
+
+        if (!authService.isLoggedIn()) {
+            response.sendRedirect("login");
+            return;
+        }
+
+        if (!authService.hasRole("u_student") && !authService.hasRole("p_student")) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+            return;
+        }
+
         CvService cvService = (CvService) ServiceFactory.getService(ServiceEnum.CvService);
         KeywordCvPivotService keywordCvPivotService = (KeywordCvPivotService) ServiceFactory.getService(ServiceEnum.KeywordCvPivotService);
 

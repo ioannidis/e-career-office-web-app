@@ -57,9 +57,20 @@ public class StudentUploadCv extends HttpServlet {
         /**
          * Initializing the needed services
          */
+        AuthService authService = new AuthService(request.getSession());
+
+        if (!authService.isLoggedIn()) {
+            response.sendRedirect("login");
+            return;
+        }
+
+        if (!authService.hasRole("u_student") && !authService.hasRole("p_student")) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+            return;
+        }
+
         KeywordService keywordService = (KeywordService) ServiceFactory.getService(ServiceEnum.KeywordService);
         KeywordCvPivotService keywordCvPivotService = (KeywordCvPivotService) ServiceFactory.getService(ServiceEnum.KeywordCvPivotService);
-        AuthService authService = new AuthService(request.getSession());
         CvService cvService = (CvService) ServiceFactory.getService(ServiceEnum.CvService);
 
         /**

@@ -27,6 +27,17 @@ public class StudentInformationCrud extends HttpServlet {
          * Gets the needed Services
          */
         AuthService authService = new AuthService(request.getSession());
+
+        if (!authService.isLoggedIn()) {
+            response.sendRedirect("login");
+            return;
+        }
+
+        if (!authService.hasRole("u_student") && !authService.hasRole("p_student")) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+            return;
+        }
+
         User user = authService.getUser();
         request.setAttribute("user", user);
         request.getRequestDispatcher("WEB-INF/views/student/student_crud.jsp").forward(request, response);

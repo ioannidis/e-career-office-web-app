@@ -29,6 +29,19 @@ public class AdminRegisterServlet extends HttpServlet {
      */
     @Override
     protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
+
+        AuthService authService = new AuthService(request.getSession());
+
+        if (!authService.isLoggedIn()) {
+            response.sendRedirect("login");
+            return;
+        }
+
+        if (!authService.hasRole("admin")) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+            return;
+        }
+
         DepartmentService departmentService = (DepartmentService) ServiceFactory.getService( ServiceEnum.DepartmentService );
 
         request.setAttribute("departments", departmentService.findAll());
