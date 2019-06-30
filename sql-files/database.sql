@@ -80,7 +80,7 @@ create table if not exists cvs
 (
     id       int auto_increment primary key,
     username varchar(45) unique not null,
-    file_url varchar(60) not null,
+    file_url varchar(60),
     foreign key (username) references users (username)
 );
 
