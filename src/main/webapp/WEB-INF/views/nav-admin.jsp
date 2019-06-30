@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
          pageEncoding="ISO-8859-1"%>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 
 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="" data-original-title="Admin Actions">
@@ -17,7 +18,7 @@
 				</span>
             </a>
         </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="" data-original-title="Manage Available Classifieds">
+        <li class="nav-item  ${fn:contains(pageContext.request.requestURI, 'classifieds') ? 'active' : ''}" data-toggle="tooltip" data-placement="right" title="" data-original-title="Manage Available Classifieds">
             <a class="nav-link" href="<c:url value="/adminclassifieds"/>">
                 <span class="nav-link-text">
                     <i class="fa fa-fw fa-clipboard-list"></i>
@@ -25,7 +26,7 @@
                 </span>
             </a>
         </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="" data-original-title="View Available Students">
+        <li class="nav-item ${fn:contains(pageContext.request.requestURI, 'students') ? 'active' : ''}" data-toggle="tooltip" data-placement="right" title="" data-original-title="View Available Students">
             <a class="nav-link" href="<c:url value="/adminstudents"/>">
 				<span class="nav-link-text">
 					<i class="fa fa-fw fa-university"></i>
@@ -33,7 +34,7 @@
 				</span>
             </a>
         </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="" data-original-title="Manage Keywords">
+        <li class="nav-item ${fn:contains(pageContext.request.requestURI, 'keywords') ? 'active' : ''}" data-toggle="tooltip" data-placement="right" title="" data-original-title="Manage Keywords">
             <a class="nav-link" href="<c:url value="/adminkeywords"/>">
 				<span class="nav-link-text">
 					<i class="fa fa-fw fa-eye"></i>

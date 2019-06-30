@@ -4,7 +4,7 @@
 
 <%@page import="com.careeroffice.model.User" %>
 <%
-    User user = (User) session.getAttribute("user");
+    User person = (User) session.getAttribute("user");
 %>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
@@ -26,19 +26,19 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav navbar-sidenav">
 
-            <c:if test="${ user.roleId=='super_admin' }">
+            <c:if test="${ sessionScope.user.roleId=='super_admin' }">
                 <c:import url="/WEB-INF/views/nav-super-admin.jsp"></c:import>
             </c:if>
 
-            <c:if test="${ user.roleId=='admin' }">
+            <c:if test="${ sessionScope.user.roleId=='admin' }">
                 <c:import url="/WEB-INF/views/nav-admin.jsp"></c:import>
             </c:if>
 
-            <c:if test="${ user.roleId=='external' }">
+            <c:if test="${ sessionScope.user.roleId=='external' }">
                 <c:import url="/WEB-INF/views/nav-external.jsp"></c:import>
             </c:if>
 
-            <c:if test="${ user.roleId=='p_student' || user.roleId=='u_student' }">
+            <c:if test="${ sessionScope.user.roleId=='p_student' || sessionScope.user.roleId=='u_student' }">
                 <c:import url="/WEB-INF/views/nav-student.jsp"></c:import>
             </c:if>
         </ul>
