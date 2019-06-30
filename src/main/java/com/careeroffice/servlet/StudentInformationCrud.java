@@ -17,7 +17,7 @@ import java.io.IOException;
 
 
 
-@WebServlet({"/StudentInformationCrud", "/student_crud"})
+@WebServlet({"/StudentInformationCrud", "/student_edit_details"})
 public class StudentInformationCrud extends HttpServlet {
 
 

@@ -78,7 +78,7 @@ public class StudentUploadCv extends HttpServlet {
         /**
          * If a CV exists
          */
-        if (cv != null && !cv.getFileUrl().isEmpty()) {
+        if (cv != null) {
             List<Keyword> checkedKeywords = keywordCvPivotService.findByCvId(cv.getId());
             /**
              * If a CV exists and keywords are empty
@@ -103,7 +103,7 @@ public class StudentUploadCv extends HttpServlet {
                 }
 
             }
-            request.setAttribute("cvName", cv.getUsername() + ".pdf");
+            request.setAttribute("cvName", cv.getFileUrl());
             request.setAttribute("pivotTable", pivotTable);
             request.getRequestDispatcher("WEB-INF/views/student/upload_cv.jsp").forward(request, response);
             return;
@@ -138,36 +138,84 @@ public class StudentUploadCv extends HttpServlet {
         String[] keywords = request.getParameterValues("keywords");
         Part part = request.getPart("file");
 
-        boolean hasError = false;
+        // Create cv data for first time
+        // else update cv data
+        if (cvService.findOne(username) == null) {
 
-        if (!isFirstTime(username) && part.getSubmittedFileName() == "") {
-            eraseKeywords(user);
+            cvService.save( username, username + "_" + part.getSubmittedFileName() );
             saveKeywords(keywords, user);
+
+
         } else {
-            if (part.getSubmittedFileName() == "") {
-                request.getSession().setAttribute("cvError", true);
-                hasError = true;
-            }
-
-            if (hasError) {
-                doGet(request, response);
-                return;
-            }
-
-            String fileUrl = savedPathCalculator(username).toString();
-
-            if (cvService.findOne(username) == null) {
-                cvService.save(username, fileUrl);
-            } else {
-                cvService.update(new Cv(username, fileUrl));
-            }
-
-            writeFileToDisk(part, username);
+            Cv cv = cvService.findOne(username);
 
             eraseKeywords(user);
             saveKeywords(keywords, user);
+
+            if (!(username + "_" + part.getSubmittedFileName()).equals(cv.getFileUrl()) && !part.getSubmittedFileName().equals( "" )) {
+                writeFileToDisk(part, username);
+                cvService.update( new Cv(username, username + "_" + part.getSubmittedFileName()) );
+            }
+
         }
+
         request.getRequestDispatcher(user.getRoleId()).forward(request, response);
+
+//        if (keywords.length > 0) {
+//            eraseKeywords(user);
+//            saveKeywords(keywords, user);
+//        }
+//
+//
+//        boolean hasError = false;
+//
+//        if (part.getSubmittedFileName().equals("")) {
+//            request.getSession().setAttribute("cvError", true);
+//            hasError = true;
+//            doGet(request, response);
+//            return;
+//        }
+//
+//        String fileUrl = savedPathCalculator(username).toString();
+//
+//        if (cvService.findOne(username) == null) {
+//            cvService.save(username, fileUrl);
+//        } else {
+//            cvService.update(new Cv(username, fileUrl));
+//        }
+//
+//        writeFileToDisk(part, username);
+
+
+//        if (!isFirstTime(username) && part.getSubmittedFileName() == "") {
+//            eraseKeywords(user);
+//            saveKeywords(keywords, user);
+//        } else {
+//            if (part.getSubmittedFileName() == "") {
+//                request.getSession().setAttribute("cvError", true);
+//                hasError = true;
+//            }
+//
+//            if (hasError) {
+//                doGet(request, response);
+//                return;
+//            }
+//
+//            String fileUrl = savedPathCalculator(username).toString();
+//
+//            if (cvService.findOne(username) == null) {
+//                cvService.save(username, fileUrl);
+//            } else {
+//                cvService.update(new Cv(username, fileUrl));
+//            }
+//
+//            writeFileToDisk(part, username);
+//
+//            eraseKeywords(user);
+//            saveKeywords(keywords, user);
+//        }
+
+//        request.getRequestDispatcher(user.getRoleId()).forward(request, response);
     }
 
     /**
@@ -177,7 +225,7 @@ public class StudentUploadCv extends HttpServlet {
     private void writeFileToDisk(Part part, String username)
             throws IOException{
 
-        Path savePath = savedPathCalculator(username);
+        Path savePath = savedPathCalculator(username, part.getSubmittedFileName());
 
         // Creates the save directory if it does not exists
         File fileSavedDir = new File(SAVE_DIR);
@@ -202,8 +250,8 @@ public class StudentUploadCv extends HttpServlet {
      * Calculates the final path to the saved .pdf
      * The name of the file is username.pdf
      */
-    private Path savedPathCalculator(String username) {
-        String fileName = username + ".pdf";
+    private Path savedPathCalculator(String username, String submittedFile) {
+        String fileName = username + "_" + submittedFile;
         return new File(SAVE_DIR, fileName).toPath();
     }
 

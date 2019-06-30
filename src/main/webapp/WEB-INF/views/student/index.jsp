@@ -41,8 +41,14 @@
         </ol>
 
         <div class="card mb-3">
-            <div class="card-header">
-                <i class="fa fa-user-circle"></i><b>Student Information</b>
+            <div class="card-header d-flex flex-row align-items-center">
+                <i class="fa fa-user-circle mr-2"></i>
+                <strong class="mr-auto">Student Information</strong>
+                <a class="btn btn-warning"
+                   href="<c:url value="/student_edit_details" />">
+                    <i class="fas fa-pencil-alt" style="margin-right:8px"></i>
+                    Edit details
+                </a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
