@@ -1,6 +1,8 @@
 package com.careeroffice.servlet;
 
+import com.careeroffice.model.Department;
 import com.careeroffice.service.AuthService;
+import com.careeroffice.service.DepartmentService;
 import com.careeroffice.service.RegistrationService;
 import com.careeroffice.service.factory.ServiceEnum;
 import com.careeroffice.service.factory.ServiceFactory;
@@ -27,6 +29,9 @@ public class AdminRegisterServlet extends HttpServlet {
      */
     @Override
     protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
+        DepartmentService departmentService = (DepartmentService) ServiceFactory.getService( ServiceEnum.DepartmentService );
+
+        request.setAttribute("departments", departmentService.findAll());
         request.getRequestDispatcher("WEB-INF/views/admin/register.jsp").forward(request, response);
     }
 
@@ -44,6 +49,7 @@ public class AdminRegisterServlet extends HttpServlet {
         String email        = request.getParameter("email");
         String phone        = request.getParameter("phone");
         String role         = request.getParameter("role");
+        String departmentId = request.getParameter("department");
 
         boolean hasError = false;
         if (registrationService.searchUserBy(username, "username")) {
@@ -57,12 +63,12 @@ public class AdminRegisterServlet extends HttpServlet {
         }
 
         if (hasError) {
-            request.getRequestDispatcher("WEB-INF/views/admin/index.jsp").forward(request, response);
+            request.getRequestDispatcher("WEB-INF/views/admin/register.jsp").forward(request, response);
             return;
         }
 
-        registrationService.createUser( username, encryptor.encryptPassword( password ), firstName, lastName, phone, email, role );
+        registrationService.createUserStudent( username, encryptor.encryptPassword( password ), firstName, lastName, phone, email, role, departmentId);
 
-        response.sendRedirect("WEB-INF/views/admin/index.jsp");
+        response.sendRedirect("adminstudents");
     }
 }

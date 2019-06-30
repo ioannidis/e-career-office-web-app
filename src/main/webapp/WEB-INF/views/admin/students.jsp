@@ -26,6 +26,10 @@
             <li class="breadcrumb-item"><a href="adminstudents">Students</a></li>
         </ol>
 
+        <div class="alert alert-info mt-1 mb-3" role="alert">
+            Only students with complete cv details will be displayed!
+        </div>
+
         <div class="card mb-3">
 
             <div class="card-header d-flex flex-row align-items-center">

@@ -29,7 +29,7 @@
             <div class="card-header">
                 <i class="fa fa-table"></i><b>Edit Student</b></div>
             <div class="card-body">
-                <form action="adminstudents?name=${student.username}&action=update" method="POST">
+                <form action="adminstudents?name=${student.username}&action=update" method="POST" id="update_admin_students">
                     <div class="form-group">
                         <label for="username"><strong>Username</strong></label>
                         <input type="text" class="form-control"  name="username" id="username" value="${student.username}" disabled/>
@@ -63,10 +63,11 @@
                             </div>
                         </c:forEach>
                     </div>
-                    <br />
-                    <a href="adminstudents" class="btn btn-warning"><i class="fas fa-caret-left" style="margin-right:8px"></i>Cancel</a>
-                    <button type="submit" class="btn btn-success"><i class="far fa-save" style="margin-right:8px"></i>Update</button>
                 </form>
+            </div>
+            <div class="card-footer flex-row align-items-center text-right">
+                <a href="adminstudents" class="btn btn-warning"><i class="fas fa-caret-left" style="margin-right:8px"></i>Cancel</a>
+                <button type="submit" class="btn btn-success" form="update_admin_students"><i class="far fa-save" style="margin-right:8px"></i>Update</button>
             </div>
         </div>
     </div>
