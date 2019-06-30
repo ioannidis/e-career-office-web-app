@@ -93,7 +93,7 @@
                 </form>
             </div>
             <div class="card-footer flex-row align-items-center text-right">
-                <a href="/manage_classifieds" class="btn btn-warning"><i class="fas fa-caret-left" style="margin-right:8px"></i>Cancel</a>
+                <a href="manage_classifieds" class="btn btn-warning"><i class="fas fa-caret-left" style="margin-right:8px"></i>Cancel</a>
                 <button type="submit" class="btn btn-success" form="edit_classified_form"><i class="far fa-save" style="margin-right:8px"></i>Update</button>
             </div>
 
