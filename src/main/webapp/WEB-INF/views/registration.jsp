@@ -80,7 +80,7 @@
 					<input  type="submit" class="btn btn-primary btn-block" value="Register">
 				</form>
 				<div class="text-center">
-					<a class="d-block small mt-3" href="/CareerOfficeApp/login">Back to login</a>
+					<a class="d-block small mt-3" href="login">Back to login</a>
 				</div>
       		</div>
 			<%-- Error logging--%>
