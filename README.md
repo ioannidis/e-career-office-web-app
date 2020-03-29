@@ -2,7 +2,7 @@
 A group project in Java that was developed for a university assignment on the subject of Software Technologies.
 
 **Features:**
-- Custom authentication system with multiple roles including super admin, admin, student and external.
+- Custom authentication system with multiple roles including super admin, admin, student and HR members.
 - Students can upload and manage their CVs.
 - HR members from companies can create classifieds on the platform.
 - Admins can assign students to classifieds, manage student accounts and update job categories.
