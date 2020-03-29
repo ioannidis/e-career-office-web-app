@@ -1,4 +1,4 @@
-# E-Career Office
+# E-Career Office Web App
 A group project in Java that was developed for a university assignment on the subject of Software Technologies.
 
 **Features:**
